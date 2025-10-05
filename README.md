@@ -190,22 +190,14 @@ $$
 
 ---
 
-### ✍️ Ejemplo práctico — *Los Heraldos Negros*
-
-Consideremos la línea de César Vallejo:
-
-> “Hay golpes en la vida, tan fuertes... ¡Yo no sé!”
-
-
-
 #### 🧩 Ejemplo TF-IDF Vectorizer
 
-Supongamos un corpus de tres poemas:
+Supongamos un corpus de tres versos de César Vallejo:
 
 ```python
 from typing import Dict
 
-poems: Dict[int: str] = {
+verso: Dict[int: str] = {
     1: "Hay golpes en la vida, tan fuertes... ¡Yo no sé!"
     2: "Golpes como del odio de Dios."
     3: "Son las caídas hondas de los Cristos del alma."
@@ -250,6 +242,7 @@ $$
 
 ---
 
+
 ### 🔹 DictVectorizer
 
 El DictVectorizer permite convertir diccionarios de frecuencias o características personalizadas en vectores numéricos.
@@ -261,17 +254,17 @@ Es útil cuando cada poema ya fue transformado en una estructura tipo diccionari
 from sklearn.feature_extraction import DictVectorizer
 from typing import Dict
 
-poems: Dict[str, int] = [
+verso: Dict[str, int] = [
     {"golpes": 2, "vida": 1},
     {"odio": 1, "dios": 1, "golpes": 1}
 ]
 
 vectorizer = DictVectorizer()
-X = vectorizer.fit_transform(poems)
+X = vectorizer.fit_transform(verso)
 ```
 
 El resultado es una matriz dispersa con dimensiones iguales al vocabulario global.
-Cada columna representa una palabra y cada fila un poema.
+Cada columna representa una palabra y cada fila un verso.
 
 El `DictVectorizer` es particularmente útil si antes aplicas una limpieza o un conteo personalizado (por ejemplo, solo de sustantivos o adjetivos).
 
@@ -286,6 +279,97 @@ El `DictVectorizer` es particularmente útil si antes aplicas una limpieza o un 
 En poesía, donde cada palabra tiene un peso emocional y simbólico, **TF-IDF** refleja mejor la singularidad expresiva de cada poema, esas que, como en Vallejo, "duelen en el alma y pesan en la historia".
 
 ---
+
+
+### 🔹 Similitud del Coseno — Distancia entre almas poéticas
+
+Una vez que los poemas han sido transformados en vectores (por ejemplo, con TF-IDF Vectorizer), podemos medir qué tan cercos semánticamente están dos versos o poemas.
+
+La medida más utilizada para esto es la similitud del coseno:
+
+$$
+\text{similitud\_coseno}(A, B) = 
+\frac{A \cdot B}{\|A\| \, \|B\|} =
+\frac{\sum_{i=1}^{n} A_i B_i}{\sqrt{\sum_{i=1}^{n} A_i^2} \, \sqrt{\sum_{i=1}^{n} B_i^2}}
+$$
+
+#### 🧩 Ejemplo Similitud del Coseno
+
+Tomemos 2 versos de César Vallejo:
+
+```python
+from typing import Dict
+
+verso: Dict[int: str] = {
+    1: "Hay golpes en la vida, tan fuertes... ¡Yo no sé!"
+    2: "Golpes como del odio de Dios; como si ante ellos,"
+}
+```
+
+A partir del preprocesamiento y cálculo TF-IDF previo, se tiene:
+
+$$
+\mathbf{x}_{\text{v1}} = [0.215, 0.282, 0.282]
+$$
+
+Y para el segundo verso, aplicando el mismo procedimiento:
+
+$$
+\mathbf{x}_{\text{v2}} = [0.215, 0.215, 0.564]
+$$
+
+El vocabulario común es:
+
+```python
+["golpes", "vida", "dios"]
+```
+
+Siendo su representación tridimensional de los dos versos de Los Heraldos Negros en el espacio de embeddings TF-IDF.
+El vector azul corresponde al primer verso (“Hay golpes en la vida, tan fuertes... ¡Yo no sé!”) y el rojo al segundo (“Golpes como del odio de Dios”).
+
+Esta visualización permite observar cómo las diferencias en el peso semántico y frecuencia de términos alteran la dirección y magnitud de los vectores en el espacio.
+
+<div style="text-align: center; padding: 5px;">
+
+![](./figs/vallejo_tfidf_vectors.png)
+
+</div>
+
+### Cálculo paso a paso
+
+1. Producto punto:
+
+$$
+A \cdot B = (0.215)(0.215) + (0.282)(0.215) + (0.282)(0.564) = 0.252
+$$
+
+
+2. Norma de cada vector:
+
+$$
+\|A\| = \sqrt{0.215^2 + 0.282^2 + 0.282^2} = 0.464
+$$
+
+$$
+\|B\| = \sqrt{0.215^2 + 0.215^2 + 0.564^2} = 0.641
+$$
+
+3. Similitud del coseono:
+
+$$
+\text{similitud\_coseno}(A, B) = \frac{0.252}{0.464 \times 0.641} \approx 0.845
+$$
+
+---
+
+###  💡 Interpretación
+
+- La similitud de **0.845** indica una **fuerte afinidad semántica** entre ambos versos: ambos giran en torno al concepto de golpe, vida y el dolor divino.
+
+- En términos poéticos, se podría decir que ambos fragmentos **vibran en la misma frecuencia emocional**, aunque sus palabras difieran.
+
+**“Así, el vector no mide rimas, sino resonancias del alma.”** 💫
+
 
 
 
