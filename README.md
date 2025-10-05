@@ -24,7 +24,7 @@
     <img src="https://img.shields.io/github/commit-activity/t/HubertRonald/PoesiaEmbeddingsClusteringClassification?style=flat-square&color=dodgerblue" />
 </p>
 
-# Poesia Embeddings Clustering Classification
+# Verso Vector
 Exploración de poesía mediante machine learning: generación de embeddings, clustering y clasificación emocional usando textos de César Vallejo y otros poetas traducidos al inglés.
 
 > **Nota:** Aunque este proyecto se describe en español, los datasets y modelos se entrenan con poemas en inglés, debido a la mayor disponibilidad de recursos NLP en ese idioma.
