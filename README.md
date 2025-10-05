@@ -1,10 +1,3 @@
-<style>
-    .centered-div {
-    text-align: center; /* This centers the text horizontally */
-    padding: 20px;
-    }
-</style>
-
 <p align="left">
     <a href="https://www.python.org/" target="_blank">
         <img src="https://img.shields.io/badge/python-3670A0?style=flat-square&logo=python&logoColor=ffdd54" />
@@ -30,6 +23,15 @@
     <img src="https://img.shields.io/github/last-commit/HubertRonald/VersoVector?style=flat-square" />
     <img src="https://img.shields.io/github/commit-activity/t/HubertRonald/VersoVector?style=flat-square&color=dodgerblue" />
 </p>
+
+
+<style>
+    .centered-div {
+    text-align: center; /* This centers the text horizontally */
+    padding: 20px;
+    }
+</style>
+
 
 # Verso Vector
 Exploración de poesía mediante machine learning: generación de embeddings, clustering y clasificación emocional usando textos de César Vallejo y otros poetas traducidos al inglés.
@@ -66,8 +68,8 @@ title: Flujo de Trabajo
 }%%
 flowchart
     A[Poemas originales<br>Vallejo + otros] --> B[Preprocesamiento<br>Limpieza y Tokenización]
-    B --> C[Extracción de características<br>TF-IDF /<br>BERT embeddings]
-    C --> D1[Clustering no supervisado<br>KMeans / GaussianMixture /<br>UMAP]
+    B --> C[Extracción de características<br>TF-IDF<br> / BERT embeddings]
+    C --> D1[Clustering no supervisado<br>KMeans / GaussianMixture<br>/ UMAP]
     C --> D2[Clasificación supervisado<br>LogReg / SVM / BERT]
     D1 --> E1[Análisis de temas y<br>emociones emergentes]
     D2 --> E2[Predicción de emoción o<br>tono poetico]
