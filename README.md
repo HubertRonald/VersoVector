@@ -25,14 +25,6 @@
 </p>
 
 
-<style>
-    .centered-div {
-    text-align: center; /* This centers the text horizontally */
-    padding: 20px;
-    }
-</style>
-
-
 # Verso Vector
 Exploración de poesía mediante machine learning: generación de embeddings, clustering y clasificación emocional usando textos de César Vallejo y otros poetas traducidos al inglés.
 
@@ -52,7 +44,7 @@ Se busca responder:
 
 Cómo se presentarán los modelos a emplear en este repositorio
 
-<div class="centered-div">
+<div style="text-align: center; padding: 20px;">
 
 ```mermaid
 ---
