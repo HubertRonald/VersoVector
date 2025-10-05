@@ -20,8 +20,8 @@
     <a href="https://code.visualstudio.com/download" target="_blank">
         <img src="https://img.shields.io/badge/Visual%20Studio%20Code-007ACC?logo=visualstudiocode&logoColor=fff&flat-square=plastic" />
     </a>
-    <img src="https://img.shields.io/github/last-commit/HubertRonald/PoesiaEmbeddingsClusteringClassification?style=flat-square" />
-    <img src="https://img.shields.io/github/commit-activity/t/HubertRonald/PoesiaEmbeddingsClusteringClassification?style=flat-square&color=dodgerblue" />
+    <img src="https://img.shields.io/github/last-commit/HubertRonald/VersoVector?style=flat-square" />
+    <img src="https://img.shields.io/github/commit-activity/t/HubertRonald/VersoVector?style=flat-square&color=dodgerblue" />
 </p>
 
 # Verso Vector
@@ -205,7 +205,7 @@ curl -L https://www.toptal.com/developers/gitignore/api/python,macos,windows > .
 
 - **Hubert Ronald** - *Trabajo Inicial* - [HubertRonald](https://github.com/HubertRonald)
 
-- Ve también la lista de [contribuyentes](https://github.com/HubertRonald/PoesiaEmbeddingsClusteringClassification/contributors) que participaron en este proyecto.
+- Ve también la lista de [contribuyentes](https://github.com/HubertRonald/VersoVector/contributors) que participaron en este proyecto.
 
 
 ## 📚 Licencia y derechos de autor
