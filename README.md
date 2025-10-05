@@ -330,9 +330,7 @@ El vector azul corresponde al primer verso (“Hay golpes en la vida, tan fuerte
 Esta visualización permite observar cómo las diferencias en el peso semántico y frecuencia de términos alteran la dirección y magnitud de los vectores en el espacio.
 
 <div style="text-align: center; padding: 5px;">
-
-![](./figs/vallejo_tfidf_vectors.png)
-
+    <img src="./figs/vallejo_tfidf_vectors.png" />
 </div>
 
 ### Cálculo paso a paso
