@@ -288,7 +288,7 @@ Una vez que los poemas han sido transformados en vectores (por ejemplo, con TF-I
 La medida más utilizada para esto es la similitud del coseno:
 
 $$
-\text{similitud\_coseno}(A, B) = 
+similitud\_coseno(A, B) = 
 \frac{A \cdot B}{\|A\| \, \|B\|} =
 \frac{\sum_{i=1}^{n} A_i B_i}{\sqrt{\sum_{i=1}^{n} A_i^2} \, \sqrt{\sum_{i=1}^{n} B_i^2}}
 $$
@@ -354,10 +354,10 @@ $$
 \|B\| = \sqrt{0.215^2 + 0.215^2 + 0.564^2} = 0.641
 $$
 
-3. Similitud del coseono:
+3. Similitud del coseno:
 
 $$
-\text{similitud\_coseno}(A, B) = \frac{0.252}{0.464 \times 0.641} \approx 0.845
+similitud\_coseno(A, B) = \frac{0.252}{0.464 \times 0.641} \approx 0.845
 $$
 
 ---
