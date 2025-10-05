@@ -39,7 +39,7 @@ Combina dos enfoques de aprendizaje:
 Se busca responder:  
 > “¿Puede un modelo de lenguaje percibir la emoción detrás de un poema, como lo hace un lector humano?”
 
-## 🧠 Flujo general del proyecto
+## 🧪🧠 Flujo general del proyecto
 
 Cómo se presentará los modelos a emplear en este repositorio
 
@@ -54,3 +54,32 @@ graph TD
 ```
 
 > **Nota:** Aunque este proyecto se describe en español, los datasets y modelos se entrenan con poemas en inglés, debido a la mayor disponibilidad de recursos NLP en ese idioma.
+
+## 🗂️ Dataset
+El dataset combina poemas en dominio público y textos etiquetados a partir de fuentes abiertas (HuggingFace / Kaggle).  
+
+Cuando no hay etiquetas manuales, se aplican modelos de Análisis de Sentimientos (*sentiment analysis*) como punto de partida.
+
+
+## 💡 .gitignore
+
+Fue generado en [gitignore.io](https://www.toptal.com/developers/gitignore/) con los filtros `python`, `macos`, `windows` y consumido mediante su API como archivo crudo desde la terminal:
+
+```bash
+curl -L https://www.toptal.com/developers/gitignore/api/python,macos,windows > .gitignore
+```
+
+## 🪶 Autores
+
+- **Hubert Ronald** - *Trabajo Inicial* - [HubertRonald](https://github.com/HubertRonald)
+
+- Ve también la lista de [contribuyentes](https://github.com/HubertRonald/PoesiaEmbeddingsClusteringClassification/contributors) que participaron en este proyecto.
+
+
+## 📚 Licencia y derechos de autor
+
+El código fuente de este proyecto se distribuye bajo licencia - ver la [LICENCIA](LICENSE) archivo (en inglés) para más detalle.
+
+Los textos poéticos utilizados (como los de César Vallejo) provienen de **fuentes de dominio público o traducciones disponibles con fines educativos**.
+
+En caso de utilizar materiales con derechos reservados, estos se emplean únicamente para fines de **investigación, análisis lingüístico y demostración académica**, sin fines comerciales.
