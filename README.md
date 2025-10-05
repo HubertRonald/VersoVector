@@ -141,9 +141,13 @@ Cada palabra aparece una vez.
 
 Supongamos un corpus de tres poemas:
 
-1. “Hay golpes en la vida, tan fuertes... ¡Yo no sé!”
-2. “Golpes como del odio de Dios.”
-3. “Son las caídas hondas de los Cristos del alma.”
+```python
+poem: Dict[int: str] = {
+    1: "Hay golpes en la vida, tan fuertes... ¡Yo no sé!"
+    2: "Golpes como del odio de Dios."
+    3: "Son las caídas hondas de los Cristos del alma."
+}
+```
 
 Si el término *golpes* aparece en 2 de 3 documentos, y *vida* solo en uno:
 
