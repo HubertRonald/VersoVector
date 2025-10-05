@@ -27,6 +27,7 @@
 # Poesia Embeddings Clustering Classification
 Exploración de poesía mediante machine learning: generación de embeddings, clustering y clasificación emocional usando textos de César Vallejo y otros poetas traducidos al inglés.
 
+> **Nota:** Aunque este proyecto se describe en español, los datasets y modelos se entrenan con poemas en inglés, debido a la mayor disponibilidad de recursos NLP en ese idioma.
 
 ## 📖 Descripción
 Este proyecto explora la relación entre el **significado semántico y emocional** de la poesía a través de modelos de *embeddings* modernos.  
@@ -51,3 +52,5 @@ graph TD
     D1 --> E1[Análisis de temas y emociones emergentes]
     D2 --> E2[Predicción de emoción o tono poético]
 ```
+
+> **Nota:** Aunque este proyecto se describe en español, los datasets y modelos se entrenan con poemas en inglés, debido a la mayor disponibilidad de recursos NLP en ese idioma.
