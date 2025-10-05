@@ -1,3 +1,10 @@
+<style>
+    .centered-div {
+    text-align: center; /* This centers the text horizontally */
+    padding: 20px;
+    }
+</style>
+
 <p align="left">
     <a href="https://www.python.org/" target="_blank">
         <img src="https://img.shields.io/badge/python-3670A0?style=flat-square&logo=python&logoColor=ffdd54" />
@@ -39,21 +46,60 @@ Combina dos enfoques de aprendizaje:
 Se busca responder:  
 > “¿Puede un modelo de lenguaje percibir la emoción detrás de un poema, como lo hace un lector humano?”
 
-## 🧪🧠 Flujo general del proyecto
+## 🧪 Flujo general del proyecto
 
-Cómo se presentará los modelos a emplear en este repositorio
+Cómo se presentarán los modelos a emplear en este repositorio
+
+<div class="centered-div">
 
 ```mermaid
-graph TD
+---
+title: Flujo de Trabajo
+---
+%%{init: {
+    'look':'handDrawn',
+    'theme':'default',
+    'flowchart': {
+      'layoutDirection': "TD"
+    }
+  }
+}%%
+flowchart
     A[Poemas originales<br>Vallejo + otros] --> B[Preprocesamiento<br>Limpieza y Tokenización]
-    B --> C[Extracción de características<br>TF-IDF / BERT embeddings]
-    C --> D1[Clustering no supervisado<br>KMeans / GaussianMixture / UMAP]
+    B --> C[Extracción de características<br>TF-IDF /<br>BERT embeddings]
+    C --> D1[Clustering no supervisado<br>KMeans / GaussianMixture /<br>UMAP]
     C --> D2[Clasificación supervisado<br>LogReg / SVM / BERT]
-    D1 --> E1[Análisis de temas y emociones emergentes]
-    D2 --> E2[Predicción de emoción o tono poético]
+    D1 --> E1[Análisis de temas y<br>emociones emergentes]
+    D2 --> E2[Predicción de emoción o<br>tono poetico]
 ```
 
+</div>
+
+<h6>
+<br>Elaborado con: <a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank">Mermaid - Flowchart</a>
+</h6>
+
+<br>
+
 > **Nota:** Aunque este proyecto se describe en español, los datasets y modelos se entrenan con poemas en inglés, debido a la mayor disponibilidad de recursos NLP en ese idioma.
+
+<br>
+
+📘 Ejemplo poético: **Los Heraldos Negros**
+
+> “Hay golpes en la vida, tan fuertes... ¡Yo no sé!<br>
+> Golpes como del odio de Dios; como si ante ellos,<br>
+> la resaca de todo lo sufrido<br>
+> se empozara en el alma... ¡Yo no sé!”
+
+En la versión inglesa:
+
+> “There are blows in life, so powerful... I don't know!<br>
+> Blows as from God's hatred; as if before them,<br>
+> the backlash of everything suffered<br>
+> were to dam up in the soul... I don't know!”<br>
+
+<br>
 
 ## 🗂️ Dataset
 El dataset combina poemas en dominio público y textos etiquetados a partir de fuentes abiertas (HuggingFace / Kaggle).  
@@ -62,8 +108,11 @@ Cuando no hay etiquetas manuales, se aplican modelos de Análisis de Sentimiento
 
 ## 🧮 Representación Vectorial de la Poesía
 
-Para analizar la poesía desde una perspectiva computacional, los textos deben transformarse en representaciones numéricas.  
-En este proyecto se emplean dos enfoques clásicos del procesamiento de lenguaje natural: **CountVectorizer** y **TF-IDF Vectorizer**, antes de generar *embeddings* más complejos.
+Para analizar la poesía desde una perspectiva computacional, los textos deben transformarse en representaciones numéricas.
+
+Con ello se puede aplicar *embeddings* y algoritmos de *clustering* o *classification*.
+
+Esta sección describe cómo se generan las primeras representaciones usando enfoques clásicos de **bag-of-words**: `CountVectorizer`, `TF-IDF Vectorizer` y `DictVectorizer`, antes de generar *embeddings* más complejos.
 
 ---
 
@@ -89,6 +138,37 @@ Cada poema queda representado como un vector:
 $$
 \mathbf{x}_d = [X_{d,1}, X_{d,2}, ..., X_{d,N}]
 $$
+
+### ✍️ Ejemplo práctico — *Los Heraldos Negros*
+
+Consideremos el verso inicial de César Vallejo:
+
+> “Hay golpes en la vida, tan fuertes... ¡Yo no sé!”
+
+#### 🧩 Limpieza del texto
+Después de normalizar, eliminar signos y *stopwords*, el texto puede quedar así:
+
+```python
+tokens = ["golpes", "vida", "tan", "fuertes"]
+```
+
+Dependiendo del idioma y la lista de stopwords usada, pueden quedar entre **3 y 6 términos relevantes**.
+Ese número es el que se utiliza como denominador en el cálculo de la frecuencia (TF).
+
+#### 🧩 CountVectorizer
+Si el vocabulario relevante es  (se considera `tan` como stopword)
+
+```python
+["golpes", "vida", "fuertes"]
+```
+
+entonces:
+
+$$
+\mathbf{x}_{\text{count}} = [1, 1, 1]
+$$
+
+Cada palabra aparece una vez.
 
 ---
 
@@ -122,34 +202,23 @@ Consideremos la línea de César Vallejo:
 
 > “Hay golpes en la vida, tan fuertes... ¡Yo no sé!”
 
-#### 🧩 CountVectorizer
-Si el vocabulario relevante es  
 
-```python
-["golpes", "vida", "fuertes"]
-```
 
-entonces:
-
-$$
-\mathbf{x}_{\text{count}} = [1, 1, 1]
-$$
-
-Cada palabra aparece una vez.
-
-#### 🧩 TF-IDF Vectorizer
+#### 🧩 Ejemplo TF-IDF Vectorizer
 
 Supongamos un corpus de tres poemas:
 
 ```python
-poem: Dict[int: str] = {
+from typing import Dict
+
+poems: Dict[int: str] = {
     1: "Hay golpes en la vida, tan fuertes... ¡Yo no sé!"
     2: "Golpes como del odio de Dios."
     3: "Son las caídas hondas de los Cristos del alma."
 }
 ```
 
-Si el término *golpes* aparece en 2 de 3 documentos, y *vida* solo en uno:
+Si el término **"golpes"** aparece en 2 de 3 documentos, y **"vida"** solo en uno:
 
 $$
 \text{idf}(\text{golpes}) = \log\left(\frac{1 + 3}{1 + 2}\right) + 1 \approx 1.287
@@ -159,7 +228,7 @@ $$
 \text{idf}(\text{vida}) = \log\left(\frac{1 + 3}{1 + 1}\right) + 1 \approx 1.693
 $$
 
-Dado que cada palabra aparece una vez y el poema tiene 6 términos relevantes:
+Dado que cada palabra aparece una vez y el poema tiene 6 términos relevantes (según el preprocesamiento elegido):
 
 $$
 \text{tf}(t, d) = \frac{1}{6}
@@ -187,17 +256,46 @@ $$
 
 ---
 
+### 🔹 DictVectorizer
+
+El DictVectorizer permite convertir diccionarios de frecuencias o características personalizadas en vectores numéricos.
+
+Es útil cuando cada poema ya fue transformado en una estructura tipo diccionario, por ejemplo:
+
+
+```python
+from sklearn.feature_extraction import DictVectorizer
+from typing import Dict
+
+poems: Dict[str, int] = [
+    {"golpes": 2, "vida": 1},
+    {"odio": 1, "dios": 1, "golpes": 1}
+]
+
+vectorizer = DictVectorizer()
+X = vectorizer.fit_transform(poems)
+```
+
+El resultado es una matriz dispersa con dimensiones iguales al vocabulario global.
+Cada columna representa una palabra y cada fila un poema.
+
+El `DictVectorizer` es particularmente útil si antes aplicas una limpieza o un conteo personalizado (por ejemplo, solo de sustantivos o adjetivos).
+
+---
+
 ### 💡 Interpretación
 
-- **CountVectorizer** solo cuenta ocurrencias: útil para observar repeticiones léxicas.
-- **TF-IDF** valora la **relevancia semántica** de los términos raros o distintivos.
-- En poesía, donde cada palabra tiene un peso emocional y simbólico, **TF-IDF** refleja mejor la singularidad expresiva de cada poema.
+- **CountVectorizer:** solo cuenta ocurrencias: útil para observar repeticiones léxicas.
+- **TF-IDF Vectorizar:** valora la **relevancia semántica** de los términos únicos o pocos frecuentes.
+- **DictVectorizer:** traduce diccionarios personalizados en vectores, útil para features lingüísticas.
+
+En poesía, donde cada palabra tiene un peso emocional y simbólico, **TF-IDF** refleja mejor la singularidad expresiva de cada poema, esas que, como en Vallejo, "duelen en el alma y pesan en la historia".
 
 ---
 
 
 
-## 🔹 .gitignore
+## .gitignore
 
 Fue generado en [gitignore.io](https://www.toptal.com/developers/gitignore/) con los filtros `python`, `macos`, `windows` y consumido mediante su API como archivo crudo desde la terminal:
 
@@ -214,7 +312,7 @@ curl -L https://www.toptal.com/developers/gitignore/api/python,macos,windows > .
 
 ## 📚 Licencia y derechos de autor
 
-El código fuente de este proyecto se distribuye bajo licencia - ver la [LICENCIA](LICENSE) archivo (en inglés) para más detalle.
+El código fuente de este proyecto se distribuye bajo licencia MIT - ver la [LICENCIA](LICENSE) archivo (en inglés) para más detalle.
 
 Los textos poéticos utilizados (como los de César Vallejo) provienen de **fuentes de dominio público o traducciones disponibles con fines educativos**.
 
