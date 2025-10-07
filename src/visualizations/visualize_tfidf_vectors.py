@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 # setup
-plt.style.use('seaborn-v0_8')
+# plt.style.use('seaborn-v0_8')
 
 def plot_tfidf_vectors(save: bool = True):
     """
@@ -18,28 +18,28 @@ def plot_tfidf_vectors(save: bool = True):
     # Primer verso: "Hay golpes en la vida, tan fuertes... ¡Yo no sé!"
     v1 = np.array([0.215, 0.282, 0.282])
 
-    # Segundo verso: "Golpes como del odio de Dios."
+    # Segundo verso: "Golpes como del odio de Dios;"
     v2 = np.array([0.178, 0.315, 0.201])
 
     # === Visualización ===
-    fig = plt.figure(figsize=(8, 6))
+    fig = plt.figure(figsize=(7, 5))
     ax = fig.add_subplot(111, projection='3d')
 
     # Origen
     origin = np.zeros(3)
 
     # Dibujar vectores
-    ax.quiver(*origin, *v1, color='blue', arrow_length_ratio=0.1, linewidth=2, label="Verso 1")
-    ax.quiver(*origin, *v2, color='red', arrow_length_ratio=0.1, linewidth=2, label="Verso 2")
+    ax.quiver(*origin, *v1, color='dodgerblue', arrow_length_ratio=0.1, linewidth=2, label="Verso 1")
+    ax.quiver(*origin, *v2, color='orange', arrow_length_ratio=0.1, linewidth=2, label="Verso 2")
 
     # Configuración de ejes
     ax.set_xlim(0, 0.35)
     ax.set_ylim(0, 0.35)
     ax.set_zlim(0, 0.35)
 
-    ax.set_xlabel('TF-IDF: "golpes"')
-    ax.set_ylabel('TF-IDF: "vida"')
-    ax.set_zlabel('TF-IDF: "fuertes"')
+    ax.set_xlabel('TF-IDF("golpes")')
+    ax.set_ylabel('TF-IDF("vida")')
+    ax.set_zlabel('TF-IDF("fuertes")')
 
     ax.set_title('Vectores TF-IDF\n"Los Heraldos Negros"\n(César Vallejo)')
     ax.legend()

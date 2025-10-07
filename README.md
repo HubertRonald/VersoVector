@@ -199,7 +199,7 @@ from typing import Dict
 
 verso: Dict[int: str] = {
     1: "Hay golpes en la vida, tan fuertes... ¡Yo no sé!"
-    2: "Golpes como del odio de Dios."
+    2: "Golpes como del odio de Dios;"
     3: "Son las caídas hondas de los Cristos del alma."
 }
 ```
@@ -302,7 +302,7 @@ from typing import Dict
 
 verso: Dict[int: str] = {
     1: "Hay golpes en la vida, tan fuertes... ¡Yo no sé!"
-    2: "Golpes como del odio de Dios; como si ante ellos,"
+    2: "Golpes como del odio de Dios;"
 }
 ```
 
@@ -325,7 +325,7 @@ El vocabulario común es:
 ```
 
 Siendo su representación tridimensional de los dos versos de Los Heraldos Negros en el espacio de embeddings TF-IDF.
-El vector azul corresponde al primer verso (“Hay golpes en la vida, tan fuertes... ¡Yo no sé!”) y el rojo al segundo (“Golpes como del odio de Dios”).
+El vector azul claro -dodgerblue- corresponde al primer verso (“Hay golpes en la vida, tan fuertes... ¡Yo no sé!”) y el naranja al segundo (“Golpes como del odio de Dios;”).
 
 Esta visualización permite observar cómo las diferencias en el peso semántico y frecuencia de términos alteran la dirección y magnitud de los vectores en el espacio.
 
