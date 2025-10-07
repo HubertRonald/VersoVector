@@ -1,8 +1,12 @@
+from __future__ import annotations
 
 from pathlib import Path
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+
+# setup
+plt.style.use('seaborn-v0_8')
 
 def plot_tfidf_vectors(save: bool = True):
     """

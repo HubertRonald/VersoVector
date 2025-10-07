@@ -283,7 +283,7 @@ En poesía, donde cada palabra tiene un peso emocional y simbólico, **TF-IDF** 
 
 ### 🔹 Similitud del Coseno — Distancia entre almas poéticas
 
-Una vez que los poemas han sido transformados en vectores (por ejemplo, con TF-IDF Vectorizer), podemos medir qué tan cercos semánticamente están dos versos o poemas.
+Una vez que los poemas han sido transformados en vectores (por ejemplo, con TF-IDF Vectorizer), se puede medir qué tan cercos semánticamente están dos versos o poemas.
 
 La medida más utilizada para esto es la similitud del coseno:
 
