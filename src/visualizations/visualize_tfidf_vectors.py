@@ -19,7 +19,8 @@ def plot_tfidf_vectors(save: bool = True):
     v1 = np.array([0.215, 0.282, 0.282])
 
     # Segundo verso: "Golpes como del odio de Dios;"
-    v2 = np.array([0.178, 0.315, 0.201])
+    v2 = np.array([0.215, 0.215, 0.564])
+
 
     # === Visualización ===
     fig = plt.figure(figsize=(7, 5))
@@ -33,13 +34,13 @@ def plot_tfidf_vectors(save: bool = True):
     ax.quiver(*origin, *v2, color='orange', arrow_length_ratio=0.1, linewidth=2, label="Verso 2")
 
     # Configuración de ejes
-    ax.set_xlim(0, 0.35)
-    ax.set_ylim(0, 0.35)
-    ax.set_zlim(0, 0.35)
-
+    ax.set_xlim(0, 0.3)
+    ax.set_ylim(0, 0.3)
+    ax.set_zlim(0, 0.6)
+    
     ax.set_xlabel('TF-IDF("golpes")')
     ax.set_ylabel('TF-IDF("vida")')
-    ax.set_zlabel('TF-IDF("fuertes")')
+    ax.set_zlabel('TF-IDF("dios")')
 
     ax.set_title('Vectores TF-IDF\n"Los Heraldos Negros"\n(César Vallejo)')
     ax.legend()
