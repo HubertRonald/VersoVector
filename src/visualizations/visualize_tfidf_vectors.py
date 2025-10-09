@@ -23,7 +23,7 @@ def plot_tfidf_vectors(save: bool = True):
 
 
     # === Visualización ===
-    fig = plt.figure(figsize=(7, 5))
+    fig = plt.figure(figsize=(10, 7))
     ax = fig.add_subplot(111, projection='3d')
 
     # Origen
@@ -34,8 +34,8 @@ def plot_tfidf_vectors(save: bool = True):
     ax.quiver(*origin, *v2, color='orange', arrow_length_ratio=0.1, linewidth=2, label="Verso 2")
 
     # Configuración de ejes
-    ax.set_xlim(0, 0.3)
-    ax.set_ylim(0, 0.3)
+    ax.set_xlim(0, 0.4)
+    ax.set_ylim(0, 0.4)
     ax.set_zlim(0, 0.6)
     
     ax.set_xlabel('TF-IDF("golpes")')
@@ -52,7 +52,7 @@ def plot_tfidf_vectors(save: bool = True):
         figs_dir = Path(__file__).resolve().parents[1].parent / "figs"
         figs_dir.mkdir(exist_ok=True)
         output_path = figs_dir / "vallejo_tfidf_vectors.png"
-        plt.savefig(output_path, dpi=300, bbox_inches="tight")
+        plt.savefig(output_path, dpi=100, bbox_inches="tight")
         print(f"✅ Figura guardada en: {output_path}")
 
     plt.show()

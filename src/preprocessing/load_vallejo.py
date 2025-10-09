@@ -1,38 +1,121 @@
 from __future__ import annotations
 
+import csv
+from pathlib import Path
 import pandas as pd
+from inspect import cleandoc
+
+from typing import Dict, List
 
 # Poemas traducidos (puedes extender esta lista)
-poems = {
-    "title": [
+# tomados de fundacion bbva
+# https://fundacionbbva.pe/wp-content/uploads/2016/04/libro_000015.pdf
+# https://fundacionbbva.pe/wp-content/uploads/2016/04/libro_000027.pdf
+poems: Dict[str, List[str]] = dict(
+    title = [
         "The Black Heralds",
-        "Hope",
-        "The Bread",
-        "Idyll to the Fallen Child"
+        "Black Stone On Top Of A White Stone",
+        "Paris, October 1936 Poem",
+        "XIII"
     ],
-    "text": [
-        """There are blows in life, so powerful... I don't know!
+    text = [
+        cleandoc("""
+        There are blows in life, so powerful... I don't know!
         Blows as from God's hatred; as if before them,
         the backlash of everything suffered
-        were to dam up in the soul... I don't know!""",
+        were to dam up in the soul... I don't know!
+        
+        They are few; but they are . . . They open dark furrows
+        in the fiercest face and in the strongest side.
+        Maybe they could be the horses of barbarous Attilas;
+        or the black heralds Death sends us.
 
-        """Hope sleeps in a bed of clouds.
-        Life’s burden drags it down,
-        but it always rises again,
-        trembling, like the dawn.""",
+        They are the deep abysses of the soul's Christs,
+        of some revered faith Destiny blasphemes.
+        Those gory blows are the cracklings of a bread
+        that burns-up on us at the oven's door.
 
-        """This bread looks at me with clean eyes.
-        It speaks to me of the land that bore it
-        and of the hands that kneaded it
-        with love and dust.""",
+        And man . . . Poor . . . poor! He turns his eyes,
+        as when a slap on the shoulder calls us;
+        he turns his crazed eyes, and everything lived
+        is dammed up, like a pond of guilt, in his gaze.
+        There are blows in life, so powerful . . . I don't know!
+        """),
 
-        """Oh child fallen from your toy sky,
-        you play now with the dust of time,
-        while silence rocks you slow,
-        in the lap of infinite sleep."""
+        cleandoc("""
+        I shall die in Paris, in a rainstorm,
+        On a day I already remember.
+        I shall die in Paris- it does not bother me-
+        Doubtless on a Thursday, like today, in autumn.
+
+        It shall be a Thursday, because today, Thursday
+        As I put down these lines, I have set my shoulders
+        To the evil. Never like today have I turned,
+        And headed my whole journey to the ways where I am alone.
+
+        César Vallejo is dead. They struck him,
+        All of them, though he did nothing to them,
+        They hit him hard with a stick and hard also
+        With the end of a rope. Witnesses are: the Thursdays,
+        The shoulder bones, the loneliness, the rain, and the roads...
+        """),
+
+        cleandoc("""
+        From all of this I am the only one who leaves.
+        From this bench I go away, from my pants,
+        from my great situation, from my actions,
+        from my number split side to side,
+        from all of this I am the only one who leaves.
+
+        From the Champs Elysées or as the strange
+        alley of the Moon makes a turn,
+        my death goes away, my cradle leaves,
+        and, surrounded by people, alone, cut loose,
+        my human resemblance turns around
+        and dispatches its shadows one by one.
+
+        And I move away from everything, since everything
+        remains to create my alibi:
+        my shoe, its eyelet, as well as its mud
+        and even the bend in the elbow
+        of my own buttoned shirt.
+        """),
+
+        cleandoc("""
+        I think about your sex.
+        My heart simplified, I think about your sex,
+        before the ripe daughterloin of day.
+        I touch the bud of joy, it is in season.
+        And an ancient sentiment dies
+        degenerated into brains.
+
+        I think about your sex, furrow more prolific
+        and harmonious than the belly of the Shadow,
+        though Death conceives and bears
+        from God himself.
+        Oh Conscience,
+        I am thinking, yes, about the free beast
+        who takes pleasure where he wants, where he can.
+
+        Oh, scandal of the honey of twilights.
+        Oh mute thunder.
+
+        Rednuhtetum!
+        """)
     ]
-}
+)
+
+csv_dir = Path(__file__).resolve().parents[1].parent / "data"
+csv_dir.mkdir(exist_ok=True)
+output_path = csv_dir / "vallejo_poems_en.csv"
 
 df_vallejo = pd.DataFrame(poems)
-df_vallejo.to_csv("data/vallejo_poems_en.csv", index=False)
-print("✅ Archivo generado: data/vallejo_poems_en.csv")
+df_vallejo.to_csv(
+    str(output_path ),
+    index=False,
+    sep="|",
+    quotechar='"',
+    quoting=csv.QUOTE_NONNUMERIC,
+    encoding="utf-8"
+)
+print(f"✅ Archivo generado: {str(output_path)}")
