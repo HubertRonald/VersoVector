@@ -100,6 +100,15 @@ El dataset combina poemas en dominio público y textos etiquetados a partir de f
 
 Cuando no hay etiquetas manuales, se aplican modelos de Análisis de Sentimientos (*sentiment analysis*) como punto de partida.
 
+kaggle:
+- [Poetry Foundation Poems](https://www.kaggle.com/datasets/tgdivy/poetry-foundation-poems/data)
+
+Fundación BBVA
+
+- [César Vallejo - Poemas Humanos|Human Poems](https://fundacionbbva.pe/wp-content/uploads/2016/04/libro_000015.pdf)
+  
+- [César Vallejo - The Complete Posthumous Poetry](https://fundacionbbva.pe/wp-content/uploads/2016/04/libro_000015.pdf)
+
 ## 🧮 Representación Vectorial de la Poesía
 
 Para analizar la poesía desde una perspectiva computacional, los textos deben transformarse en representaciones numéricas.
