@@ -4,4 +4,11 @@ __all__ = ["Constants"]
 
 @dataclass(frozen=True)
 class Constants:
-    PIPE_SEPARATOR: str = "|"
+    SEP:str = ','
+    ENCODING:str = 'utf-8'
+    EMPTY_STR:str = ''
+    SPACE_STR:str = ' '
+    COMMA_STR:str = ','
+    PIPE_STR:str = '|'
+    ONE:int = 1
+    ZERO:int = 0
