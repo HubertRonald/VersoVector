@@ -237,3 +237,6 @@ $RECYCLE.BIN/
 # Source:
 # https://www.kaggle.com/datasets/tgdivy/poetry-foundation-poems/data
 PoetryFoundationData.csv
+
+# lectures:
+src/cvpoems
