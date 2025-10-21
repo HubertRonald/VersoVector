@@ -18,7 +18,7 @@ poems: Dict[str, List[str]] = dict(
         "Paris, October 1936 Poem",
         "XIII"
     ],
-    text = [
+    poem = [
         cleandoc("""
         There are blows in life, so powerful... I don't know!
         Blows as from God's hatred; as if before them,
