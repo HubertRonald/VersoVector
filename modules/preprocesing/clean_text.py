@@ -18,12 +18,12 @@ ps = PorterStemmer()
 def clean(text:str)->str:
     """Limpia el texto de caracteres especiales y espacios extras."""
     text = unidecode.unidecode(text)
-    text = re.sub(r'http\S+', Constants.EMPTY_STR, text)  # remove URLs
-    text = re.sub(r'www\S+', Constants.EMPTY_STR, text)   # remove URLs
-    text = re.sub(r'[^A-Za-z0-9\s]', Constants.EMPTY_STR, text)  # remove special chars
-    text = re.sub(r'[\[\]\"]', Constants.EMPTY_STR, text)  # remove brackets and quotes
-    text = re.sub(r'\d+', Constants.EMPTY_STR, text)  # remove digits
-    text = re.sub(r'\s+', Constants.SPACE_STR, text).strip()  # remove extra spaces
+    text = re.sub(r'http\S+', Constants.EMPTY_STR, text)            # remove URLs
+    text = re.sub(r'www\S+', Constants.EMPTY_STR, text)             # remove URLs
+    text = re.sub(r'[^A-Za-z0-9\s]', Constants.EMPTY_STR, text)     # remove special chars
+    text = re.sub(r'[\[\]\"]', Constants.EMPTY_STR, text)           # remove brackets and quotes
+    text = re.sub(r'\d+', Constants.EMPTY_STR, text)                # remove digits
+    text = re.sub(r'\s+', Constants.SPACE_STR, text).strip()        # remove extra spaces
     return text.lower()
 
 def remove_stopwords(text:str)->str:
