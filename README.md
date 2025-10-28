@@ -60,14 +60,59 @@ title: Flujo de Trabajo
 }%%
 flowchart
     A[Poemas originales<br>Vallejo + otros] --> B[Preprocesamiento<br>Limpieza y Tokenización]
-    B --> C[Extracción de características<br>TF-IDF<br> / BERT embeddings]
-    C --> D1[Clustering no supervisado<br>KMeans / GaussianMixture<br>/ UMAP]
-    C --> D2[Clasificación supervisado<br>LogReg / SVM / BERT]
-    D1 --> E1[Análisis de temas y<br>emociones emergentes]
-    D2 --> E2[Predicción de emoción o<br>tono poetico]
-```
 
+    %% Representación expandida
+    B --> S2[FeatureUnion]
+
+    subgraph FeatureUnion["Unión de Características"]
+    S2 -->|CountVect| S21[CountVectorizer]
+    S2 -->|TF-IDF| S22[TfidfVectorizer]
+    S2 -->|DictVect| S23[DictVectorizer]
+    end
+
+    %% unión de features
+    S21 --> S3[ToDense]
+    S22 --> S3[ToDense]
+    S23 --> S3[ToDense]
+    S3 --> S4[Normalize]
+
+    %% Ramas no supervisadas
+    S4 --> D[Reducción Dimensional<br>PCA / t-SNE / UMAP]
+    S4 --> F[Modelado de Tópicos<br>LDA]
+    S4 --> G[Similitud<br>Coseno / Correlación]
+
+    subgraph Clustering["Análisis no supervisado"]
+    
+    D --> E[Clustering<br>KMeans / GMM / DBSCAN / Agglomerative]
+    F[Modelado de Tópicos<br>LDA]
+    G[Similitud<br>Coseno / Correlación]
+    end
+    E --> H1[Gráficas 2D/3D<br>t-SNE/UMAP + labels]
+    F --> H2
+    G --> H2
+    E --> H2[Análisis de temas y<br>emociones emergentes]
+    
+
+    %% Rama supervisada detallada
+    S4 --> S5[StackingClassifier<br>OneVsRest]
+
+    subgraph Stacking["Análisis supervisado"]
+    S5 --> S51[MultinomialNB]
+    S5 --> S52[ComplementNB]
+    S51 --> S6[LogisticRegression<br>final estimator]
+    S52 --> S6[LogisticRegression<br>final estimator]
+    end
+
+    S6 --> E2[Predicción de emoción o<br>tono poético]
+
+    %% === Estilos de subgraphs (fondos grises claros) ===
+    style FeatureUnion fill:#F1F3F4,stroke:#9AA0A6,stroke-width:1px
+    style Stacking fill:#F1F3F4,stroke:#9AA0A6,stroke-width:1px
+    style Clustering fill:#F1F3F4,stroke:#9AA0A6,stroke-width:1px
+```
 </div>
+
+> Nota: UMAP y t-SNE son reducción de dimensionalidad, no clustering.
 
 <h6>
 <br>Elaborado con: <a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank">Mermaid - Flowchart</a>
