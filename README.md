@@ -75,22 +75,24 @@ flowchart
     S23 --> S3[ToDense]
     S3 --> S4[Normalize]
 
-    %% Ramas no supervisadas
+    %% Paso opcional de reducción dimensional
     S4 --> D[Reducción Dimensional<br>PCA / t-SNE / UMAP]
-    S4 --> F[Modelado de Tópicos<br>LDA]
-    S4 --> G[Similitud<br>Coseno / Correlación]
     D --> E[Clustering<br>KMeans / GMM / DBSCAN / Agglomerative]
 
+    %% Ramas no supervisadas
     subgraph Clustering["Análisis no supervisado"]
     E[Clustering<br>KMeans / GMM / DBSCAN / Agglomerative]
     F[Modelado de Tópicos<br>LDA]
     G[Similitud<br>Coseno / Correlación]
     end
 
+    S4 --> F
+    S4 --> G
+
     E --> H1[Gráficas 2D/3D<br>t-SNE/UMAP + labels]
-    F --> H2
+    F --> H2[Análisis de temas]
     G --> H2
-    E --> H2[Análisis de temas y<br>emociones emergentes]
+    E --> H2[Emociones emergentes]
 
     %% Rama supervisada detallada
     S4 --> S5[StackingClassifier<br>OneVsRest]
@@ -104,10 +106,20 @@ flowchart
 
     S6 --> E2[Predicción de emoción o<br>tono poético]
 
+    %% Subgraph de integración
+    subgraph Integracion["Integración de Resultados"]
+    E2 --> J[Resultados supervisados]
+    H2 --> J
+    H1 --> J
+    end
+
+    J --> K[Interpretación final<br>Emoción + Temas emergentes]
+
     %% === Estilos de subgraphs con colores ===
     style FeatureUnion fill:#FFE0B2,stroke:#EF6C00,stroke-width:2px  %% naranja claro
     style Stacking fill:#BBDEFB,stroke:#1565C0,stroke-width:2px       %% azul claro
     style Clustering fill:#F1F3F4,stroke:#9AA0A6,stroke-width:1px     %% gris claro
+    style Integracion fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px    %% verde claro
 ```
 
 
