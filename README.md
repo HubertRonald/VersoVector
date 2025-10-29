@@ -44,7 +44,6 @@ Se busca responder:
 
 Cómo se presentarán los modelos a emplear en este repositorio
 
-<div style="text-align: center; padding: 20px;">
 
 ```mermaid
 ---
@@ -80,9 +79,10 @@ flowchart
     S4 --> D[Reducción Dimensional<br>PCA / t-SNE / UMAP]
     S4 --> F[Modelado de Tópicos<br>LDA]
     S4 --> G[Similitud<br>Coseno / Correlación]
+    D --> E[Clustering<br>KMeans / GMM / DBSCAN / Agglomerative]
 
     subgraph Clustering["Análisis no supervisado"]
-    D --> E[Clustering<br>KMeans / GMM / DBSCAN / Agglomerative]
+    E[Clustering<br>KMeans / GMM / DBSCAN / Agglomerative]
     F[Modelado de Tópicos<br>LDA]
     G[Similitud<br>Coseno / Correlación]
     end
@@ -109,7 +109,7 @@ flowchart
     style Stacking fill:#BBDEFB,stroke:#1565C0,stroke-width:2px       %% azul claro
     style Clustering fill:#F1F3F4,stroke:#9AA0A6,stroke-width:1px     %% gris claro
 ```
-</div>
+
 
 > Nota: UMAP y t-SNE son reducción de dimensionalidad, no clustering.
 
