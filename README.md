@@ -82,16 +82,15 @@ flowchart
     S4 --> G[Similitud<br>Coseno / Correlación]
 
     subgraph Clustering["Análisis no supervisado"]
-    
     D --> E[Clustering<br>KMeans / GMM / DBSCAN / Agglomerative]
     F[Modelado de Tópicos<br>LDA]
     G[Similitud<br>Coseno / Correlación]
     end
+
     E --> H1[Gráficas 2D/3D<br>t-SNE/UMAP + labels]
     F --> H2
     G --> H2
     E --> H2[Análisis de temas y<br>emociones emergentes]
-    
 
     %% Rama supervisada detallada
     S4 --> S5[StackingClassifier<br>OneVsRest]
@@ -105,10 +104,10 @@ flowchart
 
     S6 --> E2[Predicción de emoción o<br>tono poético]
 
-    %% === Estilos de subgraphs (fondos grises claros) ===
-    style FeatureUnion fill:#F1F3F4,stroke:#9AA0A6,stroke-width:1px
-    style Stacking fill:#F1F3F4,stroke:#9AA0A6,stroke-width:1px
-    style Clustering fill:#F1F3F4,stroke:#9AA0A6,stroke-width:1px
+    %% === Estilos de subgraphs con colores ===
+    style FeatureUnion fill:#FFE0B2,stroke:#EF6C00,stroke-width:2px  %% naranja claro
+    style Stacking fill:#BBDEFB,stroke:#1565C0,stroke-width:2px       %% azul claro
+    style Clustering fill:#F1F3F4,stroke:#9AA0A6,stroke-width:1px     %% gris claro
 ```
 </div>
 
