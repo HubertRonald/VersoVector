@@ -47,3 +47,4 @@ pyLDAvis
 # ConTexto
 numpy
 xlrd
+umap-learn
