@@ -434,7 +434,27 @@ $$
 **“Así, el vector no mide rimas, sino resonancias del alma.”** 💫
 
 
+### 🔹 La apariencia “orgánica”
 
+<div style="text-align: center; padding: 5px;">
+    <img src="./figs/poemas_2d_umap_clustering_kmeans.png" />
+</div>
+
+Las ramificaciones son poemas que comparten similitudes con varios grupos → quedan como “puentes” o “brazos”.
+
+Los nudos o concentraciones (zonas densas) son grupos de poemas con vocabulario/emoción muy parecida.
+
+El hecho de que se vean como filamentos o bacterias es porque UMAP estira el espacio para mostrar continuidad entre regiones.
+
+--- 
+
+#### 💡 Interpretación práctica
+
+Si en el corpus hay poemas con temas/emociones muy conectados (por ejemplo, dolor ↔ muerte ↔ desesperanza en Vallejo), UMAP los hilvana en curvas continuas.
+
+Si fueran más disjuntos (ej. poemas amorosos vs poemas políticos), verías islas separadas, no ramificaciones.
+
+En poesía esto es natural: los temas no son rígidos, sino que fluyen de uno a otro. El gráfico refleja precisamente esa transición semántica difusa.
 
 ## .gitignore
 
