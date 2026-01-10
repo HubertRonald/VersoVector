@@ -6,7 +6,7 @@ import re
 import pandas as pd
 import spacy
 import unidecode
-from utils.constants import Constants
+from utils import Constants
 from nltk.stem import PorterStemmer
 
 # nlp load
@@ -63,9 +63,3 @@ def preprocess_tags(tags_column: pd.Series) -> pd.Series:
     )
     
     return list_of_lists
-
-if __name__ == "__main__":
-    sample_text = "This is a sample text! Visit http://example.com for more info."
-    processed_text = preprocess(sample_text)
-    print("Original Text:", sample_text)
-    print("Processed Text:", processed_text)
