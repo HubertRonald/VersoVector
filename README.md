@@ -64,15 +64,22 @@ flowchart
     B --> S2[FeatureUnion]
 
     subgraph FeatureUnion["Unión de Características"]
-    S2 -->|CountVect| S21[CountVectorizer]
-    S2 -->|TF-IDF| S22[TfidfVectorizer]
-    S2 -->|DictVect| S23[DictVectorizer]
+        S2 -->|CountVect| S21[CountVectorizer]
+        S2 -->|TF-IDF| S22[TfidfVectorizer]
+
+        %% Sub-pipeline DictVect
+        S2 --> DV1[TextToDictTransformer]
+
+        subgraph DictVect["DictVect"]
+            DV1 --> DV2[DictVectorizer]
+        end
     end
 
     %% unión de features
     S21 --> S3[ToDense]
     S22 --> S3[ToDense]
-    S23 --> S3[ToDense]
+    DV2 --> S3[ToDense]
+
     S3 --> S4[Normalize]
 
     %% Paso opcional de reducción dimensional
@@ -81,9 +88,9 @@ flowchart
 
     %% Ramas no supervisadas
     subgraph Clustering["Análisis no supervisado"]
-    E[Clustering<br>KMeans / GMM / DBSCAN / Agglomerative]
-    F[Modelado de Tópicos<br>LDA]
-    G[Similitud<br>Coseno / Correlación]
+        E[Clustering<br>KMeans / GMM / DBSCAN / Agglomerative]
+        F[Modelado de Tópicos<br>LDA]
+        G[Similitud<br>Coseno / Correlación]
     end
 
     S4 --> F
@@ -94,32 +101,34 @@ flowchart
     G --> H2
     E --> H2[Emociones emergentes]
 
-    %% Rama supervisada detallada
+    %% Rama supervisada
     S4 --> S5[StackingClassifier<br>OneVsRest]
 
     subgraph Stacking["Análisis supervisado"]
-    S5 --> S51[MultinomialNB]
-    S5 --> S52[ComplementNB]
-    S51 --> S6[LogisticRegression<br>final estimator]
-    S52 --> S6[LogisticRegression<br>final estimator]
+        S5 --> S51[MultinomialNB]
+        S5 --> S52[ComplementNB]
+        S51 --> S6[LogisticRegression<br>final estimator]
+        S52 --> S6[LogisticRegression<br>final estimator]
     end
 
     S6 --> E2[Predicción de emoción o<br>tono poético]
 
-    %% Subgraph de integración
+    %% Integración final
     subgraph Integracion["Integración de Resultados"]
-    E2 --> J[Resultados supervisados]
-    H2 --> J
-    H1 --> J
+        E2 --> J[Resultados supervisados]
+        H2 --> J
+        H1 --> J
     end
 
     J --> K[Interpretación final<br>Emoción + Temas emergentes]
 
-    %% === Estilos de subgraphs con colores ===
-    style FeatureUnion fill:#FFE0B2,stroke:#EF6C00,stroke-width:2px  %% naranja claro
-    style Stacking fill:#BBDEFB,stroke:#1565C0,stroke-width:2px       %% azul claro
-    style Clustering fill:#F1F3F4,stroke:#9AA0A6,stroke-width:1px     %% gris claro
-    style Integracion fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px    %% verde claro
+    %% === Estilos ===
+    style FeatureUnion fill:#FFE0B2,stroke:#EF6C00,stroke-width:2px
+    style DictVect fill:#FFF3E0,stroke:#FB8C00,stroke-width:1.5px
+    style Stacking fill:#BBDEFB,stroke:#1565C0,stroke-width:2px
+    style Clustering fill:#F1F3F4,stroke:#9AA0A6,stroke-width:1px
+    style Integracion fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px
+
 ```
 
 
