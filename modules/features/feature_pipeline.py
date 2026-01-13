@@ -1,11 +1,13 @@
 from __future__ import annotations
 
+__all__ = ['build_feature_pipeline']
+
 from sklearn.pipeline import Pipeline
 from sklearn.pipeline import FeatureUnion
 
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction import DictVectorizer
 
 from modules.features.transformers import TokenText
 from modules.features.transformers import TextToDictTransformer

@@ -48,3 +48,4 @@ pyLDAvis
 numpy
 xlrd
 umap-learn
+typing-extensions
