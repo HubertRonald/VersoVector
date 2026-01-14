@@ -465,6 +465,15 @@ Si fueran más disjuntos (ej. poemas amorosos vs poemas políticos), verías isl
 
 En poesía esto es natural: los temas no son rígidos, sino que fluyen de uno a otro. El gráfico refleja precisamente esa transición semántica difusa.
 
+## 📓 Notebooks
+
+Algunos notebooks incluyen diagramas interactivos (por ejemplo, pipelines de scikit-learn).
+GitHub no los renderiza correctamente.
+
+Para una visualización completa, se recomienda usar **nbviewer**:
+
+- [03_embeddings_supervised.ipynb (nbviewer)](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/03_embeddings_supervised.ipynb)
+
 ## .gitignore
 
 Fue generado en [gitignore.io](https://www.toptal.com/developers/gitignore/) con los filtros `python`, `macos`, `windows` y consumido mediante su API como archivo crudo desde la terminal:
