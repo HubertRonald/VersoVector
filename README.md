@@ -480,7 +480,52 @@ La integración de ambos permite comparar lo que el modelo **descubre** con lo q
 
 > El enfoque no supervisado descubre resonancias; el enfoque supervisado les pone nombre.
 
-## Integración de resultados: supervisado + no supervisado
+
+## 🔗 Integración de resultados: supervisado + no supervisado
+
+La etapa de integración busca conectar los resultados generados por las dos ramas principales del proyecto: el análisis no supervisado y la clasificación supervisada.
+
+En la rama **no supervisada**, el proyecto obtiene clústeres, tópicos, similitudes y proyecciones 2D/3D a partir de las representaciones vectoriales de los poemas. Estos resultados permiten identificar patrones emergentes sin imponer etiquetas previas.
+
+En la rama **supervisada**, el modelo multilabel predice etiquetas o tonos poéticos a partir de categorías conocidas del dataset. Esta predicción permite asignar una lectura más estructurada a cada poema.
+
+La integración combina ambos enfoques en un único dataframe de análisis, incorporando:
+
+- clústeres generados por `KMeans`, `GaussianMixture`, `AgglomerativeClustering` y `DBSCAN`;
+- tópico dominante estimado mediante `LatentDirichletAllocation`;
+- términos principales asociados al tópico;
+- vecinos semánticos por similitud coseno;
+- vecinos por correlación de Pearson;
+- etiquetas predichas por el modelo supervisado;
+- coordenadas 2D generadas mediante `UMAP` o `t-SNE`.
+
+Con esta tabla integrada es posible responder preguntas como:
+
+> ¿Los clústeres emergentes coinciden con las emociones o temas predichos por el modelo supervisado?
+
+Por ejemplo, se puede cruzar `cluster_km` contra `predicted_tags` para observar si un grupo de poemas contiene principalmente etiquetas asociadas con amor, muerte, espiritualidad, naturaleza o melancolía.
+
+Esta etapa permite cerrar el ciclo analítico del proyecto: no solo se generan embeddings y modelos, sino que se construye una lectura combinada entre patrones descubiertos automáticamente y etiquetas aprendidas desde datos anotados.
+
+En términos conceptuales:
+
+```text
+Clustering + LDA + Similitud
+        +
+Clasificación supervisada
+        ↓
+Integración de resultados
+        ↓
+Interpretación final: emoción + temas emergentes
+```
+
+El objetivo no es reemplazar la interpretación literaria humana, sino ofrecer una capa computacional que ayude a observar relaciones semánticas, emocionales y estilísticas entre poemas.
+
+La implementación completa de esta etapa se encuentra en el notebook:
+
+- [04_embeddings_unsupervised.ipynb](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/04_embeddings_unsupervised.ipynb)
+
+> Nota: se recomienda visualizar el notebook en `nbviewer`, ya que GitHub no renderiza correctamente algunos diagramas HTML generados por scikit-learn.
 
 
 ## 📓 Notebooks
@@ -493,6 +538,47 @@ Para una visualización completa, se recomienda usar **nbviewer**:
 - [02_feature_pipeline.ipynb (nbviewer)](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/02_feature_pipeline.ipynb)
 - [03_embeddings_supervised.ipynb (nbviewer)](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/03_embeddings_supervised.ipynb)
 - [04_embeddings_unsupervised.ipynb (nbviewer)](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/04_embeddings_unsupervised.ipynb)
+
+
+## ⚙️ Instalación del entorno
+
+Este proyecto fue desarrollado con **Python 3.10.11**.
+
+Se recomienda crear un entorno virtual:
+
+```bash
+python3.10 -m venv .venv
+source .venv/bin/activate
+```
+
+Instalar dependencias base:
+
+```bash
+python -m pip install --upgrade pip setuptools wheel
+pip install -r requirements.txt
+```
+
+Para trabajar con notebooks y herramientas de desarrollo:
+
+```bash
+pip install -r requirements-dev.txt
+```
+
+El preprocesamiento usa spaCy con el modelo `en_core_web_lg`, por lo que debe instalarse explícitamente:
+
+```bash
+python -m spacy download en_core_web_lg
+```
+
+Opcionalmente, registrar el kernel para Jupyter:
+
+```bash
+python -m ipykernel install --user \
+  --name versovector-py310 \
+  --display-name "Python 3.10.11 (VersoVector)"
+```
+
+> Recomendación práctica: para trabajar localmente en el repo usar siempre `requirements-dev.txt`; para ejecución mínima o CI ligero, usa `requirements.txt`.
 
 ## .gitignore
 
