@@ -480,6 +480,9 @@ La integración de ambos permite comparar lo que el modelo **descubre** con lo q
 
 > El enfoque no supervisado descubre resonancias; el enfoque supervisado les pone nombre.
 
+## Integración de resultados: supervisado + no supervisado
+
+
 ## 📓 Notebooks
 
 Algunos notebooks incluyen diagramas interactivos (por ejemplo, pipelines de scikit-learn).
