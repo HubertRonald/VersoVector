@@ -132,8 +132,9 @@ flowchart
 ```
 
 
-> Nota: UMAP y t-SNE son reducción de dimensionalidad, no clustering.
-
+> **Nota1:** UMAP y t-SNE son reducción de dimensionalidad, no clustering.
+> <br>**Nota2:** Para LDA se utiliza una representación de conteos o TF-IDF independiente, dado que el modelado de tópicos requiere una matriz documento-término interpretable.
+>
 <h6>
 <br>Elaborado con: <a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank">Mermaid - Flowchart</a>
 </h6>
@@ -464,6 +465,20 @@ Si en el corpus hay poemas con temas/emociones muy conectados (por ejemplo, dolo
 Si fueran más disjuntos (ej. poemas amorosos vs poemas políticos), verías islas separadas, no ramificaciones.
 
 En poesía esto es natural: los temas no son rígidos, sino que fluyen de uno a otro. El gráfico refleja precisamente esa transición semántica difusa.
+
+## 🤝 ¿Por qué modelos supervisados y no supervisados juntos?
+
+La poesía suele mezclar emociones, símbolos y tonos en un mismo texto. Por eso, este proyecto combina aprendizaje no supervisado y supervisado.
+
+El enfoque **no supervisado** descubre patrones emergentes mediante clustering, LDA y similitud coseno, sin depender de etiquetas previas. El enfoque **supervisado** predice emociones o tonos poéticos usando etiquetas conocidas y modelos multilabel.
+
+La integración de ambos permite comparar lo que el modelo **descubre** con lo que el modelo **predice**:
+
+- Clustering → temas y emociones emergentes.
+- Clasificación → etiquetas emocionales o temáticas.
+- Integración → contraste entre clusters, tópicos y emociones predichas.
+
+> El enfoque no supervisado descubre resonancias; el enfoque supervisado les pone nombre.
 
 ## 📓 Notebooks
 
