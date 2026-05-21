@@ -1,27 +1,34 @@
 <p align="left">
     <a href="https://www.python.org/" target="_blank">
-        <img src="https://img.shields.io/badge/python-3670A0?style=flat-square&logo=python&logoColor=ffdd54" />
-        </a>
-    <a href="https://pytorch.org/" target="_blank">
-        <img src="https://img.shields.io/badge/PyTorch-red.svg?logo=pytorch?style=flat-square&logoColor=white" />
-    </a>
-    <a href="https://huggingface.co/" target="_blank">
-        <img src="https://img.shields.io/badge/Transformers-yellow.svg?logo=huggingface?style=flat-square&logoColor=white" />
+        <img src="https://img.shields.io/badge/Python-3.10.11-3670A0?style=flat-square&logo=python&logoColor=ffdd54" />
     </a>
     <a href="https://scikit-learn.org/" target="_blank">
-        <img src="https://img.shields.io/badge/scikit--learn-orange.svg?logo=scikit-learn?style=flat-square&logoColor=white" />
+        <img src="https://img.shields.io/badge/scikit--learn-ML-orange?style=flat-square&logo=scikit-learn&logoColor=white" />
+    </a>
+    <a href="https://spacy.io/" target="_blank">
+        <img src="https://img.shields.io/badge/spaCy-NLP-09A3D5?style=flat-square&logo=spacy&logoColor=white" />
+    </a>
+    <a href="https://numpy.org/" target="_blank">
+        <img src="https://img.shields.io/badge/NumPy-Arrays-013243?style=flat-square&logo=numpy&logoColor=white" />
     </a>
     <a href="https://pandas.pydata.org/" target="_blank">
-        <img src="https://img.shields.io/badge/Pandas-DataFrames-green.svg?logo=pandas?style=flat-square&logoColor=white" />
+        <img src="https://img.shields.io/badge/Pandas-DataFrames-150458?style=flat-square&logo=pandas&logoColor=white" />
     </a>
-    <a href="https://hub.docker.com/r/google/cloud-sdk" target="_blank">
-        <img src="https://img.shields.io/badge/docker-%230db7ed.svg?style=flat-square&logo=docker&logoColor=white" />
+    <a href="https://matplotlib.org/" target="_blank">
+        <img src="https://img.shields.io/badge/Matplotlib-Visualizations-11557C?style=flat-square" />
+    </a>
+    <a href="https://jupyter.org/" target="_blank">
+        <img src="https://img.shields.io/badge/Jupyter-Notebooks-F37626?style=flat-square&logo=jupyter&logoColor=white" />
+    </a>
+    <a href="https://mermaid.js.org/" target="_blank">
+        <img src="https://img.shields.io/badge/Mermaid-Diagrams-FF3670?style=flat-square&logo=mermaid&logoColor=white" />
     </a>
     <a href="https://code.visualstudio.com/download" target="_blank">
-        <img src="https://img.shields.io/badge/Visual%20Studio%20Code-007ACC?logo=visualstudiocode&logoColor=fff&flat-square=plastic" />
+        <img src="https://img.shields.io/badge/VS%20Code-Editor-007ACC?style=flat-square&logo=visualstudiocode&logoColor=white" />
     </a>
     <img src="https://img.shields.io/github/last-commit/HubertRonald/VersoVector?style=flat-square" />
     <img src="https://img.shields.io/github/commit-activity/t/HubertRonald/VersoVector?style=flat-square&color=dodgerblue" />
+    <img src="https://img.shields.io/github/license/HubertRonald/VersoVector?style=flat-square&color=success" />
 </p>
 
 
@@ -576,6 +583,13 @@ Opcionalmente, registrar el kernel para Jupyter:
 python -m ipykernel install --user \
   --name versovector-py310 \
   --display-name "Python 3.10.11 (VersoVector)"
+```
+
+
+Limpiar del repo los __pycache__ y/o agregar en el .gitignore
+
+```bash
+find . -type d -name "__pycache__" -exec rm -rf {} +
 ```
 
 > **Recomendación práctica:** para trabajar localmente en el repo usar siempre `requirements-dev.txt`; para ejecución mínima o CI ligero, usa `requirements.txt`.
