@@ -26,8 +26,10 @@ class TokenText(BaseEstimator, TransformerMixin):
         return self
     
     def transform(self, X: Iterable[str]) -> List[str]:
-        if not isinstance(X, (list)):
-            X = list(X.split())
+        if isinstance(X, str):
+            X = [X]
+        else:
+            X = list(X)
             
         return [preprocess(text) for text in X]
 
@@ -56,10 +58,10 @@ class ToDense(BaseEstimator, TransformerMixin):
 
 class Normalize(BaseEstimator, TransformerMixin):
     def __init__(self, norm='l2'):
-        self.norm = norm
-        self._normalizer = Normalizer()
         super().__init__()
-    
+        self.norm = norm
+        self._normalizer = Normalizer(norm=self.norm)
+        
     def fit(self, X, y=None) -> Self:
         self._normalizer.fit(X)
         return self

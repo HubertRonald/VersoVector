@@ -14,8 +14,18 @@ from modules.features.transformers import TextToDictTransformer
 from modules.features.transformers import ToDense
 from modules.features.transformers import Normalize
 
-def build_feature_pipeline() -> Pipeline:
-    """Construye una pipeline de características combinando varias transformaciones."""
+def build_feature_pipeline(
+        input_is_processed: bool = False
+    ) -> Pipeline:
+    """
+    Construye una pipeline de características combinando varias transformaciones.
+
+    Args:
+        input_is_processed:
+            Si False, aplica TokenText() y por tanto ejecuta preprocess().
+            Si True, asume que el texto ya viene limpio en poem_processed
+            y evita reprocesar con spaCy.
+    """
     dict_vect = Pipeline([
         ('TextToDictTransformer', TextToDictTransformer()),
         ('DictVectorizer', DictVectorizer(sparse=True))
@@ -41,9 +51,15 @@ def build_feature_pipeline() -> Pipeline:
         ('DictVect', dict_vect)
     ])
     
-    return Pipeline([
-        ('CleanTokenText', TokenText()),
+    steps = []
+    
+    if not input_is_processed:
+        steps.append(('CleanTokenText', TokenText()))
+    
+    steps.extend([
         ('Features', feature_union),
         ('ToDense', ToDense()),
         ('Norm', Normalize())
     ])
+
+    return Pipeline(steps=steps)

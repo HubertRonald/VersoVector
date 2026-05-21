@@ -578,7 +578,17 @@ python -m ipykernel install --user \
   --display-name "Python 3.10.11 (VersoVector)"
 ```
 
-> Recomendación práctica: para trabajar localmente en el repo usar siempre `requirements-dev.txt`; para ejecución mínima o CI ligero, usa `requirements.txt`.
+> **Recomendación práctica:** para trabajar localmente en el repo usar siempre `requirements-dev.txt`; para ejecución mínima o CI ligero, usa `requirements.txt`.
+
+### Nota sobre UMAP
+
+La reducción dimensional puede ejecutarse con `UMAP` o `t-SNE`.  
+`UMAP` depende de `numba` y `llvmlite`, paquetes que pueden presentar problemas de instalación en algunos entornos macOS Intel (`x86_64`).
+
+Por esta razón, `umap-learn` se deja como dependencia opcional:
+
+```bash
+pip install -r requirements-umap.txt
 
 ## .gitignore
 
