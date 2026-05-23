@@ -1,4 +1,5 @@
 from .artifact_store import (
+    PROJECT_ROOT,
     ARTIFACTS_DIR,
     DATA_DIR,
     artifact_path,
@@ -13,6 +14,7 @@ from .artifact_store import (
 )
 
 __all__ = [
+    "PROJECT_ROOT",
     "ARTIFACTS_DIR",
     "DATA_DIR",
     "artifact_path",

@@ -12,6 +12,7 @@ import pandas as pd
 from utils import Constants
 
 __all__ = [
+    "PROJECT_ROOT",
     "ARTIFACTS_DIR",
     "DATA_DIR",
     "artifact_path",
@@ -89,7 +90,3 @@ def load_json(path: Path, encoding: str = Constants.ENCODING) -> dict:
         raise FileNotFoundError(f"No existe el JSON: {path}")
     with path.open("r", encoding=encoding) as f:
         return json.load(f)
-
-
-if __name__ == '__main__':
-    print(f"{PROJECT_ROOT=}")
