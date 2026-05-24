@@ -165,6 +165,15 @@ def normalize_poetry_columns(df: pd.DataFrame) -> pd.DataFrame:
         df["poet_raw"] = df[Constants.POET].astype(str)
     
     df[Constants.POET] = df["poet_raw"].apply(clean)
+    
+    # Poem
+    if Constants.POEM not in df.columns:
+        df[Constants.POEM] = Constants.EMPTY_STR
+
+    if "poem_raw" not in df.columns:
+        df["poem_raw"] = df[Constants.POEM].astype(str)
+
+    df[Constants.POEM] = df["poem_raw"].astype(str).apply(clean)
 
     # Tags
     if Constants.TAGS not in df.columns:

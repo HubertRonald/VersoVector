@@ -15,7 +15,8 @@ class Constants:
     QUOTECHAR_STR:str = '"'
     ONE:int = 1
     ZERO:int = 0
-    UNKNOWN: str = 'unknown'
-    TAGS: str = 'tags'
-    POET: str = 'poet'
-    TITLE: str = 'title'
+    TITLE = "title"
+    POET = "poet"
+    POEM = "poem"
+    TAGS = "tags"
+    UNKNOWN = "unknown"
