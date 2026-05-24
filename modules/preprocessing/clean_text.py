@@ -121,14 +121,20 @@ def preprocess_tags(tags_column: pd.Series) -> pd.Series:
 
 
 def normalize_poetry_columns(df: pd.DataFrame) -> pd.DataFrame:
-    """
+    """"
     Normaliza columnas esperadas del dataset Poetry Foundation.
 
-    Garantiza que existan:
-    - poet
-    - tags
+    Garantiza:
+    - nombres de columnas en minúsculas y con snake_case
+    - columna title
+    - columna title_raw
+    - columna poet
+    - columna poet_raw
+    - columna tags normalizada como lista
 
-    Se normaliza los nombres de columnas a minusculas.
+    Nota:
+    - title y poet se limpian con clean(), no con preprocess(),
+      para no eliminar stopwords ni alterar demasiado la metadata.
     """
     df = df.copy()
     
@@ -142,9 +148,25 @@ def normalize_poetry_columns(df: pd.DataFrame) -> pd.DataFrame:
         for col in df.columns
     })
     
+    # Title
+    if Constants.TITLE not in df.columns:
+        df[Constants.TITLE] = Constants.UNKNOWN
+
+    if "title_raw" not in df.columns:
+        df["title_raw"] = df[Constants.TITLE].astype(str)
+        
+    df[Constants.TITLE] = df["title_raw"].apply(clean)
+
+    # Poet
     if Constants.POET not in df.columns:
         df[Constants.POET] = Constants.UNKNOWN
-        
+
+    if "poet_raw" not in df.columns:
+        df["poet_raw"] = df[Constants.POET].astype(str)
+    
+    df[Constants.POET] = df["poet_raw"].apply(clean)
+
+    # Tags
     if Constants.TAGS not in df.columns:
         df[Constants.TAGS] = [[] for _ in range(len(df))]
     else:

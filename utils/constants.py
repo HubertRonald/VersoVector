@@ -18,3 +18,4 @@ class Constants:
     UNKNOWN: str = 'unknown'
     TAGS: str = 'tags'
     POET: str = 'poet'
+    TITLE: str = 'title'
