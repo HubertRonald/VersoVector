@@ -542,10 +542,16 @@ GitHub no los renderiza correctamente.
 
 Para una visualización completa, se recomienda usar **nbviewer**:
 
+- [01_cleaning_pipeline.ipynb (nbviewer)](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/01_cleaning_pipeline.ipynb)
 - [02_feature_pipeline.ipynb (nbviewer)](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/02_feature_pipeline.ipynb)
 - [03_embeddings_supervised.ipynb (nbviewer)](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/03_embeddings_supervised.ipynb)
 - [04_embeddings_unsupervised.ipynb (nbviewer)](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/04_embeddings_unsupervised.ipynb)
 
+### Nota sobre artefactos pesados
+
+Las matrices de features generadas por `FeatureUnion` pueden ser muy grandes, especialmente después de convertirlas a formato denso. Por esta razón, los archivos binarios pesados (`.joblib`, `.pkl`, `.npy`, `.npz`) no se versionan en GitHub.
+
+Los notebooks están diseñados para regenerar estos artefactos localmente a partir de `data/poems_processed.csv`.
 
 ## ⚙️ Instalación del entorno
 
@@ -590,6 +596,13 @@ Limpiar del repo los __pycache__ y/o agregar en el .gitignore
 
 ```bash
 find . -type d -name "__pycache__" -exec rm -rf {} +
+```
+
+
+Limpiar rutos absolutas de notebooks
+
+```bash
+jupyter nbconvert --clear-output --inplace notebook/<NOTEBOOK_NAME>.ipynb
 ```
 
 > **Recomendación práctica:** para trabajar localmente en el repo usar siempre `requirements-dev.txt`; para ejecución mínima o CI ligero, usa `requirements.txt`.

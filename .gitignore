@@ -241,3 +241,11 @@ data/poems_processed.csv
 data/CleanedPoetryFoundationData.csv
 # lectures:
 src/cvpoems
+
+# artifacts
+artifacts/features/*
+artifacts/supervised/*
+artifacts/unsupervised/*
+artifacts/integration/*
+
+!artifacts/**/.gitkeep
