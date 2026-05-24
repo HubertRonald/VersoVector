@@ -1,21 +1,36 @@
 from __future__ import annotations
 
-__all__ = ['preprocess', 'preprocess_tags']
+__all__ = [
+    'clean',
+    'remove_stopwords',
+    'lematize',
+    'preprocess',
+    'parse_tags',
+    'preprocess_tags',
+    'normalize_poetry_columns'
+]
 
 import re
-import pandas as pd
+import ast
+
 import spacy
 import unidecode
-from utils import Constants
+import pandas as pd
+
 from nltk.stem import PorterStemmer
+from spacy.language import Language
+
+from utils import Constants
+from typing import List
 
 # nlp load
 # python -m spacy download en_core_web_sm
 # python -m spacy download en_core_web_lg
-nlp = spacy.load("en_core_web_lg")
-ps = PorterStemmer()
+nlp: Language = spacy.load("en_core_web_lg")
+ps: PorterStemmer = PorterStemmer()
 
-def clean(text:str)->str:
+
+def clean(text:str) -> str:
     """Limpia el texto de caracteres especiales y espacios extras."""
     text = unidecode.unidecode(text)
     text = re.sub(r'http\S+', Constants.EMPTY_STR, text)            # remove URLs
@@ -26,7 +41,8 @@ def clean(text:str)->str:
     text = re.sub(r'\s+', Constants.SPACE_STR, text).strip()        # remove extra spaces
     return text.lower()
 
-def remove_stopwords(text:str)->str:
+
+def remove_stopwords(text:str) -> str:
     """Remueve las stopwords del texto."""
     doc = nlp(text)
     tokens = [
@@ -38,28 +54,100 @@ def remove_stopwords(text:str)->str:
     ]
     return Constants.SPACE_STR.join(tokens)
 
-def lematize(text:str)->str:
+
+def lematize(text:str) -> str:
     """Lematiza el texto."""
     doc = nlp(text)
     tokens = [token.lemma_ for token in doc]
     return Constants.SPACE_STR.join(tokens)
 
-def preprocess(text:str)->str:
+
+def preprocess(text:str) -> str:
     """Preprocesa el texto."""
     text = clean(text)
     text = remove_stopwords(text)
     text = lematize(text)
     return text
 
+
+def parse_tags(value) -> List[str]:
+    """
+    Convierte un valor de tags a lista normalizada.
+
+    Soporta:
+    - listas reales: ["Love", "Nature"]
+    - strings tipo lista: "['Love', 'Nature']"
+    - strings separados por coma: "Love, Nature"
+    - valores nulos: NaN / None
+
+    Returns:
+        list[str]: lista de tags limpios.
+    """
+    
+    if isinstance(value, list):
+        return [
+            clean(str(tag))
+            for tag in value
+            if str(tag).strip()
+        ]
+    
+    if pd.isna(value):
+        return []
+    
+    try:
+        parsed = ast.literal_eval(str(value))
+        if isinstance(parsed, list):
+            return [
+                clean(str(tag))
+                for tag in parsed
+                if str(tag).strip()
+            ]
+            
+    except (ValueError, SyntaxError):
+        return [
+            clean(tag) 
+            for tag in str(value).split(Constants.COMMA_STR)
+            if str(tag).strip()
+        ]
+
+
 def preprocess_tags(tags_column: pd.Series) -> pd.Series:
-    """Procesa la columna completa de etiquetas."""
-    list_of_lists = tags_column.apply(
-        lambda x: [clean(tag) for tag in x.split(Constants.COMMA_STR)]
-    )
+    """
+    Procesa una columna completa de etiquetas.
+
+    Cada fila queda convertida en una lista de tags normalizados.
+    """
+    return tags_column.apply(parse_tags)
+
+
+def normalize_poetry_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Normaliza columnas esperadas del dataset Poetry Foundation.
+
+    Garantiza que existan:
+    - poet
+    - tags
+
+    Se normaliza los nombres de columnas a minusculas.
+    """
+    df = df.copy()
     
-    # 2. Opcional: Eliminar cualquier cadena vacía resultante de la limpieza
-    list_of_lists = list_of_lists.apply(
-        lambda tags: [tag for tag in tags if tag]
-    )
+    df = df.rename(columns={
+        col: (
+            col
+            .strip()
+            .lower()
+            .replace(Constants.SPACE_STR, Constants.UNDERLINE)
+        )
+        for col in df.columns
+    })
     
-    return list_of_lists
+    if Constants.POET not in df.columns:
+        df[Constants.POET] = Constants.UNKNOWN
+        
+    if Constants.TAGS not in df.columns:
+        df[Constants.TAGS] = [[] for _ in range(len(df))]
+    else:
+        df[Constants.TAGS] = preprocess_tags(df[Constants.TAGS])
+
+    return df

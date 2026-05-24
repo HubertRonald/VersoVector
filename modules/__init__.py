@@ -1,4 +1,12 @@
-from .preprocessing import preprocess, preprocess_tags
+from .preprocessing import (
+    clean,
+    remove_stopwords,
+    lematize,
+    preprocess,
+    parse_tags,
+    preprocess_tags,
+    normalize_poetry_columns
+)
 from .features import build_feature_pipeline
 from .io import (
     PROJECT_ROOT,
@@ -16,8 +24,13 @@ from .io import (
 )
 
 __all__ = [
-    "preprocess",
-    "preprocess_tags",
+    'clean',
+    'remove_stopwords',
+    'lematize',
+    'preprocess',
+    'parse_tags',
+    'preprocess_tags',
+    'normalize_poetry_columns'
     "build_feature_pipeline",
     "PROJECT_ROOT",
     "ARTIFACTS_DIR",

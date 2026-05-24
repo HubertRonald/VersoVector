@@ -6,7 +6,7 @@ __all__ = ["Constants"]
 
 @dataclass(frozen=True)
 class Constants:
-    SEP:str = ','
+    UNDERLINE:str = '_'
     ENCODING:str = 'utf-8'
     EMPTY_STR:str = ''
     SPACE_STR:str = ' '
@@ -15,3 +15,6 @@ class Constants:
     QUOTECHAR_STR:str = '"'
     ONE:int = 1
     ZERO:int = 0
+    UNKNOWN: str = 'unknown'
+    TAGS: str = 'tags'
+    POET: str = 'poet'

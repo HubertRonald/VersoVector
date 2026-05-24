@@ -14,6 +14,7 @@ from modules.features.transformers import TextToDictTransformer
 from modules.features.transformers import ToDense
 from modules.features.transformers import Normalize
 
+
 def build_feature_pipeline(
         input_is_processed: bool = False
     ) -> Pipeline:

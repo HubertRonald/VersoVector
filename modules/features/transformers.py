@@ -11,12 +11,13 @@ import re
 import numpy as np
 from collections import Counter
 
-from modules.preprocesing.clean_text import preprocess
+from modules.preprocessing import preprocess
 from sklearn.preprocessing import Normalizer
 from sklearn.base import BaseEstimator, TransformerMixin
 
 from typing import Iterable, List
 from typing_extensions import Self
+
 
 class TokenText(BaseEstimator, TransformerMixin):
     def __init__(self):
