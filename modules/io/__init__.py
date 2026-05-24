@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from .artifact_store import (
     PROJECT_ROOT,
     ARTIFACTS_DIR,
