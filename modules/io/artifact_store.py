@@ -17,6 +17,7 @@ __all__ = [
     "DATA_DIR",
     "artifact_path",
     "data_path",
+    "display_path",
     "ensure_dir",
     "save_joblib",
     "load_joblib",
@@ -90,3 +91,24 @@ def load_json(path: Path, encoding: str = Constants.ENCODING) -> dict:
         raise FileNotFoundError(f"No existe el JSON: {path}")
     with path.open("r", encoding=encoding) as f:
         return json.load(f)
+
+
+def display_path(path: Path, include_project_name: bool = True) -> str:
+    """
+    Retorna una ruta legible relativa al proyecto para evitar
+    exponer rutas absolutas locales en notebooks.
+
+    Ejemplo:
+        /VersoVector/data/CleanedPoetryFoundationData.csv
+    """
+    path = Path(path).resolve()
+
+    try:
+        relative_path = path.relative_to(PROJECT_ROOT)
+    except ValueError:
+        return path.as_posix()
+
+    if include_project_name:
+        return f"/{PROJECT_ROOT.name}/{relative_path.as_posix()}"
+
+    return relative_path.as_posix()
