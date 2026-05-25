@@ -8,7 +8,7 @@ from .classification import (
     filter_rare_multilabel_tags,
 )
 
-from .evaluation import compute_multilabel_metrics
+from .evaluation import compute_multilabel_metrics, cluster_metrics_from_silhouette
 from .preprocessing import (
     clean,
     remove_stopwords,
