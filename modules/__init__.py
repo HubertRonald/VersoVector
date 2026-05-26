@@ -7,7 +7,18 @@ from .classification import (
     count_multilabel_tags,
     filter_rare_multilabel_tags,
 )
-
+from .clustering import (
+    reduce_features_pca,
+    fit_minibatch_kmeans_range_fast,
+    fit_gmm,
+    fit_lda_topics,
+    extract_top_words,
+    topic_terms_map,
+    cosine_similarity_matrix,
+    recommend_by_cosine,
+    get_top_neighbors_by_cosine,
+    recommendation_pearson_fast,
+)
 from .evaluation import compute_multilabel_metrics, cluster_metrics_from_silhouette
 from .preprocessing import (
     clean,
@@ -40,6 +51,16 @@ __all__ = [
     'build_supervised_pipeline',
     'count_multilabel_tags',
     'filter_rare_multilabel_tags',
+    "reduce_features_pca",
+    "fit_minibatch_kmeans_range_fast",
+    "fit_gmm",
+    "fit_lda_topics",
+    "extract_top_words",
+    "topic_terms_map",
+    "cosine_similarity_matrix",
+    "recommend_by_cosine",
+    "get_top_neighbors_by_cosine",
+    "recommendation_pearson_fast",
     'compute_multilabel_metrics'
     'clean',
     'remove_stopwords',
