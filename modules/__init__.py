@@ -29,7 +29,7 @@ from .preprocessing import (
     preprocess_tags,
     normalize_poetry_columns
 )
-from .features import build_feature_pipeline
+from .features import build_feature_pipeline, row_l2_norms
 from .io import (
     PROJECT_ROOT,
     ARTIFACTS_DIR,
@@ -70,6 +70,7 @@ __all__ = [
     'preprocess_tags',
     'normalize_poetry_columns'
     'build_feature_pipeline',
+    'row_l2_norms',
     'PROJECT_ROOT',
     'ARTIFACTS_DIR',
     'DATA_DIR',

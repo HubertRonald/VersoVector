@@ -83,15 +83,16 @@ flowchart
     end
 
     %% unión de features
-    S21 --> S3[ToDense]
-    S22 --> S3[ToDense]
-    DV2 --> S3[ToDense]
+    S21 --> S4[Normalize]
+    S22 --> S4[Normalize]
+    DV2 --> S4[Normalize]
 
-    S3 --> S4[Normalize]
+    
 
     %% Paso opcional de reducción dimensional
     S4 --> D[Reducción Dimensional<br>PCA / t-SNE / UMAP]
-    D --> E[Clustering<br>KMeans / GMM / DBSCAN / Agglomerative]
+    D --> S3[ToDense]
+    S3 --> E[Clustering<br>KMeans / GMM / DBSCAN / Agglomerative]
 
     %% Ramas no supervisadas
     subgraph Clustering["Análisis no supervisado"]
