@@ -13,6 +13,6 @@ def cluster_metrics_from_silhouette(
     ) -> pd.DataFrame:
     """Convert silhouette search results into a metrics DataFrame."""
     return pd.DataFrame([
-        {"model": model_name, "k": k, "silhouette": score}
-        for k, score in sils
+        {"model": model_name, "k": int(k), "silhouette": float(sil),}
+        for k, sil in sils
     ])

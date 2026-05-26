@@ -28,19 +28,25 @@ def recommend_by_cosine(
     """Recommend nearest poems by cosine similarity."""
     df = df.reset_index(drop=True)
     indices = pd.Series(df.index, index=df.title).drop_duplicates()
+    
     if title not in indices:
         raise ValueError(f"El título '{title}' no existe en el corpus.")
 
     idx = int(indices[title])
+    
     sim_scores = sorted(enumerate(cosine_sim[idx]), key=lambda item: item[1], reverse=True)
     sim_scores = sim_scores[1 : top_n + 1]
+    
     poem_indices = [i for i, _ in sim_scores]
     scores = [float(score) for _, score in sim_scores]
 
     return pd.DataFrame({
-        "Puesto": range(1, len(poem_indices) + 1),
-        "Recomendación": df.title.iloc[poem_indices].values,
-        "Similitud Coseno": scores,
+        "puesto": range(1, len(poem_indices) + 1),
+        "title": df.loc[poem_indices, "title"].values,
+        "poet": df.loc[poem_indices, "poet"].values,
+        "source": df.loc[poem_indices, "source"].values,
+        "corpus_role": df.loc[poem_indices, "corpus_role"].values,
+        "similarity_cosine": scores,
     })
 
 
@@ -50,7 +56,7 @@ def get_top_neighbors_by_cosine(
         top_n: int = 5,
     ) -> tuple[list[list[str]], list[list[float]]]:
     """Return top cosine neighbors and scores for every poem."""
-    
+    df = df.reset_index(drop=True)
     titles = df["title"].tolist()
     
     nearest_titles: list[list[str]] = []
@@ -77,38 +83,47 @@ def recommendation_pearson_fast(
     """Pearson recommendation for one query without building the full correlation matrix."""
     df = df.reset_index(drop=True)
     indices = pd.Series(df.index, index=df.title).drop_duplicates()
+    
     if query_title not in indices:
         raise ValueError(f"El título '{query_title}' no existe en el corpus.")
 
     idx = int(indices[query_title])
+    
     X = np.asarray(X, dtype=np.float32)
     q = X[idx]
+    
     n_features = X.shape[1]
 
     row_means = X.mean(axis=1)
     row_sumsq = np.square(X).sum(axis=1)
+    
     q_mean = q.mean()
     q_sumsq = np.square(q).sum()
 
     numerator = X @ q - n_features * row_means * q_mean
-    denominator = np.sqrt(row_sumsq - n_features * np.square(row_means)) * np.sqrt(
+    
+    denominator = np.sqrt(
+        row_sumsq - n_features * np.square(row_means)
+    ) * np.sqrt(
         q_sumsq - n_features * q_mean**2
     )
+    
     pearson_scores = np.divide(
         numerator,
         denominator,
         out=np.zeros_like(numerator, dtype=np.float32),
         where=denominator != 0,
     )
+    
     pearson_scores[idx] = -np.inf
 
     top_idx = np.argpartition(pearson_scores, -top_n)[-top_n:]
     top_idx = top_idx[np.argsort(pearson_scores[top_idx])[::-1]]
 
     return pd.DataFrame({
-        "Puesto": range(1, len(top_idx) + 1),
-        "Recomendación": df.title.iloc[top_idx].values,
-        "Similitud Pearson": pearson_scores[top_idx],
+        "puesto": range(1, len(top_idx) + 1),
+        "title": df.loc[top_idx, "title"].values,
+        "similarity_pearson": pearson_scores[top_idx],
     })
 
 

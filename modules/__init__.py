@@ -8,7 +8,7 @@ from .classification import (
     filter_rare_multilabel_tags,
 )
 from .clustering import (
-    reduce_features_pca,
+    reduce_features_dimensionality,
     fit_minibatch_kmeans_range_fast,
     fit_gmm,
     fit_lda_topics,
@@ -51,7 +51,7 @@ __all__ = [
     'build_supervised_pipeline',
     'count_multilabel_tags',
     'filter_rare_multilabel_tags',
-    "reduce_features_pca",
+    "reduce_features_dimensionality",
     "fit_minibatch_kmeans_range_fast",
     "fit_gmm",
     "fit_lda_topics",
@@ -61,14 +61,15 @@ __all__ = [
     "recommend_by_cosine",
     "get_top_neighbors_by_cosine",
     "recommendation_pearson_fast",
-    'compute_multilabel_metrics'
+    'compute_multilabel_metrics',
+    'cluster_metrics_from_silhouette',
     'clean',
     'remove_stopwords',
     'lematize',
     'preprocess',
     'parse_tags',
     'preprocess_tags',
-    'normalize_poetry_columns'
+    'normalize_poetry_columns',
     'build_feature_pipeline',
     'row_l2_norms',
     'PROJECT_ROOT',
