@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from .clean_text import (
     clean,
     remove_stopwords,

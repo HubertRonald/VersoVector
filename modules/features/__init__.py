@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from .feature_pipeline import build_feature_pipeline
 from .feature_checks import row_l2_norms
 
