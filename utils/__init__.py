@@ -1,3 +1,9 @@
-from .constants import Constants
+from __future__ import annotations
 
-__all__ = ["Constants"]
+from .constants import Constants
+from .hashing import make_short_hash
+
+__all__ = [
+    "Constants",
+    "make_short_hash",
+]
