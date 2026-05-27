@@ -15,8 +15,10 @@ __all__ = [
     "PROJECT_ROOT",
     "ARTIFACTS_DIR",
     "DATA_DIR",
+    "FIGS_DIR",
     "artifact_path",
     "data_path",
+    "fig_path",
     "display_path",
     "ensure_dir",
     "save_joblib",
@@ -31,6 +33,12 @@ __all__ = [
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 ARTIFACTS_DIR = PROJECT_ROOT / "artifacts"
 DATA_DIR = PROJECT_ROOT / "data"
+FIGS_DIR = PROJECT_ROOT / "figs"
+
+
+def fig_path(*parts: str) -> Path:
+    """Construye una ruta dentro de figs/."""
+    return FIGS_DIR.joinpath(*parts)
 
 
 def ensure_dir(path: Path) -> Path:
