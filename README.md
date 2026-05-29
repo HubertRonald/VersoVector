@@ -1,4 +1,3 @@
-# VersoVector
 
 <p align="left">
     <a href="https://www.python.org/" target="_blank">
@@ -38,6 +37,8 @@
     <img src="https://img.shields.io/github/commit-activity/t/HubertRonald/VersoVector?style=flat-square&color=dodgerblue" />
     <img src="https://img.shields.io/github/license/HubertRonald/VersoVector?style=flat-square&color=success" />
 </p>
+
+# VersoVector
 
 ## Overview
 
@@ -447,6 +448,24 @@ Next:
 * manage infrastructure with Terraform;
 * automate CI/CD with GitHub Actions.
 
-## License
+## .gitignore
 
-This project is licensed under the terms defined in the repository `LICENSE` file.
+It was generated in [gitignore.io](https://www.toptal.com/developers/gitignore/) with the filters `python`, `macos`, and `windows`, and consumed through its API as a raw file from the terminal:
+
+```bash
+curl -L https://www.toptal.com/developers/gitignore/api/python,macos,windows > .gitignore
+```
+
+## Authors
+
+* **Hubert Ronald** - Initial Work - [HubertRonald](https://github.com/HubertRonald)
+* See also the list of [contributors](https://github.com/HubertRonald/VersoVector/contributors) who participated in this project.
+
+
+## License and Copyright
+
+The source code in this repository is distributed under the MIT License. See the [LICENSE](./LICENSE) file for more details.
+
+The repository may reference public-domain poems, open datasets, translations, or third-party textual materials for experimentation. These materials may be subject to their own licenses, terms of use, or copyright restrictions and are not automatically covered by the MIT License of this codebase.
+
+For production, commercial deployment, hosted inference, or redistribution of trained model artifacts, dataset and text usage rights should be reviewed separately. A production version of VersoVector should rely only on public-domain, properly licensed, or otherwise cleared textual sources.

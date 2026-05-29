@@ -32,35 +32,36 @@
     <a href="https://code.visualstudio.com/download" target="_blank">
         <img src="https://img.shields.io/badge/VS%20Code-Editor-007ACC?style=flat-square&logo=visualstudiocode&logoColor=white" />
     </a>
-    <img src="https://img.shields.io/github/last-commit/HubertRonald/VersoVector?style=flat-square" />
-    <img src="https://img.shields.io/github/commit-activity/t/HubertRonald/VersoVector?style=flat-square&color=dodgerblue" />
     <img src="https://img.shields.io/github/license/HubertRonald/VersoVector?style=flat-square&color=success" />
 </p>
 
 
-# Verso Vector
-Exploración de poesía mediante machine learning: generación de embeddings, clustering y clasificación emocional usando textos de César Vallejo y otros poetas traducidos al inglés.
+# VersoVector
 
-> **Nota:** Aunque este proyecto se describe en español, los datasets y modelos se entrenan con poemas en inglés, debido a la mayor disponibilidad de recursos NLP en ese idioma.
+Poetry exploration through machine learning: embedding generation, clustering, and emotional classification using texts by César Vallejo and other poets translated into English.
 
-## 📖 Descripción
-Este proyecto explora la relación entre el **significado semántico y emocional** de la poesía a través de modelos de *embeddings* modernos.  
-Combina dos enfoques de aprendizaje:
+> Note: Although this project was originally described in Spanish, the datasets and models are trained with poems in English, due to the greater availability of NLP resources in that language.
 
-- **Aprendizaje no supervisado:** Agrupamiento (clustering) de poemas por estilo o tono.  
-- **Aprendizaje supervisado:** Clasificación de poemas por emoción o tema.
+## Description
 
-Se busca responder:  
-> “¿Puede un modelo de lenguaje percibir la emoción detrás de un poema, como lo hace un lector humano?”
+This project explores the relationship between the semantic and emotional meaning of poetry through modern embedding models.
 
-## 🧪 Flujo general del proyecto
+It combines two learning approaches:
 
-Cómo se presentarán los modelos a emplear en este repositorio
+* Unsupervised learning: clustering poems by style or tone.
+* Supervised learning: classifying poems by emotion or theme.
 
+The project seeks to answer:
+
+> "Can a language model perceive the emotion behind a poem, as a human reader does?"
+
+## General Project Workflow
+
+How the models used in this repository are presented.
 
 ```mermaid
 ---
-title: Flujo de Trabajo
+title: Workflow
 ---
 %%{init: {
     'look':'handDrawn',
@@ -71,16 +72,16 @@ title: Flujo de Trabajo
   }
 }%%
 flowchart
-    A[Poemas originales<br>Vallejo + otros] --> B[Preprocesamiento<br>Limpieza y Tokenización]
+    A[Original poems<br>Vallejo + others] --> B[Preprocessing<br>Cleaning and Tokenization]
 
-    %% Representación expandida
+    %% Expanded representation
     B --> S2[FeatureUnion]
 
-    subgraph FeatureUnion["Unión de Características"]
+    subgraph FeatureUnion["Feature Union"]
         S2 -->|CountVect| S21[CountVectorizer]
         S2 -->|TF-IDF| S22[TfidfVectorizer]
 
-        %% Sub-pipeline DictVect
+        %% DictVect sub-pipeline
         S2 --> DV1[TextToDictTransformer]
 
         subgraph DictVect["DictVect"]
@@ -88,200 +89,179 @@ flowchart
         end
     end
 
-    %% unión de features
+    %% Feature merging
     S21 --> S4[Normalize]
     S22 --> S4[Normalize]
     DV2 --> S4[Normalize]
 
-    
-
-    %% Paso opcional de reducción dimensional
-    S4 --> D[Reducción Dimensional<br>PCA / t-SNE / UMAP]
+    %% Optional dimensionality reduction step
+    S4 --> D[Dimensionality Reduction<br>PCA / t-SNE / UMAP]
     D --> S3[ToDense]
     S3 --> E[Clustering<br>KMeans / GMM / DBSCAN / Agglomerative]
 
-    %% Ramas no supervisadas
-    subgraph Clustering["Análisis no supervisado"]
+    %% Unsupervised branches
+    subgraph Clustering["Unsupervised Analysis"]
         E[Clustering<br>KMeans / GMM / DBSCAN / Agglomerative]
-        F[Modelado de Tópicos<br>LDA]
-        G[Similitud<br>Coseno / Correlación]
+        F[Topic Modeling<br>LDA]
+        G[Similarity<br>Cosine / Correlation]
     end
 
     S4 --> F
     S4 --> G
 
-    E --> H1[Gráficas 2D/3D<br>t-SNE/UMAP + labels]
-    F --> H2[Análisis de temas]
+    E --> H1[2D/3D Plots<br>t-SNE/UMAP + labels]
+    F --> H2[Topic Analysis]
     G --> H2
-    E --> H2[Emociones emergentes]
+    E --> H2[Emergent Emotions]
 
-    %% Rama supervisada
+    %% Supervised branch
     S4 --> S5[StackingClassifier<br>OneVsRest]
 
-    subgraph Stacking["Análisis supervisado"]
+    subgraph Stacking["Supervised Analysis"]
         S5 --> S51[MultinomialNB]
         S5 --> S52[ComplementNB]
         S51 --> S6[LogisticRegression<br>final estimator]
         S52 --> S6[LogisticRegression<br>final estimator]
     end
 
-    S6 --> E2[Predicción de emoción o<br>tono poético]
+    S6 --> E2[Emotion or<br>poetic tone prediction]
 
-    %% Integración final
-    subgraph Integracion["Integración de Resultados"]
-        E2 --> J[Resultados supervisados]
+    %% Final integration
+    subgraph Integracion["Results Integration"]
+        E2 --> J[Supervised results]
         H2 --> J
         H1 --> J
     end
 
-    J --> K[Interpretación final<br>Emoción + Temas emergentes]
+    J --> K[Final interpretation<br>Emotion + Emergent Themes]
 
-    %% === Estilos ===
+    %% === Styles ===
     style FeatureUnion fill:#FFE0B2,stroke:#EF6C00,stroke-width:2px
     style DictVect fill:#FFF3E0,stroke:#FB8C00,stroke-width:1.5px
     style Stacking fill:#BBDEFB,stroke:#1565C0,stroke-width:2px
     style Clustering fill:#F1F3F4,stroke:#9AA0A6,stroke-width:1px
     style Integracion fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px
-
 ```
 
+> Note 1: UMAP and t-SNE are dimensionality reduction methods, not clustering algorithms.
+> Note 2: For LDA, an independent count-based or TF-IDF representation is used, since topic modeling requires an interpretable document-term matrix.
 
-> **Nota1:** UMAP y t-SNE son reducción de dimensionalidad, no clustering.
-> <br>**Nota2:** Para LDA se utiliza una representación de conteos o TF-IDF independiente, dado que el modelado de tópicos requiere una matriz documento-término interpretable.
->
-<h6>
-<br>Elaborado con: <a href="https://mermaid.js.org/syntax/flowchart.html" target="_blank">Mermaid - Flowchart</a>
-</h6>
+######
 
-<br>
+Built with: [Mermaid - Flowchart](https://mermaid.js.org/syntax/flowchart.html)
 
-> **Nota:** Aunque este proyecto se describe en español, los datasets y modelos se entrenan con poemas en inglés, debido a la mayor disponibilidad de recursos NLP en ese idioma.
+> Note: Although this project was originally described in Spanish, the datasets and models are trained with poems in English, due to the greater availability of NLP resources in that language.
 
-<br>
+Poetic example: **Los Heraldos Negros**
 
-📘 Ejemplo poético: **Los Heraldos Negros**
+> "Hay golpes en la vida, tan fuertes... ¡Yo no sé!
+> Golpes como del odio de Dios; como si ante ellos,
+> la resaca de todo lo sufrido
+> se empozara en el alma... ¡Yo no sé!"
 
-> “Hay golpes en la vida, tan fuertes... ¡Yo no sé!<br>
-> Golpes como del odio de Dios; como si ante ellos,<br>
-> la resaca de todo lo sufrido<br>
-> se empozara en el alma... ¡Yo no sé!”
+In the English version:
 
-En la versión inglesa:
+> "There are blows in life, so powerful... I don't know!
+> Blows as from God's hatred; as if before them,
+> the backlash of everything suffered
+> were to dam up in the soul... I don't know!"
 
-> “There are blows in life, so powerful... I don't know!<br>
-> Blows as from God's hatred; as if before them,<br>
-> the backlash of everything suffered<br>
-> were to dam up in the soul... I don't know!”<br>
+## Dataset
 
-<br>
+The dataset combines public-domain poems and labeled texts from open sources such as HuggingFace and Kaggle.
 
-## 🗂️ Dataset
-El dataset combina poemas en dominio público y textos etiquetados a partir de fuentes abiertas (HuggingFace / Kaggle).  
+When manual labels are not available, sentiment analysis models are applied as a starting point.
 
-Cuando no hay etiquetas manuales, se aplican modelos de Análisis de Sentimientos (*sentiment analysis*) como punto de partida.
+Kaggle:
 
-kaggle:
-- [Poetry Foundation Poems](https://www.kaggle.com/datasets/tgdivy/poetry-foundation-poems/data)
+* [Poetry Foundation Poems](https://www.kaggle.com/datasets/tgdivy/poetry-foundation-poems/data)
 
-Fundación BBVA
+Fundación BBVA:
 
-- [César Vallejo - Poemas Humanos|Human Poems](https://fundacionbbva.pe/wp-content/uploads/2016/04/libro_000015.pdf)
-  
-- [César Vallejo - The Complete Posthumous Poetry](https://fundacionbbva.pe/wp-content/uploads/2016/04/libro_000015.pdf)
+* [César Vallejo - Poemas Humanos|Human Poems](https://fundacionbbva.pe/wp-content/uploads/2016/04/libro_000015.pdf)
+* [César Vallejo - The Complete Posthumous Poetry](https://fundacionbbva.pe/wp-content/uploads/2016/04/libro_000015.pdf)
 
-## 🧮 Representación Vectorial de la Poesía
+## Vector Representation of Poetry
 
-Para analizar la poesía desde una perspectiva computacional, los textos deben transformarse en representaciones numéricas.
+To analyze poetry from a computational perspective, texts must be transformed into numerical representations.
 
-Con ello se puede aplicar *embeddings* y algoritmos de *clustering* o *classification*.
+This allows embeddings and clustering or classification algorithms to be applied.
 
-Esta sección describe cómo se generan las primeras representaciones usando enfoques clásicos de **bag-of-words**: `CountVectorizer`, `TF-IDF Vectorizer` y `DictVectorizer`, antes de generar *embeddings* más complejos.
+This section describes how the first representations are generated using classic bag-of-words approaches: `CountVectorizer`, `TF-IDF Vectorizer`, and `DictVectorizer`, before generating more complex embeddings.
 
 ---
 
-### 🔹 CountVectorizer
+### CountVectorizer
 
-El **CountVectorizer** convierte cada poema en un vector basado en la frecuencia de aparición de cada término.
+The CountVectorizer converts each poem into a vector based on the frequency of occurrence of each term.
 
-Sea un corpus con $( D )$ documentos y un vocabulario con $( N )$ términos distintos.  
-Para un documento $( d )$ y un término $( t )$, el valor en la matriz $( X_{d,t} )$ es:
+Let a corpus have $( D )$ documents and a vocabulary with $( N )$ distinct terms.
 
-$$
-X_{d,t} = \text{count}(t, d)
-$$
+For a document $( d )$ and a term $( t )$, the value in the matrix $( X_{d,t} )$ is:
 
-donde
+$$ X_{d,t} = \text{count}(t, d) $$
 
-$$[
-\text{count}(t, d) = \text{número de veces que el término } t \text{ aparece en el documento } d
-]$$
+where
 
-Cada poema queda representado como un vector:
+$$[ \text{count}(t, d) = \text{number of times term } t \text{ appears in document } d ]$$
 
-$$
-\mathbf{x}_d = [X_{d,1}, X_{d,2}, ..., X_{d,N}]
-$$
+Each poem is represented as a vector:
 
-### ✍️ Ejemplo práctico — *Los Heraldos Negros*
+$$ \mathbf{x}*d = [X*{d,1}, X_{d,2}, ..., X_{d,N}] $$
 
-Consideremos el verso inicial de César Vallejo:
+### ✍️ Practical Example — *Los Heraldos Negros*
 
-> “Hay golpes en la vida, tan fuertes... ¡Yo no sé!”
+Consider the opening verse by César Vallejo:
 
-#### 🧩 Limpieza del texto
-Después de normalizar, eliminar signos y *stopwords*, el texto puede quedar así:
+> "Hay golpes en la vida, tan fuertes... ¡Yo no sé!"
+
+#### Text Cleaning
+
+After normalizing, removing punctuation, and applying stopwords, the text may look like this:
 
 ```python
 tokens = ["golpes", "vida", "tan", "fuertes"]
 ```
 
-Dependiendo del idioma y la lista de stopwords usada, pueden quedar entre **3 y 6 términos relevantes**.
-Ese número es el que se utiliza como denominador en el cálculo de la frecuencia (TF).
+Depending on the language and the stopword list used, between **3 and 6 relevant terms** may remain. That number is used as the denominator in the term frequency calculation.
 
-#### 🧩 CountVectorizer
-Si el vocabulario relevante es  (se considera `tan` como stopword)
+#### CountVectorizer
+
+If the relevant vocabulary is, considering `tan` as a stopword:
 
 ```python
 ["golpes", "vida", "fuertes"]
 ```
 
-entonces:
+then:
 
-$$
-\mathbf{x}_{\text{count}} = [1, 1, 1]
-$$
+$$ \mathbf{x}_{\text{count}} = [1, 1, 1] $$
 
-Cada palabra aparece una vez.
+Each word appears once.
 
 ---
 
-### 🔹 TF-IDF Vectorizer
+### TF-IDF Vectorizer
 
-El **TF-IDF (Term Frequency–Inverse Document Frequency)** pondera la frecuencia de los términos por su rareza en el conjunto de poemas.  
-Así, las palabras comunes reciben menos peso y las más singulares destacan en la representación.
+TF-IDF, or Term Frequency-Inverse Document Frequency, weights the frequency of terms by their rarity across the set of poems.
 
-$$
-\text{tfidf}(t, d, D) = \text{tf}(t, d) \times \text{idf}(t, D)
-$$
+Thus, common words receive less weight and more distinctive words stand out in the representation.
 
-donde
+$$ \text{tfidf}(t, d, D) = \text{tf}(t, d) \times \text{idf}(t, D) $$
 
-$$
-\text{tf}(t, d) = \frac{f_{t,d}}{\sum_{t'} f_{t',d}}, \quad
-\text{idf}(t, D) = \log\left(\frac{1 + |D|}{1 + |\{d_i \in D : t \in d_i\}|}\right) + 1
-$$
+where
 
-Por tanto:
+$$ \text{tf}(t, d) = \frac{f_{t,d}}{\sum_{t'} f_{t',d}}, \quad \text{idf}(t, D) = \log\left(\frac{1 + |D|}{1 + |{d_i \in D : t \in d_i}|}\right) + 1 $$
 
-$$
-\text{TFIDF}(t, d, D) = \frac{f_{t,d}}{\sum_{t'} f_{t',d}} \times \log\left(\frac{1 + |D|}{1 + |\{d_i \in D : t \in d_i\}|}\right) + 1
-$$
+Therefore:
+
+$$ \text{TFIDF}(t, d, D) = \frac{f_{t,d}}{\sum_{t'} f_{t',d}} \times \log\left(\frac{1 + |D|}{1 + |{d_i \in D : t \in d_i}|}\right) + 1 $$
 
 ---
 
-#### 🧩 Ejemplo TF-IDF Vectorizer
+#### TF-IDF Vectorizer Example
 
-Supongamos un corpus de tres versos de César Vallejo:
+Suppose we have a corpus of three verses by César Vallejo:
 
 ```python
 from typing import Dict
@@ -293,51 +273,35 @@ verso: Dict[int: str] = {
 }
 ```
 
-Si el término **"golpes"** aparece en 2 de 3 documentos, y **"vida"** solo en uno:
+If the term **"golpes"** appears in 2 out of 3 documents, and **"vida"** appears in only one:
 
-$$
-\text{idf}(\text{golpes}) = \log\left(\frac{1 + 3}{1 + 2}\right) + 1 \approx 1.287
-$$
+$$ \text{idf}(\text{golpes}) = \log\left(\frac{1 + 3}{1 + 2}\right) + 1 \approx 1.287 $$
 
-$$
-\text{idf}(\text{vida}) = \log\left(\frac{1 + 3}{1 + 1}\right) + 1 \approx 1.693
-$$
+$$ \text{idf}(\text{vida}) = \log\left(\frac{1 + 3}{1 + 1}\right) + 1 \approx 1.693 $$
 
-Dado que cada palabra aparece una vez y el poema tiene 6 términos relevantes (según el preprocesamiento elegido):
+Given that each word appears once and the poem has 6 relevant terms, depending on the chosen preprocessing:
 
-$$
-\text{tf}(t, d) = \frac{1}{6}
-$$
+$$ \text{tf}(t, d) = \frac{1}{6} $$
 
-Entonces:
+Then:
 
-$$
-\text{tfidf}(\text{golpes}) = \frac{1}{6} \times 1.287 \approx 0.215
-$$
+$$ \text{tfidf}(\text{golpes}) = \frac{1}{6} \times 1.287 \approx 0.215 $$
 
-$$
-\text{tfidf}(\text{vida}) = \frac{1}{6} \times 1.693 \approx 0.282
-$$
+$$ \text{tfidf}(\text{vida}) = \frac{1}{6} \times 1.693 \approx 0.282 $$
 
-$$
-\text{tfidf}(\text{fuertes}) = \frac{1}{6} \times 1.693 \approx 0.282
-$$
+$$ \text{tfidf}(\text{fuertes}) = \frac{1}{6} \times 1.693 \approx 0.282 $$
 
-Por tanto, el vector TF-IDF sería:
+Therefore, the TF-IDF vector would be:
 
-$$
-\mathbf{x}_{\text{tfidf}} = [0.215, 0.282, 0.282]
-$$
+$$ \mathbf{x}_{\text{tfidf}} = [0.215, 0.282, 0.282] $$
 
 ---
 
+### DictVectorizer
 
-### 🔹 DictVectorizer
+The DictVectorizer converts frequency dictionaries or custom feature dictionaries into numerical vectors.
 
-El DictVectorizer permite convertir diccionarios de frecuencias o características personalizadas en vectores numéricos.
-
-Es útil cuando cada poema ya fue transformado en una estructura tipo diccionario, por ejemplo:
-
+It is useful when each poem has already been transformed into a dictionary-like structure, for example:
 
 ```python
 from sklearn.feature_extraction import DictVectorizer
@@ -352,39 +316,33 @@ vectorizer = DictVectorizer()
 X = vectorizer.fit_transform(verso)
 ```
 
-El resultado es una matriz dispersa con dimensiones iguales al vocabulario global.
-Cada columna representa una palabra y cada fila un verso.
+The result is a sparse matrix with dimensions equal to the global vocabulary. Each column represents a word and each row represents a verse.
 
-El `DictVectorizer` es particularmente útil si antes aplicas una limpieza o un conteo personalizado (por ejemplo, solo de sustantivos o adjetivos).
-
----
-
-### 💡 Interpretación
-
-- **CountVectorizer:** solo cuenta ocurrencias: útil para observar repeticiones léxicas.
-- **TF-IDF Vectorizar:** valora la **relevancia semántica** de los términos únicos o pocos frecuentes.
-- **DictVectorizer:** traduce diccionarios personalizados en vectores, útil para features lingüísticas.
-
-En poesía, donde cada palabra tiene un peso emocional y simbólico, **TF-IDF** refleja mejor la singularidad expresiva de cada poema, esas que, como en Vallejo, "duelen en el alma y pesan en la historia".
+The `DictVectorizer` is particularly useful if a custom cleaning or counting process is applied beforehand, for example counting only nouns or adjectives.
 
 ---
 
+### Interpretation
 
-### 🔹 Similitud del Coseno — Distancia entre almas poéticas
+* CountVectorizer: only counts occurrences; useful for observing lexical repetitions.
+* TF-IDF Vectorizer: values the semantic relevance of unique or infrequent terms.
+* DictVectorizer: translates custom dictionaries into vectors, useful for linguistic features.
 
-Una vez que los poemas han sido transformados en vectores (por ejemplo, con TF-IDF Vectorizer), se puede medir qué tan cercos semánticamente están dos versos o poemas.
+In poetry, where every word carries emotional and symbolic weight, **TF-IDF** better reflects the expressive uniqueness of each poem, those that, as in Vallejo, "hurt in the soul and weigh upon history".
 
-La medida más utilizada para esto es la similitud del coseno:
+---
 
-$$
-similitudCoseno(A, B) = 
-\frac{A \cdot B}{\|A\| \, \|B\|} =
-\frac{\sum_{i=1}^{n} A_i B_i}{\sqrt{\sum_{i=1}^{n} A_i^2} \, \sqrt{\sum_{i=1}^{n} B_i^2}}
-$$
+### Cosine Similarity — Distance Between Poetic Souls
 
-#### 🧩 Ejemplo Similitud del Coseno
+Once poems have been transformed into vectors, for example with TF-IDF Vectorizer, it is possible to measure how semantically close two verses or poems are.
 
-Tomemos 2 versos de César Vallejo:
+The most commonly used measure for this is cosine similarity:
+
+$$ similitudCoseno(A, B) = \frac{A \cdot B}{|A| , |B|} = \frac{\sum_{i=1}^{n} A_i B_i}{\sqrt{\sum_{i=1}^{n} A_i^2} , \sqrt{\sum_{i=1}^{n} B_i^2}} $$
+
+#### Cosine Similarity Example
+
+Take 2 verses by César Vallejo:
 
 ```python
 from typing import Dict
@@ -395,202 +353,186 @@ verso: Dict[int: str] = {
 }
 ```
 
-A partir del preprocesamiento y cálculo TF-IDF previo, se tiene:
+Based on the previous preprocessing and TF-IDF calculation, we have:
 
-$$
-\mathbf{x}_{\text{v1}} = [0.215, 0.282, 0.282]
-$$
+$$ \mathbf{x}_{\text{v1}} = [0.215, 0.282, 0.282] $$
 
-Y para el segundo verso, aplicando el mismo procedimiento:
+And for the second verse, applying the same procedure:
 
-$$
-\mathbf{x}_{\text{v2}} = [0.215, 0.215, 0.564]
-$$
+$$ \mathbf{x}_{\text{v2}} = [0.215, 0.215, 0.564] $$
 
-El vocabulario común es:
+The shared vocabulary is:
 
 ```python
 ["golpes", "vida", "dios"]
 ```
 
-Siendo su representación tridimensional de los dos versos de Los Heraldos Negros en el espacio de embeddings TF-IDF.
-El vector azul claro -dodgerblue- corresponde al primer verso (“Hay golpes en la vida, tan fuertes... ¡Yo no sé!”) y el naranja al segundo (“Golpes como del odio de Dios;”).
+This is the three-dimensional representation of the two verses from *Los Heraldos Negros* in the TF-IDF embedding space.
 
-Esta visualización permite observar cómo las diferencias en el peso semántico y frecuencia de términos alteran la dirección y magnitud de los vectores en el espacio.
+The light blue vector, dodgerblue, corresponds to the first verse, "Hay golpes en la vida, tan fuertes... ¡Yo no sé!", and the orange vector corresponds to the second verse, "Golpes como del odio de Dios;".
 
-<div style="text-align: center; padding: 5px;">
-    <img src="../figs/vallejo_tfidf_vectors.png" />
-</div>
+This visualization shows how differences in semantic weight and term frequency alter the direction and magnitude of vectors in the space.
 
-### Cálculo paso a paso
+![Vallejo TF-IDF vectors](../figs/vallejo_tfidf_vectors.png)
 
-1. Producto punto:
+### Step-by-Step Calculation
 
-$$
-A \cdot B = (0.215)(0.215) + (0.282)(0.215) + (0.282)(0.564) = 0.252
-$$
+1. Dot product:
 
+$$ A \cdot B = (0.215)(0.215) + (0.282)(0.215) + (0.282)(0.564) = 0.252 $$
 
-2. Norma de cada vector:
+2. Norm of each vector:
 
-$$
-\|A\| = \sqrt{0.215^2 + 0.282^2 + 0.282^2} = 0.464
-$$
+$$ |A| = \sqrt{0.215^2 + 0.282^2 + 0.282^2} = 0.464 $$
 
-$$
-\|B\| = \sqrt{0.215^2 + 0.215^2 + 0.564^2} = 0.641
-$$
+$$ |B| = \sqrt{0.215^2 + 0.215^2 + 0.564^2} = 0.641 $$
 
-3. Similitud del coseno:
+3. Cosine similarity:
 
-$$
-similitudCoseno(A, B) = \frac{0.252}{0.464 \times 0.641} \approx 0.845
-$$
+$$ similitudCoseno(A, B) = \frac{0.252}{0.464 \times 0.641} \approx 0.845 $$
 
 ---
 
-###  💡 Interpretación
+### Interpretation
 
-- La similitud de **0.845** indica una **fuerte afinidad semántica** entre ambos versos: ambos giran en torno al concepto de golpe, vida y el dolor divino.
+* The similarity of **0.845** indicates a strong semantic affinity between both verses: both revolve around the concepts of blow, life, and divine pain.
+* In poetic terms, one could say that both fragments vibrate at the same emotional frequency, even if their words differ.
 
-- En términos poéticos, se podría decir que ambos fragmentos **vibran en la misma frecuencia emocional**, aunque sus palabras difieran.
+**"Thus, the vector does not measure rhymes, but resonances of the soul."**
 
-**“Así, el vector no mide rimas, sino resonancias del alma.”** 💫
+### The "Organic" Appearance
 
-
-### 🔹 La apariencia "orgánica"
 |||
 |---|---|
 |<div style="text-align: center; padding: 5px;"><img src="../figs/poemas_2d_umap_clustering_kmeans.png" width="640" /></div>|<div style="text-align: center; padding: 5px;"><img src="../figs/poemas_2d_integracion.png " width="640" /></div>|
 |||
 
-La proyección 2D permite observar cómo los poemas se distribuyen en un espacio semántico reducido. En algunas corridas con UMAP aparecen ramificaciones o filamentos: poemas que comparten similitudes con varios grupos quedan como “puentes” entre zonas densas.
+The 2D projection makes it possible to observe how poems are distributed in a reduced semantic space. In some UMAP runs, branches or filaments appear: poems that share similarities with multiple groups become "bridges" between dense regions.
 
-Los nudos o concentraciones representan regiones donde varios poemas comparten vocabulario, tono o temas cercanos. En poesía esto es esperable: los temas no suelen separarse como islas rígidas, sino que transitan entre dolor, memoria, amor, pérdida, espiritualidad o naturaleza.
+The knots or concentrations represent regions where several poems share similar vocabulary, tone, or themes. In poetry, this is expected: themes do not usually separate into rigid islands, but transition between pain, memory, love, loss, spirituality, or nature.
 
-Cuando se usa t-SNE o una configuración distinta de UMAP, la forma visual puede cambiar. Por eso la figura debe leerse como una proyección exploratoria del espacio semántico, no como una estructura geométrica absoluta.
+When t-SNE is used, or when a different UMAP configuration is applied, the visual shape may change. Therefore, the figure should be read as an exploratory projection of the semantic space, not as an absolute geometric structure.
 
---- 
+---
 
-#### 💡 Interpretación práctica
+#### Practical Interpretation
 
-Si en el corpus hay poemas con temas/emociones muy conectados (por ejemplo, dolor ↔ muerte ↔ desesperanza en Vallejo), UMAP los hilvana en curvas continuas.
+If the corpus contains poems with highly connected themes or emotions, for example pain ↔ death ↔ hopelessness in Vallejo, UMAP threads them into continuous curves.
 
-Si fueran más disjuntos (ej. poemas amorosos vs poemas políticos), verías islas separadas, no ramificaciones.
+If the themes were more disjointed, for example love poems versus political poems, we would see separated islands instead of branches.
 
-En poesía esto es natural: los temas no son rígidos, sino que fluyen de uno a otro. El gráfico refleja precisamente esa transición semántica difusa.
+In poetry, this is natural: themes are not rigid, but flow from one to another. The graph precisely reflects that diffuse semantic transition.
 
-## 🤝 ¿Por qué modelos supervisados y no supervisados juntos?
+## Why Supervised and Unsupervised Models Together?
 
-La poesía suele mezclar emociones, símbolos y tonos en un mismo texto. Por eso, este proyecto combina aprendizaje no supervisado y supervisado.
+Poetry often blends emotions, symbols, and tones within the same text. For that reason, this project combines unsupervised and supervised learning.
 
-El enfoque **no supervisado** descubre patrones emergentes mediante clustering, LDA y similitud coseno, sin depender de etiquetas previas. El enfoque **supervisado** predice emociones o tonos poéticos usando etiquetas conocidas y modelos multilabel.
+The unsupervised approach discovers emergent patterns through clustering, LDA, and cosine similarity, without depending on previous labels. The supervised approach predicts emotions or poetic tones using known labels and multilabel models.
 
-La integración de ambos permite comparar lo que el modelo **descubre** con lo que el modelo **predice**:
+The integration of both makes it possible to compare what the model **discovers** with what the model **predicts**:
 
-- Clustering → temas y emociones emergentes.
-- Clasificación → etiquetas emocionales o temáticas.
-- Integración → contraste entre clusters, tópicos y emociones predichas.
+* Clustering → emergent themes and emotions.
+* Classification → emotional or thematic labels.
+* Integration → contrast between clusters, topics, and predicted emotions.
 
-> El enfoque no supervisado descubre resonancias; el enfoque supervisado les pone nombre.
+> The unsupervised approach discovers resonances; the supervised approach gives them names.
 
+## Results Integration: Supervised + Unsupervised
 
-## 🔗 Integración de resultados: supervisado + no supervisado
+The integration stage aims to connect the results generated by the two main branches of the project: unsupervised analysis and supervised classification.
 
-La etapa de integración busca conectar los resultados generados por las dos ramas principales del proyecto: el análisis no supervisado y la clasificación supervisada.
+In the **unsupervised** branch, the project obtains clusters, topics, similarities, and 2D/3D projections from the vector representations of the poems. These results make it possible to identify emergent patterns without imposing previous labels.
 
-En la rama **no supervisada**, el proyecto obtiene clústeres, tópicos, similitudes y proyecciones 2D/3D a partir de las representaciones vectoriales de los poemas. Estos resultados permiten identificar patrones emergentes sin imponer etiquetas previas.
+In the **supervised** branch, the multilabel model predicts labels or poetic tones based on known categories from the dataset. This prediction makes it possible to assign a more structured reading to each poem.
 
-En la rama **supervisada**, el modelo multilabel predice etiquetas o tonos poéticos a partir de categorías conocidas del dataset. Esta predicción permite asignar una lectura más estructurada a cada poema.
+The integration combines both approaches into a single analysis dataframe, incorporating:
 
-La integración combina ambos enfoques en un único dataframe de análisis, incorporando:
+* clusters generated by `KMeans`, `GaussianMixture`, `AgglomerativeClustering`, and `DBSCAN`;
+* dominant topic estimated through `LatentDirichletAllocation`;
+* main terms associated with the topic;
+* semantic neighbors by cosine similarity;
+* neighbors by Pearson correlation;
+* labels predicted by the supervised model;
+* 2D coordinates generated through `UMAP` or `t-SNE`.
 
-- clústeres generados por `KMeans`, `GaussianMixture`, `AgglomerativeClustering` y `DBSCAN`;
-- tópico dominante estimado mediante `LatentDirichletAllocation`;
-- términos principales asociados al tópico;
-- vecinos semánticos por similitud coseno;
-- vecinos por correlación de Pearson;
-- etiquetas predichas por el modelo supervisado;
-- coordenadas 2D generadas mediante `UMAP` o `t-SNE`.
+With this integrated table, it is possible to answer questions such as:
 
-Con esta tabla integrada es posible responder preguntas como:
+> Do the emergent clusters match the emotions or themes predicted by the supervised model?
 
-> ¿Los clústeres emergentes coinciden con las emociones o temas predichos por el modelo supervisado?
+For example, `cluster_km` can be crossed with `predicted_tags` to observe whether a group of poems mainly contains labels associated with love, death, spirituality, nature, or melancholy.
 
-Por ejemplo, se puede cruzar `cluster_km` contra `predicted_tags` para observar si un grupo de poemas contiene principalmente etiquetas asociadas con amor, muerte, espiritualidad, naturaleza o melancolía.
+This stage closes the analytical cycle of the project: it not only generates embeddings and models, but also builds a combined reading between automatically discovered patterns and labels learned from annotated data.
 
-Esta etapa permite cerrar el ciclo analítico del proyecto: no solo se generan embeddings y modelos, sino que se construye una lectura combinada entre patrones descubiertos automáticamente y etiquetas aprendidas desde datos anotados.
-
-En términos conceptuales:
+Conceptually:
 
 ```text
-Clustering + LDA + Similitud
+Clustering + LDA + Similarity
         +
-Clasificación supervisada
+Supervised classification
         ↓
-Integración de resultados
+Results integration
         ↓
-Interpretación final: emoción + temas emergentes
+Final interpretation: emotion + emergent themes
 ```
 
-El objetivo no es reemplazar la interpretación literaria humana, sino ofrecer una capa computacional que ayude a observar relaciones semánticas, emocionales y estilísticas entre poemas.
+The goal is not to replace human literary interpretation, but to offer a computational layer that helps observe semantic, emotional, and stylistic relationships between poems.
 
-La implementación completa de esta etapa se encuentra en el notebook:
+The complete implementation of this stage is located in the notebook:
 
-- [04_embeddings_unsupervised.ipynb](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/04_embeddings_unsupervised.ipynb)
+* [04_embeddings_unsupervised.ipynb](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/04_embeddings_unsupervised.ipynb)
 
-> Nota: se recomienda visualizar el notebook en `nbviewer`, ya que GitHub no renderiza correctamente algunos diagramas HTML generados por scikit-learn.
+> Note: it is recommended to view the notebook in `nbviewer`, since GitHub does not correctly render some HTML diagrams generated by scikit-learn.
 
+## Notebooks
 
-## 📓 Notebooks
+Some notebooks include interactive diagrams, for example scikit-learn pipelines. GitHub does not render them correctly.
 
-Algunos notebooks incluyen diagramas interactivos (por ejemplo, pipelines de scikit-learn).
-GitHub no los renderiza correctamente.
+For a complete visualization, it is recommended to use **nbviewer**:
 
-Para una visualización completa, se recomienda usar **nbviewer**:
+* [01_cleaning_pipeline.ipynb (nbviewer)](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/01_cleaning_pipeline.ipynb)
+* [02_feature_pipeline.ipynb (nbviewer)](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/02_feature_pipeline.ipynb)
+* [03_embeddings_supervised.ipynb (nbviewer)](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/03_embeddings_supervised.ipynb)
+* [04_embeddings_unsupervised.ipynb (nbviewer)](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/04_embeddings_unsupervised.ipynb)
 
-- [01_cleaning_pipeline.ipynb (nbviewer)](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/01_cleaning_pipeline.ipynb)
-- [02_feature_pipeline.ipynb (nbviewer)](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/02_feature_pipeline.ipynb)
-- [03_embeddings_supervised.ipynb (nbviewer)](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/03_embeddings_supervised.ipynb)
-- [04_embeddings_unsupervised.ipynb (nbviewer)](https://nbviewer.org/github/HubertRonald/VersoVector/blob/main/notebook/04_embeddings_unsupervised.ipynb)
+### Note on Heavy Artifacts
 
-### Nota sobre artefactos pesados
+Feature matrices generated by `FeatureUnion` can be very large, especially after converting them to dense format.
 
-Las matrices de features generadas por `FeatureUnion` pueden ser muy grandes, especialmente después de convertirlas a formato denso. Por esta razón, los archivos binarios pesados (`.joblib`, `.pkl`, `.npy`, `.npz`) no se versionan en GitHub.
+For this reason, heavy binary files such as `.joblib`, `.pkl`, `.npy`, and `.npz` are not versioned in GitHub.
 
-Los notebooks están diseñados para regenerar estos artefactos localmente a partir de `data/poems_processed.csv`.
+The notebooks are designed to regenerate these artifacts locally from `data/poems_processed.csv`.
 
-## ⚙️ Instalación del entorno
+## Environment Setup
 
-Este proyecto fue desarrollado con **Python 3.10.11**.
+This project was developed with **Python 3.10.11**.
 
-Se recomienda crear un entorno virtual:
+It is recommended to create a virtual environment:
 
 ```bash
 python3.10 -m venv .venv
 source .venv/bin/activate
 ```
 
-Instalar dependencias base:
+Install base dependencies:
 
 ```bash
 python -m pip install --upgrade pip setuptools wheel
 pip install -r requirements.txt
 ```
 
-Para trabajar con notebooks y herramientas de desarrollo:
+To work with notebooks and development tools:
 
 ```bash
 pip install -r requirements-dev.txt
 ```
 
-El preprocesamiento usa spaCy con el modelo `en_core_web_lg`, por lo que debe instalarse explícitamente:
+The preprocessing uses spaCy with the `en_core_web_lg` model, so it must be installed explicitly:
 
 ```bash
 python -m spacy download en_core_web_lg
 ```
 
-Opcionalmente, registrar el kernel para Jupyter:
+Optionally, register the kernel for Jupyter:
 
 ```bash
 python -m ipykernel install --user \
@@ -598,28 +540,27 @@ python -m ipykernel install --user \
   --display-name "Python 3.10.11 (VersoVector)"
 ```
 
-
-Limpiar del repo los __pycache__ y/o agregar en el .gitignore
+Remove `__pycache__` directories from the repository or add them to `.gitignore`:
 
 ```bash
 find . -type d -name "__pycache__" -exec rm -rf {} +
 ```
 
-
-Limpiar rutos absolutas de notebooks
+Clear absolute paths from notebooks:
 
 ```bash
 jupyter nbconvert --clear-output --inplace notebook/<NOTEBOOK_NAME>.ipynb
 ```
 
-> **Recomendación práctica:** para trabajar localmente en el repo usar siempre `requirements-dev.txt`; para ejecución mínima o CI ligero, usa `requirements.txt`.
+> Practical recommendation: when working locally in the repository, always use `requirements-dev.txt`; for minimal execution or lightweight CI, use `requirements.txt`.
 
-### Nota sobre UMAP
+### Note on UMAP
 
-La reducción dimensional puede ejecutarse con `UMAP` o `t-SNE`.  
-`UMAP` depende de `numba` y `llvmlite`, paquetes que pueden presentar problemas de instalación en algunos entornos macOS Intel (`x86_64`).
+Dimensionality reduction can be run with `UMAP` or `t-SNE`.
 
-Por esta razón, `umap-learn` se deja como dependencia opcional:
+`UMAP` depends on `numba` and `llvmlite`, packages that may present installation issues in some macOS Intel environments (`x86_64`).
+
+For this reason, `umap-learn` is left as an optional dependency:
 
 ```bash
 pip install -r requirements-umap.txt
@@ -627,23 +568,22 @@ pip install -r requirements-umap.txt
 
 ## .gitignore
 
-Fue generado en [gitignore.io](https://www.toptal.com/developers/gitignore/) con los filtros `python`, `macos`, `windows` y consumido mediante su API como archivo crudo desde la terminal:
+It was generated in [gitignore.io](https://www.toptal.com/developers/gitignore/) with the filters `python`, `macos`, and `windows`, and consumed through its API as a raw file from the terminal:
 
 ```bash
 curl -L https://www.toptal.com/developers/gitignore/api/python,macos,windows > .gitignore
 ```
 
-## 🪶 Autores
+## Authors
 
-- **Hubert Ronald** - *Trabajo Inicial* - [HubertRonald](https://github.com/HubertRonald)
+* **Hubert Ronald** - Initial Work - [HubertRonald](https://github.com/HubertRonald)
+* See also the list of [contributors](https://github.com/HubertRonald/VersoVector/contributors) who participated in this project.
 
-- Ve también la lista de [contribuyentes](https://github.com/HubertRonald/VersoVector/contributors) que participaron en este proyecto.
 
+## License and Copyright
 
-## 📚 Licencia y derechos de autor
+The source code in this repository is distributed under the MIT License. See the [LICENSE](../LICENSE) file for more details.
 
-El código fuente de este proyecto se distribuye bajo licencia MIT - ver la [LICENCIA](../LICENSE) archivo (en inglés) para más detalle.
+This document may reference public-domain poems, open datasets, translations, or third-party textual materials for experimentation, explanation, and model interpretation. These materials may be subject to their own licenses, terms of use, or copyright restrictions and are not automatically covered by the MIT License of this codebase.
 
-Los textos poéticos utilizados (como los de César Vallejo) provienen de **fuentes de dominio público o traducciones disponibles con fines educativos**.
-
-En caso de utilizar materiales con derechos reservados, estos se emplean únicamente para fines de **investigación, análisis lingüístico y demostración académica**, sin fines comerciales.
+For production, commercial deployment, hosted inference, or redistribution of trained model artifacts, dataset and text usage rights should be reviewed separately. A production version of VersoVector should rely only on public-domain, properly licensed, or otherwise cleared textual sources.
