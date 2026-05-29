@@ -14,8 +14,14 @@
     <a href="https://pandas.pydata.org/" target="_blank">
         <img src="https://img.shields.io/badge/Pandas-DataFrames-150458?style=flat-square&logo=pandas&logoColor=white" />
     </a>
+    <a href="https://scipy.org/" target="_blank">
+        <img src="https://img.shields.io/badge/SciPy-Sparse%20Matrix-8CAAE6?style=flat-square&logo=scipy&logoColor=white" />
+    </a>
     <a href="https://matplotlib.org/" target="_blank">
         <img src="https://img.shields.io/badge/Matplotlib-Visualizations-11557C?style=flat-square" />
+    </a>
+    <a href="https://umap-learn.readthedocs.io/" target="_blank">
+        <img src="https://img.shields.io/badge/UMAP-Optional%20Reduction-6A5ACD?style=flat-square" />
     </a>
     <a href="https://jupyter.org/" target="_blank">
         <img src="https://img.shields.io/badge/Jupyter-Notebooks-F37626?style=flat-square&logo=jupyter&logoColor=white" />
