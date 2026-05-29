@@ -452,17 +452,17 @@ $$
 **“Así, el vector no mide rimas, sino resonancias del alma.”** 💫
 
 
-### 🔹 La apariencia “orgánica”
+### 🔹 La apariencia "orgánica"
+|||
+|---|---|
+|<div style="text-align: center; padding: 5px;"><img src="./figs/poemas_2d_umap_clustering_kmeans.png" width="640" /></div>|<div style="text-align: center; padding: 5px;"><img src="./figs/poemas_2d_integracion.png " width="640" /></div>|
+|||
 
-<div style="text-align: center; padding: 5px;">
-    <img src="./figs/poemas_2d_umap_clustering_kmeans.png" />
-</div>
+La proyección 2D permite observar cómo los poemas se distribuyen en un espacio semántico reducido. En algunas corridas con UMAP aparecen ramificaciones o filamentos: poemas que comparten similitudes con varios grupos quedan como “puentes” entre zonas densas.
 
-Las ramificaciones son poemas que comparten similitudes con varios grupos → quedan como “puentes” o “brazos”.
+Los nudos o concentraciones representan regiones donde varios poemas comparten vocabulario, tono o temas cercanos. En poesía esto es esperable: los temas no suelen separarse como islas rígidas, sino que transitan entre dolor, memoria, amor, pérdida, espiritualidad o naturaleza.
 
-Los nudos o concentraciones (zonas densas) son grupos de poemas con vocabulario/emoción muy parecida.
-
-El hecho de que se vean como filamentos o bacterias es porque UMAP estira el espacio para mostrar continuidad entre regiones.
+Cuando se usa t-SNE o una configuración distinta de UMAP, la forma visual puede cambiar. Por eso la figura debe leerse como una proyección exploratoria del espacio semántico, no como una estructura geométrica absoluta.
 
 --- 
 
@@ -617,6 +617,7 @@ Por esta razón, `umap-learn` se deja como dependencia opcional:
 
 ```bash
 pip install -r requirements-umap.txt
+```
 
 ## .gitignore
 
