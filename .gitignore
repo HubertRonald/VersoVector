@@ -249,3 +249,5 @@ artifacts/unsupervised/*
 artifacts/integration/*
 
 !artifacts/**/.gitkeep
+
+mlruns/
