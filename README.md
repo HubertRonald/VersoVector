@@ -42,30 +42,34 @@
 
 ## Overview
 
-VersoVector is an experimental NLP and MLOps project for analyzing poetry in English.
+VersoVector is an emotional-semantic NLP and MLOps project for poetry and lyrical language analysis.
 
-The project builds a semantic analysis pipeline that can:
+The project starts with poetry as a dense form of emotional and symbolic language, using César Vallejo and English poetry corpora as a reference point. Its long-term goal is to evolve into a mood-aware recommendation engine capable of mapping poems, lyrics, and user-provided text into interpretable affective spaces.
 
-* predict poetic tags or emotional themes for a poem;
-* recommend semantically similar poems;
-* project external poets, such as César Vallejo, into a reference corpus learned from Poetry Foundation;
-* combine supervised and unsupervised learning outputs;
-* generate visual artifacts for interpretation and storytelling.
-
-The current implementation is notebook-driven and modularized through reusable Python packages under `modules/`. The next phase is to evolve the project into an MLOps-ready poetry intelligence service using MLflow, FastAPI, Docker, Google Cloud Run, Terraform, and CI/CD.
+VersoVector combines supervised multilabel tag prediction, semantic similarity, topic modeling, clustering, and visual interpretation. The current version is notebook-driven and modularized through reusable Python package sunder `modules/`. The next phase focuses on MLflow tracking, model packaging, FastAPI inference, Docker, Cloud Run deployment, Terraform infrastructure, and CI/CD.
 
 ## Product Vision
 
-The target product is a poetry intelligence API where a user can submit a poem in English and receive:
+The target product is an emotional-semantic recommendation API.
 
-* predicted tags or emotional themes;
-* similar poems from the reference corpus;
-* dominant topic information;
-* cluster assignment;
-* nearest works by semantic similarity;
-* optional 2D visualization metadata.
+Given a poem, lyric-like text, or short user-provided fragment, the system should return:
 
-A future frontend could allow users to upload poems, optionally provide their own tags, and compare the model output against the reference corpus.
+- predicted emotional or thematic tags;
+- semantically similar poems or texts;
+- dominant topics;
+- cluster assignment;
+- explainable similarity signals;
+- optional visualization metadata.
+
+The long-term vision is to support mood-aware discovery for poetic and lyrical content. For copyrighted lyrics, production usage should rely only on licensed, public-domain, metadata-based, or user-provided content.
+
+## Long-Term Vision: From Poetry to Lyrics
+
+VersoVector starts with poetry because poetry provides dense emotional and symbolic language. The long-term vision is to evolve the system into an emotional-semantic recommendation engine for poetic and lyrical content.
+
+The goal is not only to recommend similar texts, but to explain why they feel emotionally close: shared moods, symbolic intensity, topics, semantic neighborhoods, and affective tags.
+
+For lyrical content, the project will avoid storing or redistributing full copyrighted lyrics unless properly licensed. Public demos should rely on public-domain texts, licensed datasets, short excerpts, metadata, or user-provided text.
 
 ## Current Analytical Pipeline
 
