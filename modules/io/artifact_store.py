@@ -3,11 +3,17 @@
 from __future__ import annotations
 
 import json
+import shutil
 from pathlib import Path
 from typing import Any
 
 import joblib
 import pandas as pd
+
+try:
+    import tomllib
+except ModuleNotFoundError:  # Python 3.10 compatibility
+    import tomli as tomllib
 
 from utils import Constants
 
@@ -16,18 +22,23 @@ __all__ = [
     "ARTIFACTS_DIR",
     "DATA_DIR",
     "FIGS_DIR",
+    "project_path",
     "artifact_path",
     "data_path",
     "fig_path",
     "display_path",
     "ensure_dir",
+    "copy_file",
     "save_joblib",
     "load_joblib",
     "save_csv",
     "load_csv",
     "save_json",
     "load_json",
+    "load_toml_config",
+    "get_nested",
 ]
+
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
@@ -36,77 +47,155 @@ DATA_DIR = PROJECT_ROOT / "data"
 FIGS_DIR = PROJECT_ROOT / "figs"
 
 
-def fig_path(*parts: str) -> Path:
-    """Construye una ruta dentro de figs/."""
-    return FIGS_DIR.joinpath(*parts)
-
-
-def ensure_dir(path: Path) -> Path:
-    """Crea un directorio si no existe y retorna el path."""
-    path.mkdir(parents=True, exist_ok=True)
-    return path
+def project_path(*parts: str) -> Path:
+    """Build a path inside the project root."""
+    return PROJECT_ROOT.joinpath(*parts)
 
 
 def artifact_path(*parts: str) -> Path:
-    """Construye una ruta dentro de artifacts/."""
+    """Build a path inside artifacts/."""
     return ARTIFACTS_DIR.joinpath(*parts)
 
 
 def data_path(*parts: str) -> Path:
-    """Construye una ruta dentro de data/."""
+    """Build a path inside data/."""
     return DATA_DIR.joinpath(*parts)
 
 
+def fig_path(*parts: str) -> Path:
+    """Build a path inside figs/."""
+    return FIGS_DIR.joinpath(*parts)
+
+
+def ensure_dir(path: Path) -> Path:
+    """Create a directory if it does not exist and return the path."""
+    path.mkdir(parents=True, exist_ok=True)
+    return path
+
+
+def copy_file(source: str | Path, target: str | Path, required: bool = True) -> bool:
+    """
+    Copy a file from source to target.
+
+    Returns True when the file was copied.
+    If required is False and the source does not exist, returns False.
+    """
+    source = Path(source)
+    target = Path(target)
+
+    if not source.is_file():
+        if required:
+            raise FileNotFoundError(f"Required file not found: {source}")
+        return False
+
+    ensure_dir(target.parent)
+    shutil.copy2(source, target)
+    return True
+
+
 def save_joblib(obj: Any, path: Path) -> Path:
-    """Guarda un objeto serializable con joblib."""
+    """Save a serializable object with joblib."""
     ensure_dir(path.parent)
     joblib.dump(obj, path)
     return path
 
 
 def load_joblib(path: Path) -> Any:
-    """Carga un objeto serializado con joblib."""
+    """Load a joblib artifact."""
     if not path.is_file():
-        raise FileNotFoundError(f"No existe el artifact: {path}")
+        raise FileNotFoundError(f"Artifact not found: {path}")
     return joblib.load(path)
 
 
-def save_csv(df: pd.DataFrame, path: Path, sep: str = Constants.PIPE_STR, encoding: str = Constants.ENCODING) -> Path:
-    """Guarda un DataFrame como CSV."""
+def save_csv(
+    df: pd.DataFrame,
+    path: str | Path,
+    sep: str = Constants.PIPE_STR,
+    encoding: str = Constants.ENCODING,
+) -> Path:
+    """Save a DataFrame as CSV."""
+    path = Path(path)
     ensure_dir(path.parent)
     df.to_csv(path, index=False, sep=sep, encoding=encoding)
     return path
 
 
-def load_csv(path: Path, sep: str = Constants.PIPE_STR, encoding: str = Constants.ENCODING) -> pd.DataFrame:
-    """Carga un CSV como DataFrame."""
+def load_csv(
+        path: str | Path,
+        sep: str = Constants.PIPE_STR,
+        encoding: str = Constants.ENCODING,
+    ) -> pd.DataFrame:
+    """Load a CSV file as a DataFrame."""
+    path = Path(path)
+
     if not path.is_file():
-        raise FileNotFoundError(f"No existe el CSV: {path}")
+        raise FileNotFoundError(f"CSV not found: {path}")
+
     return pd.read_csv(path, sep=sep, encoding=encoding)
 
 
-def save_json(data: dict, path: Path, encoding: str = Constants.ENCODING) -> Path:
-    """Guarda un diccionario como JSON."""
+def save_json(
+        data: dict[str, Any],
+        path: str | Path,
+        encoding: str = Constants.ENCODING,
+    ) -> Path:
+    """Save a dictionary as JSON."""
+    path = Path(path)
     ensure_dir(path.parent)
-    with path.open("w", encoding=encoding) as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+
+    with path.open("w", encoding=encoding) as file:
+        json.dump(data, file, ensure_ascii=False, indent=2)
+
     return path
 
 
-def load_json(path: Path, encoding: str = Constants.ENCODING) -> dict:
-    """Carga un JSON como diccionario."""
+def load_json(
+        path: str | Path,
+        encoding: str = Constants.ENCODING
+    ) -> dict[str, Any]:
+    """Load a JSON file as a dictionary."""
+    path = Path(path)
+
     if not path.is_file():
-        raise FileNotFoundError(f"No existe el JSON: {path}")
-    with path.open("r", encoding=encoding) as f:
-        return json.load(f)
+        raise FileNotFoundError(f"JSON not found: {path}")
+
+    with path.open("r", encoding=encoding) as file:
+        return json.load(file)
+
+
+def load_toml_config(config_path: str | Path) -> dict[str, Any]:
+    """Load a TOML configuration file."""
+    path = Path(config_path)
+
+    if not path.is_absolute():
+        path = project_path(str(path))
+
+    if not path.is_file():
+        raise FileNotFoundError(f"Config file not found: {path}")
+
+    with path.open("rb") as file:
+        return tomllib.load(file)
+
+
+def get_nested(config: dict[str, Any], *keys: str, default: Any = None) -> Any:
+    """Safely read a nested value from a dictionary."""
+    value: Any = config
+
+    for key in keys:
+        if not isinstance(value, dict) or key not in value:
+            return default
+
+        value = value[key]
+
+    return value
 
 
 def display_path(path: Path, include_project_name: bool = True) -> str:
     """
-    Retorna una ruta legible relativa al proyecto para evitar
-    exponer rutas absolutas locales en notebooks.
+    Return a readable path relative to the project root.
 
-    Ejemplo:
+    This avoids exposing absolute local paths in notebooks.
+    Example:
         /VersoVector/data/CleanedPoetryFoundationData.csv
     """
     path = Path(path).resolve()
