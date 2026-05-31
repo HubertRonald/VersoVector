@@ -22,3 +22,6 @@ pyLDAvis==3.4.1
 
 # Statistics
 statsmodels==0.14.2
+
+joblib
+tomli; python_version < "3.11"

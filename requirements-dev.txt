@@ -1,3 +1,7 @@
+# Development dependencies.
+# Install with:
+#   pip install -r requirements-dev.txt
+
 -r requirements.txt
 
 # Notebook environment
@@ -9,9 +13,17 @@ session-info==1.0.0
 
 # Testing
 pytest==8.2.2
+pytest-cov>=4.1.0,<6.0.0
+tox>=4.0.0,<5.0.0
+
+# Packaging
+build>=1.2.0,<2.0.0
+wheel>=0.43.0,<1.0.0
+setuptools>=68.0.0,<76.0.0
 
 # Code quality
 black==24.8.0
 isort==5.13.2
 flake8==7.1.1
 pylint==3.2.7
+mypy>=1.6.0,<2.0.0
