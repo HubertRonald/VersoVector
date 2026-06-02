@@ -18,9 +18,13 @@ input_is_processed = true
 to_dense = false
 normalize = true
 
+[training]
+seed = 42
+
 [supervised]
 model_type = "stacking_classifier"
 min_label_count = 10
+test_size = 0.20
 threshold_strategy = "top_k"
 top_k_tags = 5
 
