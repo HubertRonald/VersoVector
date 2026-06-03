@@ -1,0 +1,81 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "versovector"
+version = "0.1.0"
+description = "Emotional-semantic recommendation for poetic and lyrical language."
+requires-python = ">=3.10,<3.11"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Hubert Ronald" }
+]
+dependencies = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "scikit-learn",
+    "spacy",
+    "nltk",
+    "joblib",
+    "tomli; python_version < '3.11'",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "pytest",
+    "pytest-cov",
+    "tox",
+    "mypy",
+    "build",
+    "wheel",
+    "setuptools",
+    "ipykernel",
+    "jupyter",
+    "session-info",
+]
+mlops = [
+    "mlflow",
+    "cloudpickle",
+    "packaging",
+]
+api = [
+    "fastapi",
+    "uvicorn[standard]",
+    "pydantic",
+    "pydantic-settings",
+    "python-multipart",
+    "typing-extensions",
+    "loguru",
+]
+umap = [
+    "umap-learn",
+]
+
+[tool.setuptools.packages.find]
+where = ["src", "."]
+include = [
+    "versovector*",
+    "modules*",
+    "utils*",
+]
+exclude = [
+    "notebook*",
+    "docs*",
+    "tests*",
+    "artifacts*",
+    "data*",
+    "figs*",
+]
+
+[tool.black]
+line-length = 100
+target-version = ['py310']
+
+[tool.isort]
+profile = "black"
+line_length = 100
+lines_between_sections = 1

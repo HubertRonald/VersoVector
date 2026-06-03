@@ -1,0 +1,10 @@
+# MLOps dependencies for experiment tracking and model registration.
+# Install with:
+#   pip install -r requirements-mlops.txt
+
+-r requirements.txt
+
+pyarrow==14.0.2
+mlflow>=3.6.0,<4.0.0
+cloudpickle>=3.0.0,<4.0.0
+packaging>=24.0,<26.0
