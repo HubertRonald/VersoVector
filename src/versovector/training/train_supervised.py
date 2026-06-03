@@ -6,13 +6,14 @@ import json
 from pathlib import Path
 from typing import Any
 
-import joblib
-import mlflow
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MultiLabelBinarizer
-
+from versovector.training.mlflow_utils import (
+    log_mlflow_artifacts,
+    start_mlflow_run,
+)
 
 from modules.classification import (
     build_fast_multilabel_classifier,
@@ -30,6 +31,8 @@ from modules.io import (
     save_csv,
     save_json,
 )
+from modules.io import load_joblib, save_joblib
+
 
 def parse_args() -> argparse.Namespace:
     """Parse command-line arguments."""
@@ -68,7 +71,7 @@ def main() -> None:
     seed = int(get_nested(config, "training", "seed", default=42))
 
     classifier_model_type = str(
-        get_nested(config, "training", "classifier_model_type", default="stacking_classifier")
+        get_nested(config, "supervised", "model_type", default="stacking_classifier")
     ).strip()
 
     min_label_count = int(
@@ -111,7 +114,7 @@ def main() -> None:
     if not external_df.empty and "tags" in external_df.columns:
         external_df["tags"] = external_df["tags"].apply(parse_tags)
 
-    feature_pipeline = joblib.load(feature_pipeline_path)
+    feature_pipeline = load_joblib(feature_pipeline_path)
 
     reference_texts = reference_df["poem_processed"].astype(str).tolist()
     external_texts = (
@@ -162,11 +165,12 @@ def main() -> None:
         seed=seed,
     )
 
-    mlflow.set_experiment(experiment_name)
+    mlflow_client, mlflow_run = start_mlflow_run(
+        config=config,
+        run_name=f"supervised-{classifier_model_type}-min-label-{min_label_count}",
+    )
 
-    run_name = f"supervised-{classifier_model_type}-min-label-{min_label_count}"
-
-    with mlflow.start_run(run_name=run_name):
+    with mlflow_run:
         classifier.fit(X_train, y_train)
 
         y_pred = classifier.predict(X_test)
@@ -199,8 +203,8 @@ def main() -> None:
         label_metadata_path = supervised_dir / "label_filter_metadata.json"
         model_metadata_path = supervised_dir / "supervised_model_metadata.json"
 
-        joblib.dump(classifier, classifier_path)
-        joblib.dump(mlb, mlb_path)
+        save_joblib(classifier, classifier_path)
+        save_joblib(mlb, mlb_path)
 
         save_csv(metrics_df, metrics_path)
         save_csv(label_summary_df, label_summary_path)
@@ -278,39 +282,41 @@ def main() -> None:
 
         save_json(model_metadata, model_metadata_path)
 
-        params = {
-            "classifier_model_type": classifier_model_type,
-            "min_label_count": min_label_count,
-            "to_dense": bool(get_nested(config, "features", "to_dense", default=False)),
-            "normalize": bool(get_nested(config, "features", "normalize", default=True)),
-            "n_labels": int(len(mlb.classes_)),
-            "n_train": int(len(idx_train)),
-            "n_test": int(len(idx_test)),
-            "n_reference_documents": int(reference_df.shape[0]),
-            "n_external_documents": int(external_df.shape[0]),
-        }
+        if mlflow_client is not None:
+            mlflow_client.log_params(
+                {
+                    "classifier_model_type": classifier_model_type,
+                    "min_label_count": min_label_count,
+                    "to_dense": bool(get_nested(config, "features", "to_dense", default=False)),
+                    "normalize": bool(get_nested(config, "features", "normalize", default=True)),
+                    "n_labels": int(len(mlb.classes_)),
+                    "n_train": int(len(idx_train)),
+                    "n_test": int(len(idx_test)),
+                    "n_reference_documents": int(reference_df.shape[0]),
+                    "n_external_documents": int(external_df.shape[0]),
+                }
+            )
 
-        mlflow.log_params(params)
+            metric_row = metrics_df.iloc[0].to_dict()
 
-        metric_row = metrics_df.iloc[0].to_dict()
-        for key in ["jaccard_micro", "jaccard_macro", "roc_auc_micro"]:
-            value = metric_row.get(key)
-            if value is not None and not pd.isna(value):
-                mlflow.log_metric(key, float(value))
+            for key in ["jaccard_micro", "jaccard_macro", "roc_auc_micro"]:
+                value = metric_row.get(key)
+                if value is not None and not pd.isna(value):
+                    mlflow_client.log_metric(key, float(value))
 
-        mlflow.log_artifact(str(metrics_path))
-        mlflow.log_artifact(str(label_summary_path))
-        mlflow.log_artifact(str(label_metadata_path))
-        mlflow.log_artifact(str(model_metadata_path))
-
-        if feature_metadata_path.is_file():
-            mlflow.log_artifact(str(feature_metadata_path))
-
-        mlflow.log_artifact(str(classifier_path))
-        mlflow.log_artifact(str(mlb_path))
-
-        print("Supervised training completed.")
-        print(f"Run ID: {mlflow.active_run().info.run_id}")
+            log_mlflow_artifacts(
+                mlflow_client,
+                [
+                    metrics_path,
+                    label_summary_path,
+                    label_metadata_path,
+                    model_metadata_path,
+                    classifier_path,
+                    mlb_path,
+                    features_dir / "feature_pipeline_metadata.json",
+                ],
+            )
+            
         print(metrics_df)
 
 

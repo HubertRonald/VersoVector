@@ -19,16 +19,25 @@ register_model.py
 
 expected commands
 
+check SyntaxError
+
 ```bash
-python -m src.versovector.training.build_dataset --config configs/model_config.toml
-python -m src.versovector.training.train_features --config configs/model_config.toml
-python -m src.versovector.training.train_supervised --config configs/model_config.toml
-python -m src.versovector.training.train_unsupervised --config configs/model_config.toml
-python -m src.versovector.training.register_model --config configs/model_config.toml
+python -m py_compile \
+  src/versovector/training/mlflow_utils.py \
+  src/versovector/training/build_dataset.py \
+  src/versovector/training/train_features.py \
+  src/versovector/training/train_supervised.py \
+  src/versovector/training/train_unsupervised.py \
+  src/versovector/training/register_model.py
 ```
 
-next step:
+
+excecute order (search package src and .)
 
 ```bash
-python -m src.versovector.training.pipeline --config configs/model_config.toml
+PYTHONPATH=src:. python -m versovector.training.build_dataset --config configs/model_config.toml && \
+PYTHONPATH=src:. python -m versovector.training.train_features --config configs/model_config.toml && \
+PYTHONPATH=src:. python -m versovector.training.train_supervised --config configs/model_config.toml && \
+PYTHONPATH=src:. python -m versovector.training.train_unsupervised --config configs/model_config.toml && \
+PYTHONPATH=src:. python -m versovector.training.register_model --config configs/model_config.toml
 ```

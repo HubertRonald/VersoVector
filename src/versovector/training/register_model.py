@@ -6,7 +6,9 @@ import shutil
 from pathlib import Path
 from typing import Any
 
-import mlflow
+from versovector.training.mlflow_utils import (
+    start_mlflow_run,
+)
 
 from modules.io import (
     copy_file,
@@ -89,6 +91,7 @@ def main() -> None:
         features_dir / "reference_metadata.csv": model_bundle_dir / "reference_metadata.csv",
         supervised_dir / "supervised_classifier.joblib": model_bundle_dir / "supervised_classifier.joblib",
         supervised_dir / "multilabel_binarizer.joblib": model_bundle_dir / "multilabel_binarizer.joblib",
+        unsupervised_dir / "nearest_neighbors.joblib": model_bundle_dir / "nearest_neighbors.joblib",
     }
 
     for source, target in required_files.items():
@@ -106,6 +109,8 @@ def main() -> None:
         unsupervised_dir / "gmm_model.joblib": model_bundle_dir / "gmm_model.joblib",
         unsupervised_dir / "unsupervised_metadata.json": model_bundle_dir / "unsupervised_metadata.json",
         unsupervised_dir / "unsupervised_results.csv": model_bundle_dir / "unsupervised_results.csv",
+        unsupervised_dir / "dimensionality_reducer.joblib": model_bundle_dir / "dimensionality_reducer.joblib",
+        unsupervised_dir / "lda_topics.csv": model_bundle_dir / "lda_topics.csv",
     }
 
     copied_optional = []
@@ -124,16 +129,28 @@ def main() -> None:
 
     save_json(bundle_metadata, model_bundle_dir / "model_metadata.json")
 
-    mlflow.set_experiment(experiment_name)
+    mlflow_client, mlflow_run = start_mlflow_run(
+        config=config,
+        run_name="register-model-bundle",
+    )
 
-    with mlflow.start_run(run_name="register-model-bundle"):
-        mlflow.log_param("registered_model_name", registered_model_name)
-        mlflow.log_param("bundle_dir", "artifacts/model_bundle")
-        mlflow.log_artifacts(str(model_bundle_dir), artifact_path="model_bundle")
+    with mlflow_run:
+        if mlflow_client is not None:
+            mlflow_client.log_param(
+                "registered_model_name",
+                registered_model_name,
+            )
+            mlflow_client.log_param(
+                "bundle_dir",
+                "artifacts/model_bundle",
+            )
+            mlflow_client.log_artifacts(
+                str(model_bundle_dir),
+                artifact_path="model_bundle",
+            )
 
-        print("Model bundle built and logged to MLflow.")
-        print(f"Bundle path: {model_bundle_dir}")
-        print(f"Run ID: {mlflow.active_run().info.run_id}")
+            print("Model bundle logged to MLflow.")
+            print(f"Run ID: {mlflow_client.active_run().info.run_id}")
 
 
 if __name__ == "__main__":

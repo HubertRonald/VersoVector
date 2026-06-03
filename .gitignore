@@ -242,12 +242,23 @@ data/CleanedPoetryFoundationData.csv
 # lectures:
 src/cvpoems
 
-# artifacts
+# ML artifacts
 artifacts/features/*
 artifacts/supervised/*
 artifacts/unsupervised/*
 artifacts/integration/*
+artifacts/model_bundle/*
 
+# Keep folder placeholders
 !artifacts/**/.gitkeep
 
+# MLflow local tracking
 mlruns/
+mlflow.db
+
+# Large ML binaries
+*.joblib
+*.pkl
+*.pickle
+*.npy
+*.npz

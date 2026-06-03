@@ -36,6 +36,7 @@ kmax = 8
 similarity_metric = "cosine"
 
 [mlflow]
+enabled = true
 experiment_name = "versovector-emotional-semantic-recommender"
 registered_model_name = "versovector-poem-analyzer"
 
