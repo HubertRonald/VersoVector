@@ -19,7 +19,7 @@ register_model.py
 
 expected commands
 
-check SyntaxError
+check SyntaxError training
 
 ```bash
 python -m py_compile \
@@ -40,4 +40,50 @@ PYTHONPATH=src:. python -m versovector.training.train_features --config configs/
 PYTHONPATH=src:. python -m versovector.training.train_supervised --config configs/model_config.toml && \
 PYTHONPATH=src:. python -m versovector.training.train_unsupervised --config configs/model_config.toml && \
 PYTHONPATH=src:. python -m versovector.training.register_model --config configs/model_config.toml
+```
+
+
+check SyntaxError inference
+
+```bash
+python -m py_compile \
+  src/versovector/inference/__init__.py \
+  src/versovector/inference/artifact_loader.py \
+  src/versovector/inference/poem_analyzer.py \
+  src/versovector/inference/schemas.py \
+  src/versovector/inference/similarity_search.py \
+  src/versovector/inference/tag_predictor.py \
+  src/versovector/inference/topic_clusterer.py
+```
+
+test local 
+
+first launch
+
+```bash
+PYTHONPATH=src:. python -m versovector.training.train_unsupervised \
+  --config configs/model_config.toml
+
+PYTHONPATH=src:. python -m versovector.training.register_model \
+  --config configs/model_config.toml
+```
+
+after
+
+```bash
+PYTHONPATH=src:. python - <<'PY'
+from versovector.inference import PoemAnalyzer
+
+analyzer = PoemAnalyzer.from_bundle("artifacts/model_bundle")
+
+result = analyzer.analyze_dict(
+    title="test poem",
+    poet="anonymous",
+    poem="I walk through the rain carrying a memory of light.",
+    top_k_tags=5,
+    top_n_similar=5,
+)
+
+print(result)
+PY
 ```
