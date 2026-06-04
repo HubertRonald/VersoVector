@@ -19,6 +19,7 @@ register_model.py
 
 expected commands
 
+
 check SyntaxError training
 
 ```bash
