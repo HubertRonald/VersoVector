@@ -88,3 +88,51 @@ result = analyzer.analyze_dict(
 print(result)
 PY
 ```
+
+
+check SyntaxError API
+
+```bash
+python -m py_compile \
+  src/versovector/api/__init__.py \
+  src/versovector/api/dependencies.py \
+  src/versovector/api/main.py \
+  src/versovector/api/schemas.py \
+  src/versovector/api/settings.py
+```
+
+
+first launch api
+
+```bash
+PYTHONPATH=src:. uvicorn versovector.api.main:app \
+  --host 0.0.0.0 \
+  --port 8001 \
+  --reload
+```
+
+helth api:
+
+```bash
+curl http://localhost:8001/health | jq .
+```
+
+model info
+
+```bash
+curl http://localhost:8001/v1/model-info | jq .
+```
+
+test analysis
+
+```bash
+curl -X POST http://localhost:8001/v1/analyze \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "test poem",
+    "poet": "anonymous",
+    "poem": "I walk through the rain carrying a memory of light.",
+    "top_k_tags": 5,
+    "top_n_similar": 5
+  }' | jq .
+```
