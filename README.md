@@ -71,6 +71,11 @@ The goal is not only to recommend similar texts, but to explain why they feel em
 
 For lyrical content, the project will avoid storing or redistributing full copyrighted lyrics unless properly licensed. Public demos should rely on public-domain texts, licensed datasets, short excerpts, metadata, or user-provided text.
 
+## Documentation
+
+- [Model topology](docs/model_topology.md)
+- [Python package guide](src/versovector/README.md)
+
 ## Current Analytical Pipeline
 
 The current pipeline is organized as six reproducible notebooks:
