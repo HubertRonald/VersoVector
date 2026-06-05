@@ -703,7 +703,10 @@ requirements.txt
     Core runtime dependencies.
 
 requirements-dev.txt
-    Notebooks, tests, linting, formatting, packaging.
+    Development dependencies: tests, notebooks, linting, formatting, and packaging.
+
+requirements-test.txt
+    Test-only dependencies for unit and integration tests.
 
 requirements-mlops.txt
     MLflow and model tracking dependencies.
