@@ -1,4 +1,3 @@
-
 <p align="left">
     <a href="https://www.python.org/" target="_blank">
         <img src="https://img.shields.io/badge/Python-3.10.11-3670A0?style=flat-square&logo=python&logoColor=ffdd54" />
@@ -27,14 +26,21 @@
     <a href="https://jupyter.org/" target="_blank">
         <img src="https://img.shields.io/badge/Jupyter-Notebooks-F37626?style=flat-square&logo=jupyter&logoColor=white" />
     </a>
-    <a href="https://mermaid.js.org/" target="_blank">
-        <img src="https://img.shields.io/badge/Mermaid-Diagrams-FF3670?style=flat-square&logo=mermaid&logoColor=white" />
+    <a href="https://mlflow.org/" target="_blank">
+        <img src="https://img.shields.io/badge/MLflow-Tracking-0194E2?style=flat-square&logo=mlflow&logoColor=white" />
     </a>
-    <a href="https://code.visualstudio.com/download" target="_blank">
-        <img src="https://img.shields.io/badge/VS%20Code-Editor-007ACC?style=flat-square&logo=visualstudiocode&logoColor=white" />
+    <a href="https://fastapi.tiangolo.com/" target="_blank">
+        <img src="https://img.shields.io/badge/FastAPI-Serving-009688?style=flat-square&logo=fastapi&logoColor=white" />
     </a>
-    <img src="https://img.shields.io/github/last-commit/HubertRonald/VersoVector?style=flat-square" />
-    <img src="https://img.shields.io/github/commit-activity/t/HubertRonald/VersoVector?style=flat-square&color=dodgerblue" />
+    <a href="https://cloud.google.com/run" target="_blank">
+        <img src="https://img.shields.io/badge/Cloud%20Run-Target%20Deploy-4285F4?style=flat-square&logo=googlecloud&logoColor=white" />
+    </a>
+    <a href="https://www.terraform.io/" target="_blank">
+        <img src="https://img.shields.io/badge/Terraform-IaC-844FBA?style=flat-square&logo=terraform&logoColor=white" />
+    </a>
+    <a href="https://github.com/features/actions" target="_blank">
+        <img src="https://img.shields.io/badge/GitHub%20Actions-CI%2FCD-2088FF?style=flat-square&logo=githubactions&logoColor=white" />
+    </a>
     <img src="https://img.shields.io/github/license/HubertRonald/VersoVector?style=flat-square&color=success" />
 </p>
 
@@ -44,9 +50,20 @@
 
 VersoVector is an emotional-semantic NLP and MLOps project for poetry and lyrical language analysis.
 
-The project starts with poetry as a dense form of emotional and symbolic language, using César Vallejo and English poetry corpora as a reference point. Its long-term goal is to evolve into a mood-aware recommendation engine capable of mapping poems, lyrics, and user-provided text into interpretable affective spaces.
+The project starts with poetry as a dense form of emotional and symbolic language, using César Vallejo and English poetry corpora as a key reference point. Its long-term goal is to evolve into a mood-aware recommendation engine capable of mapping poems, lyric-like text, and user-provided fragments into interpretable affective spaces.
 
-VersoVector combines supervised multilabel tag prediction, semantic similarity, topic modeling, clustering, and visual interpretation. The current version is notebook-driven and modularized through reusable Python package sunder `modules/`. The next phase focuses on MLflow tracking, model packaging, FastAPI inference, Docker, Cloud Run deployment, Terraform infrastructure, and CI/CD.
+VersoVector combines supervised multilabel tag prediction, semantic similarity, topic modeling, clustering, visual interpretation, model packaging, and API serving.
+
+The project is currently transitioning from notebook-based experimentation into a reproducible MLOps workflow with:
+
+* script-based training;
+* MLflow experiment tracking;
+* model bundle packaging;
+* local inference through `PoemAnalyzer`;
+* FastAPI serving;
+* future Docker and Cloud Run deployment;
+* future Terraform infrastructure;
+* future GitHub Actions CI/CD.
 
 ## Product Vision
 
@@ -54,31 +71,37 @@ The target product is an emotional-semantic recommendation API.
 
 Given a poem, lyric-like text, or short user-provided fragment, the system should return:
 
-- predicted emotional or thematic tags;
-- semantically similar poems or texts;
-- dominant topics;
-- cluster assignment;
-- explainable similarity signals;
-- optional visualization metadata.
+* predicted emotional or thematic tags;
+* semantically similar poems or texts;
+* dominant topic information;
+* cluster assignment;
+* explainable similarity signals;
+* optional visualization metadata.
 
-The long-term vision is to support mood-aware discovery for poetic and lyrical content. For copyrighted lyrics, production usage should rely only on licensed, public-domain, metadata-based, or user-provided content.
+The long-term vision is to support mood-aware discovery for poetic and lyrical content.
+
+For copyrighted lyrics, production usage should rely only on licensed, public-domain, metadata-based, short-excerpt, or user-provided content. Public demos should avoid storing or redistributing full copyrighted lyrics unless properly licensed.
 
 ## Long-Term Vision: From Poetry to Lyrics
 
-VersoVector starts with poetry because poetry provides dense emotional and symbolic language. The long-term vision is to evolve the system into an emotional-semantic recommendation engine for poetic and lyrical content.
+VersoVector starts with poetry because poetry provides dense emotional and symbolic language.
 
-The goal is not only to recommend similar texts, but to explain why they feel emotionally close: shared moods, symbolic intensity, topics, semantic neighborhoods, and affective tags.
+The long-term vision is to evolve the system into an emotional-semantic recommendation engine for poetic and lyrical content.
 
-For lyrical content, the project will avoid storing or redistributing full copyrighted lyrics unless properly licensed. Public demos should rely on public-domain texts, licensed datasets, short excerpts, metadata, or user-provided text.
+The goal is not only to recommend similar texts, but to explain why they feel emotionally close:
 
-## Documentation
+* shared moods;
+* symbolic intensity;
+* semantic neighborhoods;
+* dominant topics;
+* affective tags;
+* interpretability signals.
 
-- [Model topology](docs/model_topology.md)
-- [Python package guide](src/versovector/README.md)
+A future version could support mood-aware discovery for music, lyrics, journaling, education, literary exploration, and creative recommendation systems.
 
 ## Current Analytical Pipeline
 
-The current pipeline is organized as six reproducible notebooks:
+The current analytical pipeline is organized as six reproducible notebooks:
 
 | Notebook                                       | Purpose                                                                                           |
 | ---------------------------------------------- | ------------------------------------------------------------------------------------------------- |
@@ -89,38 +112,44 @@ The current pipeline is organized as six reproducible notebooks:
 | `05_supervised_unsupervised_integration.ipynb` | Integrates supervised predictions with unsupervised outputs.                                      |
 | `06_visualizations.ipynb`                      | Generates final visualizations from integration artifacts.                                        |
 
-The detailed model topology, feature engineering flow, and mathematical notes are documented separately in:
+Additional documentation:
 
-```text
-docs/model_topology.md
-```
-
-or, during the notebook-first phase:
-
-```text
-notebook/README.md
-```
+* [`docs/model_topology.md`](docs/model_topology.md): conceptual model topology and modeling rationale.
+* [`notebook/README.md`](notebook/README.md): notebook-first analytical guide.
+* [`src/versovector/README.md`](src/versovector/README.md): Python package guide for training, inference, and API serving.
 
 ## Repository Structure
 
 ```text
 VersoVector/
 ├── artifacts/                 # Generated artifacts, mostly ignored by Git
+├── configs/                   # Project and model configuration
 ├── data/                      # Raw and processed local datasets
 ├── docs/                      # Technical documentation and model topology
 ├── figs/                      # Figures used by notebooks and README
-├── modules/                   # Reusable project modules
+├── modules/                   # Reusable analytical project modules
 │   ├── classification/
 │   ├── clustering/
 │   ├── evaluation/
 │   ├── features/
 │   ├── integration/
 │   ├── io/
-│   └── preprocesing/
+│   └── preprocessing/
 ├── notebook/                  # Analytical notebooks 01–06
+├── services/                  # Future service packaging and deployment assets
+├── src/
+│   └── versovector/
+│       ├── training/          # Scripted training pipeline
+│       ├── inference/         # Model bundle loading and analysis logic
+│       └── api/               # FastAPI serving layer
+├── utils/                     # Shared constants and utility helpers
 ├── requirements.txt
 ├── requirements-dev.txt
+├── requirements-mlops.txt
+├── requirements-api.txt
+├── requirements-frontend.txt
 ├── requirements-umap.txt
+├── pyproject.toml
 └── README.md
 ```
 
@@ -128,7 +157,7 @@ VersoVector/
 
 VersoVector combines supervised and unsupervised NLP methods.
 
-### Supervised branch
+### Supervised Branch
 
 The supervised branch predicts multilabel poetic tags using a sparse normalized feature representation and a multilabel classifier.
 
@@ -144,21 +173,22 @@ OneVsRestClassifier
 
 The sparse pipeline avoids converting the full feature matrix to a dense representation, which significantly improves runtime and memory usage.
 
-### Unsupervised branch
+### Unsupervised Branch
 
 The unsupervised branch generates:
 
 * cosine similarity recommendations;
+* nearest-neighbor search;
 * LDA topic modeling;
 * KMeans and GMM cluster assignments;
 * exploratory Agglomerative and DBSCAN clusters;
 * 2D UMAP or t-SNE projections.
 
-For clustering, the pipeline avoids densifying the full sparse matrix. Instead, dimensionality reduction is applied first, then clustering is performed on the reduced dense representation.
+For clustering, the pipeline avoids densifying the full sparse matrix. Dimensionality reduction is applied first, then clustering is performed on the reduced dense representation.
 
 ## Key Design Principles
 
-### Reference vs external corpus
+### Reference vs External Corpus
 
 The project separates the corpus into two roles:
 
@@ -169,7 +199,7 @@ The project separates the corpus into two roles:
 
 This avoids fitting the vector space directly on external poems and makes extrapolation clearer.
 
-### Stable poem identity
+### Stable Poem Identity
 
 Every poem receives a unique technical identifier:
 
@@ -179,7 +209,7 @@ poem_id
 
 This avoids joining outputs by non-unique fields such as title, poet, source, or corpus role.
 
-### Sparse-first pipeline
+### Sparse-First Pipeline
 
 The main feature pipeline is sparse and normalized:
 
@@ -193,13 +223,25 @@ build_feature_pipeline(
 
 Dense matrices are only created after dimensionality reduction when required by downstream algorithms.
 
-## MLOps Roadmap
+### Artifact-First Serving
 
-The notebook pipeline is the analytical foundation. The next phase is to convert the project into a production-oriented MLOps workflow.
+The serving layer does not retrain models.
 
-### Phase 1 — Scripted training
+It consumes a generated model bundle:
 
-Move notebook logic into reproducible scripts:
+```text
+artifacts/model_bundle/
+```
+
+This keeps training, packaging, inference, and API serving clearly separated.
+
+## MLOps Workflow
+
+The notebook pipeline is the analytical foundation. The MLOps workflow turns that foundation into reproducible scripts and deployable artifacts.
+
+### Phase 1 — Scripted Training
+
+Notebook logic is exposed through reproducible scripts:
 
 ```text
 src/versovector/training/
@@ -207,12 +249,23 @@ src/versovector/training/
 ├── train_features.py
 ├── train_supervised.py
 ├── train_unsupervised.py
-└── register_model.py
+├── register_model.py
+└── mlflow_utils.py
 ```
 
-### Phase 2 — MLflow experiment tracking
+The scripts are mapped to the notebook pipeline:
 
-Use MLflow to track:
+| Script                  | Notebook equivalent                | Purpose                                          |
+| ----------------------- | ---------------------------------- | ------------------------------------------------ |
+| `build_dataset.py`      | `01_cleaning_pipeline.ipynb`       | Builds the processed corpus.                     |
+| `train_features.py`     | `02_feature_pipeline.ipynb`        | Fits and serializes the shared feature pipeline. |
+| `train_supervised.py`   | `03_embeddings_supervised.ipynb`   | Trains the supervised multilabel classifier.     |
+| `train_unsupervised.py` | `04_embeddings_unsupervised.ipynb` | Generates unsupervised artifacts.                |
+| `register_model.py`     | Model packaging step               | Builds `artifacts/model_bundle/`.                |
+
+### Phase 2 — MLflow Experiment Tracking
+
+MLflow is used to track:
 
 * parameters;
 * metrics;
@@ -221,31 +274,89 @@ Use MLflow to track:
 * dataset versions;
 * model versions.
 
-MLflow Tracking records runs with metadata, metrics, parameters, start/end times, and artifacts, making it suitable for comparing model experiments over time.
+MLflow support is optional and controlled by:
 
-### Phase 3 — Model packaging
+```toml
+[mlflow]
+enabled = true
+```
 
-Package the trained system as a model bundle:
+If MLflow is disabled, the scripts can run without MLflow installed.
+
+### Phase 3 — Model Packaging
+
+The trained system is packaged as a model bundle:
 
 ```text
 artifacts/model_bundle/
+├── model_config.toml
+├── model_metadata.json
 ├── feature_pipeline.joblib
 ├── supervised_classifier.joblib
 ├── multilabel_binarizer.joblib
 ├── nearest_neighbors.joblib
 ├── reference_metadata.csv
-├── topic_model.joblib
-├── cluster_models.joblib
-└── model_config.toml
+├── lda_model.joblib
+├── lda_count_vectorizer.joblib
+├── dimensionality_reducer.joblib
+├── kmeans_model.joblib
+├── gmm_model.joblib
+├── lda_topics.csv
+├── supervised_metrics.csv
+├── unsupervised_metadata.json
+└── unsupervised_results.csv
 ```
 
-The first deployable product should be a single `PoemAnalyzer` bundle that can return tags, similar poems, topics, and clusters.
+The first deployable product is a single `PoemAnalyzer` bundle that can return tags, similar poems, topics, and clusters.
 
-### Phase 4 — FastAPI inference service
+### Phase 4 — Inference Package
 
-Expose the model through a REST API:
+The inference layer loads a generated model bundle and exposes reusable Python components:
 
 ```text
+src/versovector/inference/
+├── artifact_loader.py
+├── poem_analyzer.py
+├── schemas.py
+├── similarity_search.py
+├── tag_predictor.py
+└── topic_clusterer.py
+```
+
+Example local usage:
+
+```python
+from versovector.inference import PoemAnalyzer
+
+analyzer = PoemAnalyzer.from_bundle("artifacts/model_bundle")
+
+result = analyzer.analyze_dict(
+    title="test poem",
+    poet="anonymous",
+    poem="I walk through the rain carrying a memory of light.",
+    top_k_tags=5,
+    top_n_similar=5,
+)
+
+print(result)
+```
+
+### Phase 5 — FastAPI Serving Layer
+
+The API layer exposes the inference package through FastAPI:
+
+```text
+src/versovector/api/
+├── dependencies.py
+├── main.py
+├── schemas.py
+└── settings.py
+```
+
+Current endpoints:
+
+```text
+GET  /
 GET  /health
 GET  /v1/model-info
 POST /v1/analyze
@@ -260,11 +371,13 @@ Example request:
   "title": "Untitled",
   "poet": "anonymous",
   "poem": "I walk through the rain carrying a memory...",
-  "user_tags": ["memory", "sadness"]
+  "user_tags": ["memory", "sadness"],
+  "top_k_tags": 5,
+  "top_n_similar": 5
 }
 ```
 
-Example response:
+Example response shape:
 
 ```json
 {
@@ -281,7 +394,7 @@ Example response:
   ],
   "topic": {
     "topic_id": 3,
-    "terms": ["death", "night", "heart", "god", "pain"]
+    "terms": "death, night, heart, god, pain"
   },
   "cluster": {
     "kmeans": 2,
@@ -290,25 +403,41 @@ Example response:
 }
 ```
 
-### Phase 5 — Cloud Run deployment
+### Phase 6 — Docker and Services
+
+The `services/` directory is intended for service-level packaging and deployment assets.
+
+It is not the same as `tests/`.
+
+Expected future responsibilities:
+
+```text
+services/
+├── api/              # API Docker/service packaging
+└── frontend/         # Optional frontend or demo app
+```
+
+The API service should consume the Python package and load a generated model bundle.
+
+### Phase 7 — Cloud Run Deployment
 
 The target serving architecture is:
 
 ```text
 User
   ↓
-Frontend Cloud Run service
+Frontend service
   ↓
-Orchestrator API Cloud Run service
+VersoVector API service
   ↓
 PoemAnalyzer model bundle
   ↓
 Model artifacts / MLflow registry / GCS
 ```
 
-Cloud Run is a managed platform for running containerized applications invoked through requests or events.
+Cloud Run is the target platform for containerized serving.
 
-### Phase 6 — Infrastructure as Code
+### Phase 8 — Infrastructure as Code
 
 Terraform will be used to define and version cloud infrastructure, including:
 
@@ -320,19 +449,16 @@ Terraform will be used to define and version cloud infrastructure, including:
 * secrets;
 * CI/CD permissions.
 
-Terraform is an infrastructure-as-code tool for safely building, changing, and versioning infrastructure.
-
-### Phase 7 — CI/CD
+### Phase 9 — CI/CD
 
 GitHub Actions will be used to automate:
 
 * linting;
-* tests;
+* unit tests;
+* integration tests;
 * Docker image builds;
 * model validation;
 * deployment to Cloud Run.
-
-GitHub Actions supports automated software workflows, including CI/CD workflows directly from the repository.
 
 ## Local Setup
 
@@ -343,17 +469,29 @@ python3.10 -m venv .venv
 source .venv/bin/activate
 ```
 
-Install dependencies:
+Install core dependencies:
 
 ```bash
 pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-Install development dependencies if needed:
+Install development dependencies:
 
 ```bash
 pip install -r requirements-dev.txt
+```
+
+Install MLOps dependencies:
+
+```bash
+pip install -r requirements-mlops.txt
+```
+
+Install API dependencies:
+
+```bash
+pip install -r requirements-api.txt
 ```
 
 Install optional UMAP dependencies:
@@ -374,7 +512,7 @@ Start Jupyter:
 jupyter notebook
 ```
 
-## Running the Analytical Pipeline
+## Running the Analytical Notebook Pipeline
 
 Run notebooks in order:
 
@@ -397,6 +535,189 @@ data/
 
 Large local artifacts are not intended to be committed to Git.
 
+## Running the Scripted Training Pipeline
+
+Run from the repository root:
+
+```bash
+PYTHONPATH=src:. python -m versovector.training.build_dataset \
+  --config configs/model_config.toml && \
+PYTHONPATH=src:. python -m versovector.training.train_features \
+  --config configs/model_config.toml && \
+PYTHONPATH=src:. python -m versovector.training.train_supervised \
+  --config configs/model_config.toml && \
+PYTHONPATH=src:. python -m versovector.training.train_unsupervised \
+  --config configs/model_config.toml && \
+PYTHONPATH=src:. python -m versovector.training.register_model \
+  --config configs/model_config.toml
+```
+
+`PYTHONPATH=src:.` allows Python to resolve both:
+
+```text
+src/versovector/
+modules/
+utils/
+```
+
+This is useful during the transition phase while reusable analytical logic still lives under `modules/`.
+
+## Running the API Locally
+
+Start the API:
+
+```bash
+PYTHONPATH=src:. uvicorn versovector.api.main:app \
+  --host 0.0.0.0 \
+  --port 8001 \
+  --reload
+```
+
+Health check:
+
+```bash
+curl http://localhost:8001/health | jq .
+```
+
+Model information:
+
+```bash
+curl http://localhost:8001/v1/model-info | jq .
+```
+
+Full analysis:
+
+```bash
+curl -X POST http://localhost:8001/v1/analyze \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "test poem",
+    "poet": "anonymous",
+    "poem": "I walk through the rain carrying a memory of light.",
+    "top_k_tags": 5,
+    "top_n_similar": 5
+  }' | jq .
+```
+
+Tag prediction:
+
+```bash
+curl -X POST http://localhost:8001/v1/predict-tags \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "test poem",
+    "poet": "anonymous",
+    "poem": "I walk through the rain carrying a memory of light.",
+    "top_k_tags": 5
+  }' | jq .
+```
+
+Similarity search:
+
+```bash
+curl -X POST http://localhost:8001/v1/similar \
+  -H "Content-Type: application/json" \
+  -d '{
+    "title": "test poem",
+    "poet": "anonymous",
+    "poem": "I walk through the rain carrying a memory of light.",
+    "top_n_similar": 5
+  }' | jq .
+```
+
+## Testing Strategy
+
+Testing is planned as a separate quality layer.
+
+The recommended structure is:
+
+```text
+tests/
+├── unit/
+│   ├── test_preprocessing.py
+│   ├── test_artifact_store.py
+│   ├── test_inference_schemas.py
+│   ├── test_similarity_search.py
+│   └── test_tag_predictor.py
+└── integration/
+    ├── test_model_bundle_loading.py
+    ├── test_poem_analyzer_end_to_end.py
+    └── test_api_endpoints.py
+```
+
+### Unit Tests
+
+Unit tests should validate isolated Python components without requiring a full model bundle.
+
+Examples:
+
+* text cleaning and tag parsing;
+* artifact path helpers;
+* schema serialization;
+* similarity result formatting;
+* tag ranking logic.
+
+### Integration Tests
+
+Integration tests should validate that multiple layers work together.
+
+Examples:
+
+* loading a minimal test model bundle;
+* running `PoemAnalyzer.analyze_dict`;
+* calling FastAPI endpoints with `TestClient`;
+* validating API response shapes.
+
+### Services vs Integration Tests
+
+The `services/` directory is for deployment packaging and service-level assets.
+
+The `tests/integration/` directory is for validating interactions between components.
+
+They are related, but not the same thing:
+
+```text
+services/
+    How the API or frontend is packaged and deployed.
+
+tests/integration/
+    Whether components work together correctly.
+```
+
+### Test Commands
+
+Once tests are added:
+
+```bash
+pytest tests/unit
+pytest tests/integration
+pytest --cov=src --cov=modules tests/
+```
+
+## Dependency Groups
+
+The project separates dependencies by purpose:
+
+```text
+requirements.txt
+    Core runtime dependencies.
+
+requirements-dev.txt
+    Notebooks, tests, linting, formatting, packaging.
+
+requirements-mlops.txt
+    MLflow and model tracking dependencies.
+
+requirements-api.txt
+    FastAPI serving dependencies.
+
+requirements-frontend.txt
+    Optional frontend/demo dependencies.
+
+requirements-umap.txt
+    Optional UMAP dependencies.
+```
+
 ## Artifact Policy
 
 The repository does not version large generated artifacts such as:
@@ -409,9 +730,21 @@ The repository does not version large generated artifacts such as:
 *.npz
 ```
 
-These artifacts are regenerated locally from notebooks or future training scripts.
+Ignored generated paths include:
 
-The long-term MLOps version will store model artifacts in a dedicated artifact store, such as MLflow artifacts or Google Cloud Storage.
+```text
+artifacts/features/*
+artifacts/supervised/*
+artifacts/unsupervised/*
+artifacts/integration/*
+artifacts/model_bundle/*
+mlruns/
+mlflow.db
+```
+
+These artifacts are regenerated locally from notebooks or training scripts.
+
+A production MLOps version should store model artifacts in a dedicated artifact store, such as MLflow artifacts or Google Cloud Storage.
 
 ## Figures
 
@@ -434,42 +767,40 @@ figs/cluster_topic_matrix.png
 
 ## Current Status
 
-The project is currently in the notebook-to-MLOps transition stage.
-
 Completed:
 
 * modular notebook pipeline;
-* reusable feature, classification, clustering, evaluation, I/O and integration modules;
+* reusable feature, classification, clustering, evaluation, I/O, preprocessing, and integration modules;
 * supervised multilabel classifier;
-* unsupervised similarity, topic and clustering outputs;
+* unsupervised similarity, topic, and clustering outputs;
 * integration artifacts;
-* final visualizations.
+* final visualizations;
+* script-based training layer;
+* optional MLflow helper utilities;
+* model bundle packaging;
+* inference package through `PoemAnalyzer`;
+* FastAPI serving layer.
 
 Next:
 
-* move training logic from notebooks into scripts;
-* add MLflow tracking;
-* define a `PoemAnalyzer` inference class;
-* package a model bundle;
-* expose a FastAPI service;
-* containerize the service;
-* deploy to Cloud Run;
+* add unit tests;
+* add integration tests;
+* add Docker packaging under `services/api/`;
+* add optional frontend or demo service;
+* deploy the API to Cloud Run;
 * manage infrastructure with Terraform;
-* automate CI/CD with GitHub Actions.
+* automate linting, tests, image builds, and deployment with GitHub Actions.
 
 ## .gitignore
 
-It was generated in [gitignore.io](https://www.toptal.com/developers/gitignore/) with the filters `python`, `macos`, and `windows`, and consumed through its API as a raw file from the terminal:
+The base `.gitignore` was generated from [gitignore.io](https://www.toptal.com/developers/gitignore/) with the filters `python`, `macos`, and `windows`.
 
-```bash
-curl -L https://www.toptal.com/developers/gitignore/api/python,macos,windows > .gitignore
-```
+Additional project-specific ignore rules exclude generated datasets, model artifacts, MLflow local files, and large binary files.
 
 ## Authors
 
 * **Hubert Ronald** - Initial Work - [HubertRonald](https://github.com/HubertRonald)
 * See also the list of [contributors](https://github.com/HubertRonald/VersoVector/contributors) who participated in this project.
-
 
 ## License and Copyright
 
