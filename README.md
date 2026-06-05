@@ -99,11 +99,6 @@ The goal is not only to recommend similar texts, but to explain why they feel em
 
 A future version could support mood-aware discovery for music, lyrics, journaling, education, literary exploration, and creative recommendation systems.
 
-## Documentation
-
-- [Model topology](docs/model_topology.md)
-- [Python package guide](src/versovector/README.md)
-
 ## Current Analytical Pipeline
 
 The current analytical pipeline is organized as six reproducible notebooks:
@@ -708,7 +703,10 @@ requirements.txt
     Core runtime dependencies.
 
 requirements-dev.txt
-    Notebooks, tests, linting, formatting, packaging.
+    Development dependencies: tests, notebooks, linting, formatting, and packaging.
+
+requirements-test.txt
+    Test-only dependencies for unit and integration tests.
 
 requirements-mlops.txt
     MLflow and model tracking dependencies.

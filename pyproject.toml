@@ -79,3 +79,17 @@ target-version = ['py310']
 profile = "black"
 line_length = 100
 lines_between_sections = 1
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "."]
+filterwarnings = [
+    "ignore:Importing 'parser\\.split_arg_string' is deprecated.*:DeprecationWarning",
+    "ignore:Using `httpx` with `starlette\\.testclient` is deprecated.*",
+]
+
+[tool.coverage.run]
+omit = [
+    "src/preprocessing/*",
+    "modules/preprocessing/cli_clean_text.py",
+]
