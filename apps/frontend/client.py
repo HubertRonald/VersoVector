@@ -86,6 +86,7 @@ def analyze_poem(
     return post_json("/v1/analyze", payload)
 
 
+'''
 def predict_tags(
         poem: str,
         title: str | None = None,
@@ -124,3 +125,4 @@ def find_similar(
     }
 
     return post_json("/v1/similar", payload)
+'''
