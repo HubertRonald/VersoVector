@@ -505,7 +505,7 @@ input {
     .vv-similarity-cell {
         justify-content: flex-start;
     }
-
+}
 
 /* Suggested tag chips */
 #suggested-tags {
@@ -564,6 +564,301 @@ input {
     font-weight: 800;
 }
 
+/* ---------------------------------------------------------
+   VersoVector v0.7 visual correction layer
+   --------------------------------------------------------- */
+
+:root {
+    --vv-green: #315F4A;
+    --vv-green-dark: #163D2F;
+    --vv-green-soft: #EEF5EF;
+    --vv-green-soft-2: #F4F8F3;
+    --vv-green-muted: #6F8F7A;
+    --vv-teal: #527C70;
+    --vv-button: #315F4A;
+    --vv-button-hover: #284E3D;
+    --vv-label-bg: #EEF5EF;
+    --vv-label-text: #315F4A;
+    --vv-label-border: #CFE0D4;
+    --vv-premium-bg: #FBF2D8;
+    --vv-premium-border: #E2C878;
+    --vv-premium-text: #6A531F;
+}
+
+/* Override Gradio theme tokens */
+#vv-app-shell,
+.gradio-container {
+    --button-primary-background-fill: #315F4A !important;
+    --button-primary-background-fill-hover: #284E3D !important;
+    --button-primary-text-color: #FFFDF8 !important;
+    --checkbox-label-background-fill-selected: #EEF5EF !important;
+    --checkbox-label-border-color-selected: #315F4A !important;
+    --checkbox-label-text-color-selected: #163D2F !important;
+    --block-label-background-fill: #EEF5EF !important;
+    --block-label-text-color: #315F4A !important;
+    --block-label-border-color: #CFE0D4 !important;
+    --slider-color: #315F4A !important;
+}
+
+/* Logo: clean feather, no card border */
+.vv-logo {
+    width: 54px !important;
+    height: 54px !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    display: grid !important;
+    place-items: center !important;
+}
+
+.vv-logo-svg {
+    width: 48px !important;
+    height: 48px !important;
+}
+
+.vv-logo-svg path {
+    fill: none !important;
+    stroke: var(--vv-green) !important;
+    stroke-width: 3.1 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+}
+
+/* Inline SVG icons: prevent huge black icons */
+.vv-svg-icon,
+.vv-row-icon,
+.vv-book-icon,
+.vv-gear-icon {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: var(--vv-green) !important;
+    flex: 0 0 auto !important;
+}
+
+.vv-svg-icon {
+    width: 18px !important;
+    height: 18px !important;
+}
+
+.vv-row-icon {
+    width: 24px !important;
+    height: 24px !important;
+}
+
+.vv-book-icon {
+    width: 20px !important;
+    height: 20px !important;
+    margin-right: 8px !important;
+    color: var(--vv-teal) !important;
+    vertical-align: middle !important;
+}
+
+.vv-gear-icon {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 12px !important;
+    background: var(--vv-green-soft) !important;
+    color: var(--vv-green) !important;
+}
+
+.vv-svg-icon svg,
+.vv-row-icon svg,
+.vv-book-icon svg,
+.vv-gear-icon svg {
+    width: 18px !important;
+    height: 18px !important;
+    display: block !important;
+}
+
+.vv-gear-icon svg {
+    width: 19px !important;
+    height: 19px !important;
+}
+
+.vv-svg-icon svg path,
+.vv-svg-icon svg circle,
+.vv-row-icon svg path,
+.vv-row-icon svg circle,
+.vv-book-icon svg path,
+.vv-book-icon svg circle,
+.vv-gear-icon svg path,
+.vv-gear-icon svg circle {
+    fill: none !important;
+    stroke: currentColor !important;
+    stroke-width: 2.1 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
+}
+
+/* Predicted tag icons */
+.vv-tag-name {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.vv-tag-name .vv-row-icon {
+    color: var(--vv-green) !important;
+}
+
+/* Similar poems table */
+.vv-table td:first-child {
+    display: table-cell !important;
+    vertical-align: middle !important;
+}
+
+.vv-table td:first-child .vv-book-icon {
+    position: relative !important;
+    top: 3px !important;
+}
+
+.vv-table {
+    border-color: var(--vv-border) !important;
+}
+
+.vv-table th,
+.vv-table td {
+    border-color: rgba(229, 222, 210, 0.85) !important;
+}
+
+/* Primary button: forest/sage, not fluorescent */
+.vv-primary-button {
+    margin: 18px 0 16px 0 !important;
+}
+
+.vv-primary-button button,
+.vv-primary-button button.primary,
+.vv-primary-button .primary,
+button.primary {
+    min-height: 50px !important;
+    background: linear-gradient(90deg, var(--vv-button), var(--vv-button-hover)) !important;
+    border: 1px solid rgba(22, 61, 47, 0.18) !important;
+    color: #FFFDF8 !important;
+    border-radius: 14px !important;
+    font-weight: 750 !important;
+    box-shadow: 0 12px 26px rgba(49, 95, 74, 0.22) !important;
+}
+
+.vv-primary-button button:hover,
+.vv-primary-button button.primary:hover,
+button.primary:hover {
+    background: linear-gradient(90deg, var(--vv-button-hover), #203F31) !important;
+    color: #FFFDF8 !important;
+}
+
+/* Advanced accordion spacing */
+.vv-advanced-accordion {
+    margin-top: 10px !important;
+}
+
+.vv-advanced-heading {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin: 8px 0 18px 0;
+    padding: 14px 16px;
+    border: 1px solid var(--vv-border);
+    border-radius: 16px;
+    background: var(--vv-green-soft-2);
+}
+
+.vv-advanced-heading strong {
+    color: var(--vv-green-dark);
+    font-size: 15px;
+}
+
+.vv-advanced-heading p {
+    margin: 4px 0 0 0;
+    color: var(--vv-muted);
+    font-size: 13px;
+}
+
+/* Premium / advanced badge: sand, not purple */
+.vv-premium-badge {
+    background: var(--vv-premium-bg) !important;
+    color: var(--vv-premium-text) !important;
+    border-color: var(--vv-premium-border) !important;
+}
+
+/* Softer Gradio block labels */
+.gradio-container span[data-testid="block-label"],
+.gradio-container .block-label {
+    background: var(--vv-label-bg) !important;
+    color: var(--vv-label-text) !important;
+    border-color: var(--vv-label-border) !important;
+}
+
+/* Suggested tag chips: remove fluorescent Gradio green */
+#suggested-tags {
+    --checkbox-label-background-fill: #F7F5EF !important;
+    --checkbox-label-background-fill-selected: #EEF5EF !important;
+    --checkbox-label-border-color: #E5DED2 !important;
+    --checkbox-label-border-color-selected: #315F4A !important;
+    --checkbox-label-text-color: #294D3D !important;
+    --checkbox-label-text-color-selected: #163D2F !important;
+}
+
+#suggested-tags .wrap,
+#suggested-tags .wrap-inner {
+    gap: 10px !important;
+}
+
+#suggested-tags label {
+    position: relative !important;
+    border-radius: 999px !important;
+    border: 1px solid var(--vv-border) !important;
+    background: #F7F5EF !important;
+    color: var(--vv-green-dark) !important;
+    padding: 8px 14px !important;
+    box-shadow: 0 6px 14px rgba(52, 45, 35, 0.06) !important;
+}
+
+#suggested-tags label span {
+    color: var(--vv-green-dark) !important;
+}
+
+#suggested-tags input[type="checkbox"] {
+    opacity: 0 !important;
+    position: absolute !important;
+    width: 0 !important;
+    height: 0 !important;
+    pointer-events: none !important;
+}
+
+#suggested-tags label::before {
+    content: "";
+    display: inline-grid;
+    place-items: center;
+    width: 15px;
+    height: 15px;
+    margin-right: 8px;
+    border-radius: 999px;
+    background: #FFFDF8;
+    border: 1px solid var(--vv-border);
+    color: #FFFDF8;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+#suggested-tags label:has(input:checked) {
+    background: var(--vv-green-soft) !important;
+    border-color: var(--vv-green) !important;
+    color: var(--vv-green-dark) !important;
+    box-shadow: inset 0 0 0 1px rgba(49, 95, 74, 0.24), 0 6px 14px rgba(52, 45, 35, 0.06) !important;
+}
+
+#suggested-tags label:has(input:checked)::before {
+    content: "✓";
+    background: var(--vv-green);
+    border-color: var(--vv-green);
+    color: #FFFDF8;
+}
+
+/* Sliders: forest/sage */
+input[type="range"] {
+    accent-color: var(--vv-green) !important;
 }
 """
 
@@ -594,10 +889,10 @@ def merge_tags(selected_tags: list[str] | None, custom_tags: str | None) -> list
 
 LOGO_SVG = """
 <svg class="vv-logo-svg" viewBox="0 0 72 72" aria-hidden="true">
-    <path class="vv-logo-leaf" d="M13 52C20 31 36 16 59 10C55 32 37 49 13 52Z"/>
-    <path class="vv-logo-vein" d="M15 51C27 40 40 26 58 11"/>
-    <path class="vv-logo-vein" d="M28 39C25 35 24 30 27 25"/>
-    <path class="vv-logo-vein" d="M39 28C36 25 36 21 39 17"/>
+    <path d="M13 51C22 31 38 17 59 10C54 31 38 47 13 51Z"/>
+    <path d="M15 50C29 38 42 25 58 11"/>
+    <path d="M25 40C24 34 26 29 31 24"/>
+    <path d="M37 29C36 24 39 20 44 16"/>
 </svg>
 """
 
@@ -720,7 +1015,7 @@ def build_app() -> gr.Blocks:
         title=APP_TITLE,
         css=CUSTOM_CSS,
         theme=gr.themes.Soft(
-            primary_hue="green",
+            primary_hue="stone",
             secondary_hue="stone",
             neutral_hue="stone",
         ),
@@ -773,7 +1068,7 @@ def build_app() -> gr.Blocks:
                     )
 
                     analyze_button = gr.Button(
-                        "❦ Analyze poem",
+                        "Analyze poem",
                         variant="primary",
                         elem_classes=["vv-primary-button"],
                     )
@@ -781,10 +1076,23 @@ def build_app() -> gr.Blocks:
                     with gr.Accordion(
                         "Advanced options",
                         open=False,
-                        elem_classes=["vv-accordion"],
+                        elem_classes=["vv-accordion", "vv-advanced-accordion"],
                     ):
-                        gr.Markdown(
-                            "Adjust analysis behavior and thresholds. These controls are optional."
+                        gr.HTML(
+                            """
+                            <div class="vv-advanced-heading">
+                                <span class="vv-gear-icon">
+                                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                                        <path d="M12 8.5A3.5 3.5 0 1 1 12 15.5A3.5 3.5 0 0 1 12 8.5Z"/>
+                                        <path d="M19 12A7.2 7.2 0 0 0 18.9 10.8L21 9.2L19 5.8L16.5 6.8A7 7 0 0 0 14.5 5.6L14.2 3H9.8L9.5 5.6A7 7 0 0 0 7.5 6.8L5 5.8L3 9.2L5.1 10.8A7.2 7.2 0 0 0 5 12A7.2 7.2 0 0 0 5.1 13.2L3 14.8L5 18.2L7.5 17.2A7 7 0 0 0 9.5 18.4L9.8 21H14.2L14.5 18.4A7 7 0 0 0 16.5 17.2L19 18.2L21 14.8L18.9 13.2A7.2 7.2 0 0 0 19 12Z"/>
+                                    </svg>
+                                </span>
+                                <div>
+                                    <strong>Advanced options</strong>
+                                    <p>Adjust analysis behavior and thresholds. These controls are optional.</p>
+                                </div>
+                            </div>
+                            """
                         )
 
                         custom_tags_input = gr.Textbox(
