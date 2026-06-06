@@ -8,7 +8,7 @@ import gradio as gr
 import pandas as pd
 import requests
 
-from client import analyze_poem, get_api_base_url, health_check
+from client import analyze_poem, get_api_base_url, health_check, readiness_check
 
 
 APP_TITLE = "VersoVector"
@@ -184,19 +184,28 @@ def run_analysis(
 
 
 def run_health_check() -> str:
-    """Run API health check."""
+    """Run API health and readiness checks."""
+    result: dict[str, Any] = {
+        "api_base_url": get_api_base_url(),
+    }
+
     try:
-        result = health_check()
-        return json.dumps(result, ensure_ascii=False, indent=2)
+        result["health"] = health_check()
     except requests.RequestException as exc:
-        return json.dumps(
-            {
-                "status": "error",
-                "api_base_url": get_api_base_url(),
-                "detail": str(exc),
-            },
-            indent=2,
-        )
+        result["health"] = {
+            "status": "error",
+            "detail": str(exc),
+        }
+
+    try:
+        result["readiness"] = readiness_check()
+    except requests.RequestException as exc:
+        result["readiness"] = {
+            "status": "error",
+            "detail": str(exc),
+        }
+
+    return json.dumps(result, ensure_ascii=False, indent=2)
 
 
 def build_app() -> gr.Blocks:

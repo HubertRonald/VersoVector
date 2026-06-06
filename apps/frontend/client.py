@@ -7,7 +7,9 @@ import requests
 
 
 DEFAULT_API_BASE_URL = "http://localhost:8001"
-DEFAULT_TIMEOUT_SECONDS = 60
+DEFAULT_TIMEOUT_SECONDS = int(
+    os.getenv("VERSOVECTOR_API_TIMEOUT_SECONDS", "300")
+)
 
 
 def get_api_base_url() -> str:
@@ -51,6 +53,11 @@ def get_json(
 def health_check() -> dict[str, Any]:
     """Call the API health endpoint."""
     return get_json("/health")
+
+
+def readiness_check() -> dict[str, Any]:
+    """Call the API readiness endpoint."""
+    return get_json("/ready")
 
 
 def analyze_poem(

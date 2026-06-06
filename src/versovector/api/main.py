@@ -79,6 +79,16 @@ def register_routes(app: FastAPI) -> None:
             app_version=settings.app_version,
             model_bundle_dir=settings.model_bundle_dir,
         )
+    
+    @app.get("/ready", tags=["Health"])
+    def readiness(
+            analyzer: PoemAnalyzer = Depends(get_poem_analyzer),
+        ) -> dict[str, str]:
+        """Return readiness information after loading the model bundle."""
+        return {
+            "status": "ready",
+            "bundle_dir": str(analyzer.bundle.bundle_dir),
+        }
 
     @app.get(
         "/v1/model-info",
