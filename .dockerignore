@@ -1,0 +1,38 @@
+# Git and local environment
+.git
+.gitignore
+.venv
+venv
+env
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+.mypy_cache
+.ruff_cache
+.ipynb_checkpoints
+
+# Local data and artifacts
+data/
+artifacts/
+mlruns/
+mlflow.db
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+*.whl
+*.tar.gz
+
+# Notebook and docs outputs
+figs/
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# OS files
+.DS_Store
+Thumbs.db

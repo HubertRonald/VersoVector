@@ -1,59 +1,102 @@
 [build-system]
-requires = ["setuptools>=68", "wheel"]
+requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "versovector"
-version = "0.1.0"
+version = "0.6.0"
 description = "Emotional-semantic recommendation for poetic and lyrical language."
-requires-python = ">=3.10,<3.11"
 readme = "README.md"
-license = { file = "LICENSE" }
+requires-python = ">=3.10,<3.11"
+license = "MIT"
+license-files = ["LICENSE"]
 authors = [
     { name = "Hubert Ronald" }
 ]
+keywords = [
+    "nlp",
+    "mlops",
+    "poetry-analysis",
+    "semantic-similarity",
+    "recommendation",
+    "emotional-semantic",
+    "mood-aware",
+]
+classifiers = [
+    "Programming Language :: Python :: 3.10",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Linguistic",
+]
+
 dependencies = [
-    "numpy",
-    "pandas",
-    "scipy",
-    "scikit-learn",
-    "spacy",
-    "nltk",
-    "joblib",
-    "tomli; python_version < '3.11'",
+    "numpy>=1.26.0,<3.0.0",
+    "pandas>=2.2.0,<3.0.0",
+    "scipy>=1.11.0,<2.0.0",
+    "scikit-learn>=1.4.0,<2.0.0",
+    "spacy>=3.7.0,<4.0.0",
+    "nltk>=3.8.0,<4.0.0",
+    "Unidecode>=1.3.0,<2.0.0",
+    "joblib>=1.3.0,<2.0.0",
+    "tomli>=2.0.0,<3.0.0; python_version < '3.11'",
 ]
 
 [project.optional-dependencies]
+test = [
+    "pytest==8.2.2",
+    "pytest-cov>=4.1.0,<6.0.0",
+    "httpx>=0.27.0,<1.0.0",
+]
+
 dev = [
-    "black",
-    "pytest",
-    "pytest-cov",
-    "tox",
-    "mypy",
-    "build",
-    "wheel",
-    "setuptools",
-    "ipykernel",
-    "jupyter",
-    "session-info",
+    "notebook==7.2.2",
+    "ipykernel==6.29.5",
+    "jupyterlab==4.2.5",
+    "nbconvert==7.16.4",
+    "session-info==1.0.0",
+    "pytest==8.2.2",
+    "pytest-cov>=4.1.0,<6.0.0",
+    "tox>=4.0.0,<5.0.0",
+    "build>=1.2.0,<2.0.0",
+    "wheel>=0.43.0,<1.0.0",
+    "setuptools>=68.0.0,<76.0.0",
+    "black==24.8.0",
+    "isort==5.13.2",
+    "flake8==7.1.1",
+    "pylint==3.2.7",
+    "mypy>=1.6.0,<2.0.0",
 ]
+
 mlops = [
-    "mlflow",
-    "cloudpickle",
-    "packaging",
+    "mlflow>=3.6.0,<4.0.0",
+    "cloudpickle>=3.0.0,<4.0.0",
+    "packaging>=24.0,<26.0",
 ]
+
 api = [
-    "fastapi",
-    "uvicorn[standard]",
-    "pydantic",
-    "pydantic-settings",
-    "python-multipart",
-    "typing-extensions",
-    "loguru",
+    "fastapi>=0.115.0,<1.0.0",
+    "uvicorn[standard]>=0.29.0,<1.0.0",
+    "pydantic>=2.12.0,<3.0.0",
+    "pydantic-settings>=2.6.0,<3.0.0",
+    "python-multipart>=0.0.7,<1.0.0",
+    "typing-extensions>=4.8.0,<5.0.0",
+    "loguru>=0.7.0,<1.0.0",
 ]
+
+frontend = [
+    "gradio>=5.0.0,<6.0.0",
+    "requests>=2.31.0,<3.0.0",
+    "pandas>=2.2.0,<3.0.0",
+]
+
 umap = [
-    "umap-learn",
+    "umap-learn>=0.5.6,<1.0.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/HubertRonald/VersoVector"
+Repository = "https://github.com/HubertRonald/VersoVector"
+Documentation = "https://github.com/HubertRonald/VersoVector/tree/main/docs"
 
 [tool.setuptools.packages.find]
 where = ["src", "."]
@@ -63,17 +106,20 @@ include = [
     "utils*",
 ]
 exclude = [
+    "apps*",
+    "services*",
+    "tests*",
     "notebook*",
     "docs*",
-    "tests*",
     "artifacts*",
     "data*",
     "figs*",
+    "mlruns*",
 ]
 
 [tool.black]
 line-length = 100
-target-version = ['py310']
+target-version = ["py310"]
 
 [tool.isort]
 profile = "black"
@@ -89,7 +135,19 @@ filterwarnings = [
 ]
 
 [tool.coverage.run]
+branch = true
+source = ["src", "modules"]
 omit = [
     "src/preprocessing/*",
     "modules/preprocessing/cli_clean_text.py",
 ]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+warn_unused_ignores = true
+warn_redundant_casts = true

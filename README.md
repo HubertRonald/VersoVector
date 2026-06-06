@@ -460,6 +460,124 @@ GitHub Actions will be used to automate:
 * model validation;
 * deployment to Cloud Run.
 
+## Packaging and Services Foundation
+
+VersoVector now includes an initial packaging and local services foundation.
+
+This layer prepares the project for containerized execution by separating Python package code, user-facing applications, and service-level deployment assets.
+
+```text
+apps/
+└── frontend/
+    ├── README.md
+    ├── app.py
+    ├── client.py
+    └── assets/
+
+services/
+├── api/
+│   ├── Dockerfile
+│   ├── README.md
+│   └── .dockerignore
+├── frontend/
+│   ├── Dockerfile
+│   ├── README.md
+│   └── .dockerignore
+└── compose.yaml
+```
+
+### Python Package Build
+
+The project uses `pyproject.toml` as the package metadata and build configuration source.
+
+A local wheel can be generated with:
+
+```bash
+python -m build
+```
+
+The generated files are written to:
+
+```text
+dist/
+├── versovector-0.6.0-py3-none-any.whl
+└── versovector-0.6.0.tar.gz
+```
+
+The `dist/` directory is a generated build output and should not be committed to Git.
+
+The wheel packages project code, including:
+
+```text
+src/versovector/
+modules/
+utils/
+```
+
+It does not include generated model artifacts such as:
+
+```text
+artifacts/model_bundle/
+*.joblib
+mlruns/
+mlflow.db
+```
+
+### Local Services
+
+The services layer currently defines two local services:
+
+* `api`: FastAPI backend powered by `PoemAnalyzer`.
+* `frontend`: Gradio demo app that calls the API over HTTP.
+
+Run both services locally with Docker Compose:
+
+```bash
+docker compose -f services/compose.yaml up --build
+```
+
+Local URLs:
+
+```text
+API:
+    http://localhost:8001
+
+API docs:
+    http://localhost:8001/docs
+
+Frontend:
+    http://localhost:7860
+```
+
+### Model Bundle Strategy
+
+In this foundation stage, the API image does not bake model artifacts into the container.
+
+Instead, the local model bundle is mounted as a read-only volume:
+
+```text
+artifacts/model_bundle:/app/artifacts/model_bundle:ro
+```
+
+This keeps code packaging and model artifact management separated.
+
+For future Cloud Run deployment, the model bundle should be retrieved from a controlled artifact location such as Google Cloud Storage, Artifact Registry, or an MLflow artifact store.
+
+### Frontend Direction
+
+The first frontend is implemented with Gradio because it is well suited for interactive AI demos.
+
+The frontend allows users to:
+
+* submit a poem or lyric-like fragment;
+* request emotional or thematic tag prediction;
+* retrieve semantically similar poems;
+* inspect topic and cluster information;
+* review the raw API response.
+
+The frontend does not load model artifacts directly. It communicates with the FastAPI backend.
+
+
 ## Local Setup
 
 Create a virtual environment:
