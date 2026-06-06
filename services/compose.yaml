@@ -25,6 +25,7 @@ services:
     environment:
       PORT: "7860"
       VERSOVECTOR_API_BASE_URL: "http://api:8001"
+      VERSOVECTOR_API_TIMEOUT_SECONDS: "300"
     depends_on:
       - api
     restart: unless-stopped
