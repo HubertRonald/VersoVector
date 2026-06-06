@@ -32,8 +32,14 @@
     <a href="https://fastapi.tiangolo.com/" target="_blank">
         <img src="https://img.shields.io/badge/FastAPI-Serving-009688?style=flat-square&logo=fastapi&logoColor=white" />
     </a>
+    <a href="https://www.gradio.app/" target="_blank">
+        <img src="https://img.shields.io/badge/Gradio-Frontend-F97316?style=flat-square&logo=gradio&logoColor=white" />
+    </a>
+    <a href="https://www.docker.com/" target="_blank">
+        <img src="https://img.shields.io/badge/Docker-Services-2496ED?style=flat-square&logo=docker&logoColor=white" />
+    </a>
     <a href="https://cloud.google.com/run" target="_blank">
-        <img src="https://img.shields.io/badge/Cloud%20Run-Target%20Deploy-4285F4?style=flat-square&logo=googlecloud&logoColor=white" />
+        <img src="https://img.shields.io/badge/Cloud%20Run-Blueprint-4285F4?style=flat-square&logo=googlecloud&logoColor=white" />
     </a>
     <a href="https://www.terraform.io/" target="_blank">
         <img src="https://img.shields.io/badge/Terraform-IaC-844FBA?style=flat-square&logo=terraform&logoColor=white" />
@@ -41,6 +47,7 @@
     <a href="https://github.com/features/actions" target="_blank">
         <img src="https://img.shields.io/badge/GitHub%20Actions-CI%2FCD-2088FF?style=flat-square&logo=githubactions&logoColor=white" />
     </a>
+    <img src="https://img.shields.io/github/last-commit/HubertRonald/VersoVector?style=flat-square" />
     <img src="https://img.shields.io/github/license/HubertRonald/VersoVector?style=flat-square&color=success" />
 </p>
 
@@ -52,24 +59,28 @@ VersoVector is an emotional-semantic NLP and MLOps project for poetry and lyrica
 
 The project starts with poetry as a dense form of emotional and symbolic language, using César Vallejo and English poetry corpora as a key reference point. Its long-term goal is to evolve into a mood-aware recommendation engine capable of mapping poems, lyric-like text, and user-provided fragments into interpretable affective spaces.
 
-VersoVector combines supervised multilabel tag prediction, semantic similarity, topic modeling, clustering, visual interpretation, model packaging, and API serving.
+VersoVector combines:
 
-The project is currently transitioning from notebook-based experimentation into a reproducible MLOps workflow with:
-
-* script-based training;
-* MLflow experiment tracking;
-* model bundle packaging;
-* local inference through `PoemAnalyzer`;
+* supervised multilabel tag prediction;
+* semantic similarity;
+* topic modeling;
+* clustering;
+* visual interpretation;
+* model packaging;
+* inference through a reusable Python package;
 * FastAPI serving;
-* future Docker and Cloud Run deployment;
-* future Terraform infrastructure;
-* future GitHub Actions CI/CD.
+* a Gradio frontend product experience;
+* Docker-based local services;
+* testing;
+* a sanitized Google Cloud deployment blueprint.
+
+This public repository is designed as a portfolio-grade implementation. It demonstrates the technical and product direction of the system while intentionally excluding production-only assets such as real cloud project identifiers, secrets, billing configuration, private datasets, authentication logic, premium access control, analytics pipelines, and production infrastructure state.
 
 ## Product Vision
 
-The target product is an emotional-semantic recommendation API.
+The target product is an emotional-semantic recommendation API and user-facing analysis experience.
 
-Given a poem, lyric-like text, or short user-provided fragment, the system should return:
+Given a poem, lyric-like text, or short user-provided fragment, the system can return:
 
 * predicted emotional or thematic tags;
 * semantically similar poems or texts;
@@ -97,7 +108,52 @@ The goal is not only to recommend similar texts, but to explain why they feel em
 * affective tags;
 * interpretability signals.
 
-A future version could support mood-aware discovery for music, lyrics, journaling, education, literary exploration, and creative recommendation systems.
+A future version could support mood-aware discovery for music, lyrics, journaling, education, literary exploration, libraries, editorial platforms, ecommerce catalog enrichment, and creative recommendation systems.
+
+## GCP Deployment Blueprint
+
+The public repository includes a sanitized Google Cloud deployment blueprint.
+
+This blueprint shows how VersoVector could be deployed as a containerized emotional-semantic recommendation system using Cloud Run, Artifact Registry, Terraform, Docker services, and optional MLflow or remote artifact storage.
+
+![VersoVector GCP Architecture](figs/VersoVector-GCP-Architecture.png)
+
+The diagram separates the public portfolio architecture from the private production-only layer.
+
+Public repository scope:
+
+```text
+architecture
+demo frontend
+FastAPI backend
+Docker services
+tests
+documentation
+sanitized Terraform blueprint
+```
+
+Private production scope:
+
+```text
+real GCP projects
+real IAM bindings
+secrets
+billing
+authentication
+premium features
+analytics
+production monitoring
+private datasets
+deployment state
+```
+
+The Terraform blueprint lives under:
+
+```text
+infra/gcp-cloud-run-blueprint/
+```
+
+It is intentionally generic and does not include real production values.
 
 ## Current Analytical Pipeline
 
@@ -112,22 +168,35 @@ The current analytical pipeline is organized as six reproducible notebooks:
 | `05_supervised_unsupervised_integration.ipynb` | Integrates supervised predictions with unsupervised outputs.                                      |
 | `06_visualizations.ipynb`                      | Generates final visualizations from integration artifacts.                                        |
 
-Additional documentation:
+## Additional Documentation
 
-* [`docs/model_topology.md`](docs/model_topology.md): conceptual model topology and modeling rationale.
-* [`notebook/README.md`](notebook/README.md): notebook-first analytical guide.
+The project documentation is split by layer:
+
+* [`docs/model_topology.md`](docs/model_topology.md): conceptual model topology, modeling rationale, and feature flow.
+* [`notebook/README.md`](notebook/README.md): notebook-first analytical guide for the exploratory pipeline.
 * [`src/versovector/README.md`](src/versovector/README.md): Python package guide for training, inference, and API serving.
+* [`apps/README.md`](apps/README.md): application-layer documentation for user-facing apps.
+* [`apps/frontend/README.md`](apps/frontend/README.md): Gradio frontend documentation and local execution guide.
+* [`services/README.md`](services/README.md): local services overview and Docker Compose guide.
+* [`services/api/README.md`](services/api/README.md): FastAPI service packaging and local Docker execution.
+* [`services/frontend/README.md`](services/frontend/README.md): frontend service packaging and Docker execution.
+* [`tests/README.md`](tests/README.md): unit and integration testing strategy.
+* [`infra/gcp-cloud-run-blueprint/README.md`](infra/gcp-cloud-run-blueprint/README.md): sanitized Cloud Run deployment blueprint.
 
 ## Repository Structure
 
 ```text
 VersoVector/
-├── artifacts/                 # Generated artifacts, mostly ignored by Git
-├── configs/                   # Project and model configuration
-├── data/                      # Raw and processed local datasets
-├── docs/                      # Technical documentation and model topology
-├── figs/                      # Figures used by notebooks and README
-├── modules/                   # Reusable analytical project modules
+├── apps/
+│   └── frontend/                 # Gradio user-facing demo application
+├── artifacts/                    # Generated artifacts, mostly ignored by Git
+├── configs/                      # Project and model configuration
+├── data/                         # Raw and processed local datasets
+├── docs/                         # Technical documentation and model topology
+├── figs/                         # Figures used by notebooks and README
+├── infra/
+│   └── gcp-cloud-run-blueprint/  # Sanitized Terraform blueprint for public portfolio use
+├── modules/                      # Reusable analytical project modules
 │   ├── classification/
 │   ├── clustering/
 │   ├── evaluation/
@@ -135,21 +204,29 @@ VersoVector/
 │   ├── integration/
 │   ├── io/
 │   └── preprocessing/
-├── notebook/                  # Analytical notebooks 01–06
-├── services/                  # Future service packaging and deployment assets
+├── notebook/                     # Analytical notebooks 01–06
+├── services/
+│   ├── api/                      # FastAPI Docker/service packaging
+│   ├── frontend/                 # Gradio Docker/service packaging
+│   └── compose.yaml              # Local API + frontend orchestration
 ├── src/
 │   └── versovector/
-│       ├── training/          # Scripted training pipeline
-│       ├── inference/         # Model bundle loading and analysis logic
-│       └── api/               # FastAPI serving layer
-├── utils/                     # Shared constants and utility helpers
+│       ├── training/             # Scripted training pipeline
+│       ├── inference/            # Model bundle loading and analysis logic
+│       └── api/                  # FastAPI serving layer
+├── tests/
+│   ├── unit/                     # Unit tests
+│   └── integration/              # Integration tests
+├── utils/                        # Shared constants and utility helpers
 ├── requirements.txt
 ├── requirements-dev.txt
+├── requirements-test.txt
 ├── requirements-mlops.txt
 ├── requirements-api.txt
 ├── requirements-frontend.txt
 ├── requirements-umap.txt
 ├── pyproject.toml
+├── tox.ini
 └── README.md
 ```
 
@@ -233,7 +310,7 @@ It consumes a generated model bundle:
 artifacts/model_bundle/
 ```
 
-This keeps training, packaging, inference, and API serving clearly separated.
+This keeps training, packaging, inference, API serving, and frontend usage clearly separated.
 
 ## MLOps Workflow
 
@@ -358,6 +435,7 @@ Current endpoints:
 ```text
 GET  /
 GET  /health
+GET  /ready
 GET  /v1/model-info
 POST /v1/analyze
 POST /v1/predict-tags
@@ -403,66 +481,146 @@ Example response shape:
 }
 ```
 
-### Phase 6 — Docker and Services
+### Phase 6 — Testing Foundation
 
-The `services/` directory is intended for service-level packaging and deployment assets.
+The project includes a separate testing layer for unit and integration validation.
 
-It is not the same as `tests/`.
+The test suite is intended to validate:
 
-Expected future responsibilities:
+* preprocessing utilities;
+* artifact loading helpers;
+* inference schemas;
+* tag prediction logic;
+* similarity search formatting;
+* model bundle loading;
+* `PoemAnalyzer` end-to-end execution;
+* FastAPI endpoints through `TestClient`.
+
+### Phase 7 — Packaging and Services
+
+VersoVector includes a packaging and local services foundation.
+
+This layer separates Python package code, user-facing applications, and service-level deployment assets:
 
 ```text
+apps/
+└── frontend/
+
 services/
-├── api/              # API Docker/service packaging
-└── frontend/         # Optional frontend or demo app
+├── api/
+├── frontend/
+└── compose.yaml
 ```
 
-The API service should consume the Python package and load a generated model bundle.
+The API and frontend can run locally through Docker Compose.
 
-### Phase 7 — Cloud Run Deployment
+### Phase 8 — UI Product Experience
 
-The target serving architecture is:
+The first frontend is implemented with Gradio because it is well suited for interactive AI demos.
+
+The frontend allows users to:
+
+* submit a poem or lyric-like fragment;
+* select suggested tags;
+* request emotional or thematic tag prediction;
+* retrieve semantically similar poems;
+* inspect topic and cluster information;
+* access a secondary API and developer guide.
+
+The frontend does not load model artifacts directly. It communicates with the FastAPI backend.
+
+### Phase 9 — Cloud Deployment Blueprint
+
+The public repository includes a sanitized Terraform blueprint under:
 
 ```text
-User
-  ↓
-Frontend service
-  ↓
-VersoVector API service
-  ↓
-PoemAnalyzer model bundle
-  ↓
-Model artifacts / MLflow registry / GCS
+infra/gcp-cloud-run-blueprint/
 ```
 
-Cloud Run is the target platform for containerized serving.
+It models the following public portfolio architecture:
 
-### Phase 8 — Infrastructure as Code
+```text
+Users
+  ↓
+Gradio Frontend
+  Cloud Run
+  ↓
+FastAPI API
+  Cloud Run
+  ↓
+PoemAnalyzer
+  ↓
+Model Bundle / Reference Metadata
+```
 
-Terraform will be used to define and version cloud infrastructure, including:
+Supporting infrastructure:
 
-* Artifact Registry;
-* Cloud Run services;
-* Cloud Storage buckets;
-* service accounts;
-* IAM bindings;
-* secrets;
-* CI/CD permissions.
+```text
+Artifact Registry
+Cloud Run services
+runtime service accounts
+public frontend access
+private API access from frontend
+optional remote model artifact store
+```
 
-### Phase 9 — CI/CD
+The blueprint is not a production deployment.
+
+It intentionally avoids:
+
+```text
+real project IDs
+real service account keys
+real backend state
+real IAM policies
+real secrets
+real billing setup
+real domains
+private datasets
+premium access logic
+production monitoring configuration
+```
+
+A production implementation should live in a private repository, for example:
+
+```text
+VersoVector-Platform
+```
+
+That private repository would contain real environments such as:
+
+```text
+infra/
+├── environments/
+│   ├── dev/
+│   ├── staging/
+│   └── prod/
+├── backend.tf
+├── terraform.tfvars
+├── iam/
+├── secrets/
+├── cloud-run/
+├── artifact-registry/
+└── monitoring/
+```
+
+### Phase 10 — CI/CD
 
 GitHub Actions will be used to automate:
 
 * linting;
 * unit tests;
 * integration tests;
+* package builds;
 * Docker image builds;
 * model validation;
-* deployment to Cloud Run.
+* optional deployment workflows.
+
+The public repository may include CI/CD examples or non-sensitive workflows. Production deployment automation should remain private when it involves real cloud projects, service accounts, secrets, billing, private environments, or production access rules.
 
 ## Packaging and Services Foundation
 
-VersoVector now includes an initial packaging and local services foundation.
+VersoVector includes an initial packaging and local services foundation.
 
 This layer prepares the project for containerized execution by separating Python package code, user-facing applications, and service-level deployment assets.
 
@@ -472,9 +630,12 @@ apps/
     ├── README.md
     ├── app.py
     ├── client.py
+    ├── tag_catalog.py
+    ├── ui_formatters.py
     └── assets/
 
 services/
+├── README.md
 ├── api/
 │   ├── Dockerfile
 │   ├── README.md
@@ -500,8 +661,8 @@ The generated files are written to:
 
 ```text
 dist/
-├── versovector-0.6.0-py3-none-any.whl
-└── versovector-0.6.0.tar.gz
+├── versovector-<version>-py3-none-any.whl
+└── versovector-<version>.tar.gz
 ```
 
 The `dist/` directory is a generated build output and should not be committed to Git.
@@ -563,20 +724,36 @@ This keeps code packaging and model artifact management separated.
 
 For future Cloud Run deployment, the model bundle should be retrieved from a controlled artifact location such as Google Cloud Storage, Artifact Registry, or an MLflow artifact store.
 
-### Frontend Direction
+## Cloud Deployment Blueprint
 
-The first frontend is implemented with Gradio because it is well suited for interactive AI demos.
+The `infra/gcp-cloud-run-blueprint/` directory contains a sanitized Terraform blueprint for a possible Google Cloud deployment.
 
-The frontend allows users to:
+The blueprint includes conceptual resources for:
 
-* submit a poem or lyric-like fragment;
-* request emotional or thematic tag prediction;
-* retrieve semantically similar poems;
-* inspect topic and cluster information;
-* review the raw API response.
+* Artifact Registry;
+* Cloud Run API service;
+* Cloud Run frontend service;
+* runtime service accounts;
+* public frontend invoker access;
+* private API access from the frontend service account;
+* optional remote model artifact store configuration.
 
-The frontend does not load model artifacts directly. It communicates with the FastAPI backend.
+This layer is intended to show how the system could be deployed without exposing real production infrastructure.
 
+Basic Terraform workflow:
+
+```bash
+cd infra/gcp-cloud-run-blueprint
+
+cp terraform.tfvars.example terraform.tfvars
+
+terraform init
+terraform fmt -recursive
+terraform validate
+terraform plan -var-file=terraform.tfvars
+```
+
+Do not commit `terraform.tfvars`, `.terraform/`, or `*.tfstate` files.
 
 ## Local Setup
 
@@ -600,6 +777,12 @@ Install development dependencies:
 pip install -r requirements-dev.txt
 ```
 
+Install test dependencies:
+
+```bash
+pip install -r requirements-test.txt
+```
+
 Install MLOps dependencies:
 
 ```bash
@@ -610,6 +793,12 @@ Install API dependencies:
 
 ```bash
 pip install -r requirements-api.txt
+```
+
+Install frontend dependencies:
+
+```bash
+pip install -r requirements-frontend.txt
 ```
 
 Install optional UMAP dependencies:
@@ -697,6 +886,12 @@ Health check:
 curl http://localhost:8001/health | jq .
 ```
 
+Readiness check:
+
+```bash
+curl http://localhost:8001/ready | jq .
+```
+
 Model information:
 
 ```bash
@@ -743,11 +938,64 @@ curl -X POST http://localhost:8001/v1/similar \
   }' | jq .
 ```
 
+## Running the Frontend Locally
+
+Start the API first:
+
+```bash
+PYTHONPATH=src:. uvicorn versovector.api.main:app \
+  --host 0.0.0.0 \
+  --port 8001 \
+  --reload
+```
+
+Warm up the model bundle:
+
+```bash
+curl http://localhost:8001/ready | jq .
+```
+
+Run the frontend:
+
+```bash
+VERSOVECTOR_API_BASE_URL=http://localhost:8001 \
+VERSOVECTOR_API_TIMEOUT_SECONDS=300 \
+PORT=7860 \
+python apps/frontend/app.py
+```
+
+Open:
+
+```text
+http://localhost:7860
+```
+
+## Running Local Services with Docker Compose
+
+Run both API and frontend:
+
+```bash
+docker compose -f services/compose.yaml up --build
+```
+
+Local URLs:
+
+```text
+API:
+    http://localhost:8001
+
+API docs:
+    http://localhost:8001/docs
+
+Frontend:
+    http://localhost:7860
+```
+
 ## Testing Strategy
 
-Testing is planned as a separate quality layer.
+Testing is a separate quality layer.
 
-The recommended structure is:
+Recommended structure:
 
 ```text
 tests/
@@ -765,7 +1013,7 @@ tests/
 
 ### Unit Tests
 
-Unit tests should validate isolated Python components without requiring a full model bundle.
+Unit tests validate isolated Python components without requiring a full model bundle.
 
 Examples:
 
@@ -777,7 +1025,7 @@ Examples:
 
 ### Integration Tests
 
-Integration tests should validate that multiple layers work together.
+Integration tests validate that multiple layers work together.
 
 Examples:
 
@@ -804,12 +1052,31 @@ tests/integration/
 
 ### Test Commands
 
-Once tests are added:
+Run unit tests:
 
 ```bash
-pytest tests/unit
-pytest tests/integration
-pytest --cov=src --cov=modules tests/
+PYTHONPATH=src:. pytest tests/unit
+```
+
+Run integration tests:
+
+```bash
+PYTHONPATH=src:. pytest tests/integration
+```
+
+Run coverage:
+
+```bash
+PYTHONPATH=src:. pytest --cov=src --cov=modules tests/
+```
+
+Run through tox:
+
+```bash
+tox -e unit
+tox -e integration
+tox -e coverage
+tox -e build
 ```
 
 ## Dependency Groups
@@ -821,7 +1088,7 @@ requirements.txt
     Core runtime dependencies.
 
 requirements-dev.txt
-    Development dependencies: tests, notebooks, linting, formatting, and packaging.
+    Development dependencies: notebooks, linting, formatting, packaging, and local development tools.
 
 requirements-test.txt
     Test-only dependencies for unit and integration tests.
@@ -833,7 +1100,7 @@ requirements-api.txt
     FastAPI serving dependencies.
 
 requirements-frontend.txt
-    Optional frontend/demo dependencies.
+    Gradio frontend/demo dependencies.
 
 requirements-umap.txt
     Optional UMAP dependencies.
@@ -861,11 +1128,36 @@ artifacts/integration/*
 artifacts/model_bundle/*
 mlruns/
 mlflow.db
+dist/
+build/
+*.egg-info/
 ```
 
 These artifacts are regenerated locally from notebooks or training scripts.
 
-A production MLOps version should store model artifacts in a dedicated artifact store, such as MLflow artifacts or Google Cloud Storage.
+A production MLOps version should store model artifacts in a dedicated artifact store, such as MLflow artifacts, Google Cloud Storage, or another controlled registry.
+
+## Infrastructure Policy
+
+The public repository may include sanitized infrastructure blueprints.
+
+It should not include:
+
+```text
+real project IDs
+real terraform.tfvars files
+Terraform state
+service account keys
+secrets
+private IAM bindings
+billing configuration
+production domains
+premium access rules
+customer data
+private datasets
+```
+
+The production infrastructure should live in a private repository or private environment-specific configuration.
 
 ## Figures
 
@@ -874,7 +1166,14 @@ The following figures are intentionally kept in the repository:
 ```text
 figs/vallejo_tfidf_vectors.png
 figs/poemas_2d_umap_clustering_kmeans.png
+figs/VersoVector-GCP-Architecture.png
 ```
+
+`figs/vallejo_tfidf_vectors.png` is used in the project documentation.
+
+`figs/poemas_2d_umap_clustering_kmeans.png` is kept as a visual reference for the organic UMAP structure observed during exploration.
+
+`figs/VersoVector-GCP-Architecture.png` documents the sanitized public GCP blueprint for the project.
 
 Additional figures generated by `06_visualizations.ipynb` may include:
 
@@ -900,23 +1199,27 @@ Completed:
 * optional MLflow helper utilities;
 * model bundle packaging;
 * inference package through `PoemAnalyzer`;
-* FastAPI serving layer.
+* FastAPI serving layer;
+* unit and integration testing foundation;
+* Python package build foundation;
+* Docker-based local services foundation;
+* Gradio frontend product experience foundation;
+* sanitized Cloud Run deployment blueprint.
 
 Next:
 
-* add unit tests;
-* add integration tests;
-* add Docker packaging under `services/api/`;
-* add optional frontend or demo service;
-* deploy the API to Cloud Run;
-* manage infrastructure with Terraform;
-* automate linting, tests, image builds, and deployment with GitHub Actions.
+* refine GitHub Actions for linting, tests, package build, and image build;
+* define a private production infrastructure repository;
+* move real Terraform environments and secrets to a private repo;
+* prepare a controlled model artifact strategy using GCS, MLflow artifacts, or Artifact Registry;
+* add production observability and analytics outside the public portfolio repo;
+* evaluate authentication, billing, and premium features in a private product track.
 
 ## .gitignore
 
 The base `.gitignore` was generated from [gitignore.io](https://www.toptal.com/developers/gitignore/) with the filters `python`, `macos`, and `windows`.
 
-Additional project-specific ignore rules exclude generated datasets, model artifacts, MLflow local files, and large binary files.
+Additional project-specific ignore rules exclude generated datasets, model artifacts, MLflow local files, Terraform local state, local package build outputs, and large binary files.
 
 ## Authors
 

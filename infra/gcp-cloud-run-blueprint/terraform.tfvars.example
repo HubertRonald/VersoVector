@@ -1,0 +1,24 @@
+# Copy this file to terraform.tfvars for local experimentation.
+# Do not commit terraform.tfvars with real project values.
+
+project_id = "example-gcp-project-id"
+region     = "us-central1"
+
+resource_prefix                 = "versovector"
+artifact_registry_repository_id = "versovector-services"
+
+# Replace these placeholders with images already pushed to Artifact Registry.
+api_image      = "us-central1-docker.pkg.dev/example-gcp-project-id/versovector-services/versovector-api:v0.8.0"
+frontend_image = "us-central1-docker.pkg.dev/example-gcp-project-id/versovector-services/versovector-frontend:v0.8.0"
+
+# Public portfolio blueprint defaults.
+# Frontend can be public for a demo.
+# API should remain private in the target architecture.
+allow_public_frontend_access = true
+allow_public_api_access      = false
+
+# Set to true only if this blueprint is allowed to enable APIs in your sandbox project.
+enable_project_services = false
+
+# Placeholder for future remote model bundle storage, such as GCS or MLflow.
+model_bundle_uri = ""
