@@ -1,0 +1,30 @@
+services:
+  api:
+    build:
+      context: ..
+      dockerfile: services/api/Dockerfile
+    image: versovector-api:local
+    container_name: versovector-api
+    ports:
+      - "8001:8001"
+    environment:
+      PORT: "8001"
+      VERSOVECTOR_MODEL_BUNDLE_DIR: "/app/artifacts/model_bundle"
+    volumes:
+      - ../artifacts/model_bundle:/app/artifacts/model_bundle:ro
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: services/frontend/Dockerfile
+    image: versovector-frontend:local
+    container_name: versovector-frontend
+    ports:
+      - "7860:7860"
+    environment:
+      PORT: "7860"
+      VERSOVECTOR_API_BASE_URL: "http://api:8001"
+    depends_on:
+      - api
+    restart: unless-stopped

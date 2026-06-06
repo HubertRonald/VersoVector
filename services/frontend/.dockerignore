@@ -1,0 +1,25 @@
+# This file documents service-level ignore rules.
+# When building from services/compose.yaml, the root .dockerignore is the effective one.
+
+.git
+.venv
+venv
+__pycache__
+*.pyc
+.pytest_cache
+.mypy_cache
+.ruff_cache
+
+data/
+artifacts/
+mlruns/
+mlflow.db
+
+dist/
+build/
+*.egg-info/
+*.whl
+*.tar.gz
+
+figs/
+.DS_Store
